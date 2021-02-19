@@ -1,0 +1,13 @@
+# elibs2
+- [javadocs](https://wobblyyyy.github.io/JavaDocs/elibs2/)
+  (wip as usual, just here as a point of reference)
+- [all docs](https://wobblyyyy.github.io/docs/elibs2/)
+  (hub for all of the markdown documentation)
+- [quickstart](https://wobblyyyy.github.io/docs/elibs2/quickstart.html)
+  (first-time guide and fundamentals)
+- [motors and drivetrains](https://wobblyyyy.github.io/docs/elibs2/drive.html)
+  (everything related to motors and different types of drivetrains)
+- [multithreading](https://wobblyyyy.github.io/docs/elibs2/multithreading.html)
+  (how to use multithreaded operation templates)
+- [subsystems](https://wobblyyyy.github.io/docs/elibs2/subsystems.html)
+  (how subsystems work, how to make them, how to use them, how to initialize them)

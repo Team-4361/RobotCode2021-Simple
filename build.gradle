@@ -1,0 +1,139 @@
+/*
+ * I can't really say I'm sure who's gonna be reading this, but hello!
+ * There's two reasons I can think of as to why you'd be in here. The first,
+ * and the most probable one, is you accidentally or unintentionally opened it.
+ * That's cool. I'm surprised you're still reading! The second reason I could
+ * think of is that you want to add or remove a Maven dependency from the
+ * project. That's even cooler. Head on down to the dependencies block and
+ * go ahead.
+ */
+
+plugins {
+    id "java"
+    id "edu.wpi.first.GradleRIO" version "2021.1.2"
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+def ROBOT_MAIN_CLASS = "frc.robot.Main"
+
+// Define my targets (RoboRIO) and artifacts (deployable files)
+// This is added by GradleRIO's backing project EmbeddedTools.
+deploy {
+    targets {
+        roboRIO("roborio") {
+            // Team number is loaded either from the .wpilib/wpilib_preferences.json
+            // or from command line. If not found an exception will be thrown.
+            // You can use getTeamOrDefault(team) instead of getTeamNumber if you
+            // want to store a team number in this file.
+            team = frc.getTeamNumber()
+        }
+    }
+    artifacts {
+        frcJavaArtifact('frcJava') {
+            targets << "roborio"
+            // Debug can be overridden by command line, for use with VSCode
+            debug = frc.getDebugOrDefault(false)
+        }
+        // Built in artifact to deploy arbitrary files to the roboRIO.
+        fileTreeArtifact('frcStaticFileDeploy') {
+            // The directory below is the local directory to deploy
+            files = fileTree(dir: 'src/main/deploy')
+            // Deploy to RoboRIO target, into /home/lvuser/deploy
+            targets << "roborio"
+            directory = '/home/lvuser/deploy'
+        }
+    }
+}
+
+// Set this to true to enable desktop support.
+def includeDesktopSupport = true
+
+/*
+ * Note from Colin:
+ * For the sake of documenting change and ensuring a well-functioning Gradle
+ * core, please leave a little comment above anything you've added, changed,
+ * or removed.
+ */
+dependencies {
+//    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+
+    /*
+     * Library:  Log4j
+     * Use:      Add additional logging capabilities.
+     * Added:    1/30/2021 (Infinite Recharge At-Home Challenge)
+     */
+//    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.14.0'
+//    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.0'
+
+    /*
+     * Library:  Reflections
+     * Use:      Querying annotations throughout classpath.
+     * Added:    1/25/2021 (Infinite Recharge At-Home Challenges)
+     */
+    implementation 'org.reflections:reflections:0.9.12'
+
+    /*
+     * Library:  ezpos (potentially OdometryCore)
+     * Use:      Positional tracking relative to an origin.
+     * Added:    1/25/2021 (Infinite Recharge At-Home Challenges)
+     */
+    // implementation 'me.wobblyyyy.ezpos:0.0.0'
+    // implementation 'com.tmthecoder.odometrycore:0.0.0'
+
+    /*
+     * Library:  PathfindingCore
+     * Use:      Core code and math behind Pathfinder.
+     * Added:    1/25/21 (Infinite Recharge At-Home Challenges)
+     */
+//    implementation files('libs/PathfindingCore.jar')
+
+    /*
+     * Library:  Pathfinder
+     * Use:      Pathfinding code for robotics competitions.
+     * Added:    1/25/2021 (Infinite Recharge At-Home Challenges)
+     */
+    // implementation 'me.wobblyyyy.pathfinder:0.0.0'
+//    compile files('libs/Pathfinder.jar')
+    implementation files('libs/Pathfinder.jar')
+
+    implementation wpi.deps.wpilib()
+    nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
+
+
+    implementation wpi.deps.vendor.java()
+    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
+
+    testImplementation 'junit:junit:4.12'
+
+    // Enable simulation gui support. Must check the box in vscode to enable support
+    // upon debugging
+    simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
+    simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
+
+    // Websocket extensions require additional configuration.
+    // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)
+    // simulation wpi.deps.sim.ws_client(wpi.platforms.desktop, false)
+}
+
+// Simulation configuration (e.g. environment variables).
+sim {
+    // Sets the websocket client remote host.
+    // envVar "HALSIMWS_HOST", "10.0.0.2"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
+// in order to make them all available at runtime. Also adding the manifest so WPILib
+// knows where to look for our Robot Class.
+jar {
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+}
