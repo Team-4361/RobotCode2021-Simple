@@ -50,6 +50,47 @@ deploy {
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
 
+repositories {
+    mavenCentral()
+
+    // CTRE maven repository for Phoenix library (Talon SRX drivers, Victor SPX, etc.)
+    maven {
+        url = 'http://devsite.ctr-electronics.com/maven/release/'
+    }
+
+    maven {
+        url = "http://www.revrobotics.com/content/sw/max/sdk/maven/"
+    }
+
+    maven {
+        url = 'https://frcmaven.wpi.edu/artifactory/release/'
+    }
+
+    maven {
+        url = "https://jitpack.io"
+    }
+
+    String frcYear = '2020'
+    File frcHome
+    if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+        String publicFolder = System.getenv('PUBLIC')
+        if (publicFolder == null) {
+            publicFolder = "C:\\Users\\Public"
+        }
+        def homeRoot = new File(publicFolder, "wpilib")
+        frcHome = new File(homeRoot, frcYear)
+    } else {
+        def userFolder = System.getProperty("user.home")
+        def homeRoot = new File(userFolder, "wpilib")
+        frcHome = new File(homeRoot, frcYear)
+    }
+    def frcHomeMaven = new File(frcHome, 'maven')
+    maven {
+        name 'frcHome'
+        url frcHomeMaven
+    }
+}
+
 /*
  * Note from Colin:
  * For the sake of documenting change and ensuring a well-functioning Gradle
@@ -73,7 +114,7 @@ dependencies {
      * Use:      Querying annotations throughout classpath.
      * Added:    1/25/2021 (Infinite Recharge At-Home Challenges)
      */
-    implementation 'org.reflections:reflections:0.9.12'
+//    implementation 'org.reflections:reflections:0.9.12'
 
     /*
      * Library:  ezpos (potentially OdometryCore)
@@ -97,7 +138,8 @@ dependencies {
      */
     // implementation 'me.wobblyyyy.pathfinder:0.0.0'
 //    compile files('libs/Pathfinder.jar')
-    implementation files('libs/Pathfinder.jar')
+//    implementation files('libs/Pathfinder.jar')
+    implementation "com.github.FRCTeam2910.Common:robot:6456e9c82e"
 
     implementation wpi.deps.wpilib()
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
