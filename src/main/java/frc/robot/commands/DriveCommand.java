@@ -7,7 +7,6 @@ import frc.robot.Robot;
 import org.frcteam2910.common.robot.Utilities;
 
 public class DriveCommand extends Command {
-
     public DriveCommand() {
         requires(DrivetrainSubsystem.getInstance());
     }

@@ -16,4 +16,10 @@ public class RobotMap {
     public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_MOTOR = 8; // CAN
     public static final int DRIVETRAIN_BACK_RIGHT_ANGLE_ENCODER = 3; // Analog
     public static final int DRIVETRAIN_BACK_RIGHT_DRIVE_MOTOR = 9; // CAN
+
+    public static final int ROLLERS = 0;      // talon
+    public static final int ACTUATORS = 0;    // talon
+    public static final int TOP_LIMIT = 0;    // digital input
+    public static final int BOTTOM_LIMIT = 0; // digital input
+    public static final int FLYWHEEL = 0;     // talon
 }
