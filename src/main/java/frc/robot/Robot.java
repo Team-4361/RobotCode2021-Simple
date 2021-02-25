@@ -1,22 +1,25 @@
 package frc.robot;
 
-import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class Robot extends TimedRobot {
     private static OI oi;
-
-    private static  DrivetrainSubsystem drivetrain;
+    private static DriveSubsystem drive;
 
     public static OI getOi() {
         return oi;
     }
 
+    public static DriveSubsystem getDrive() {
+        return drive;
+    }
+
     @Override
     public void robotInit() {
         oi = new OI();
-        drivetrain = DrivetrainSubsystem.getInstance();
+        drive = DriveSubsystem.getInstance();
     }
 
     @Override

@@ -22,4 +22,28 @@ public class RobotMap {
     public static final int TOP_LIMIT = 0;    // digital input
     public static final int BOTTOM_LIMIT = 0; // digital input
     public static final int FLYWHEEL = 0;     // talon
+
+    /*
+     * Front-right.
+     */
+    public static final int FR_TURN = 10;
+    public static final int FR_DRIVE = 11;
+
+    /*
+     * Front-left.
+     */
+    public static final int FL_TURN = 3;
+    public static final int FL_DRIVE = 4;
+
+    /*
+     * Back-right.
+     */
+    public static final int BR_TURN = 8;
+    public static final int BR_DRIVE = 9;
+
+    /*
+     * Back-left.
+     */
+    public static final int BL_TURN = 5;
+    public static final int BL_DRIVE = 6;
 }
