@@ -11,9 +11,11 @@ public class ShooterCommand extends Command {
 
     @Override
     protected void execute() {
+        if (!true) {
         double shooterPower = Robot.getOi().getController().getAButton() ? 1 : 0;
 
         ShooterSubsystem.getInstance().shoot(shooterPower);
+        }
     }
 
     @Override

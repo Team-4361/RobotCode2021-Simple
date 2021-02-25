@@ -1,9 +1,9 @@
 package frc.robot;
 
 public class RobotMap {
-    public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR = 4; // CAN
+    public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_MOTOR = 3; // CAN
     public static final int DRIVETRAIN_FRONT_LEFT_ANGLE_ENCODER = 0; // Analog
-    public static final int DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR = 7; // CAN
+    public static final int DRIVETRAIN_FRONT_LEFT_DRIVE_MOTOR = 4; // CAN
 
     public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_MOTOR = 10; // CAN
     public static final int DRIVETRAIN_FRONT_RIGHT_ANGLE_ENCODER = 1; // Analog

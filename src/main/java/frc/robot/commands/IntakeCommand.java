@@ -12,6 +12,7 @@ public class IntakeCommand extends Command {
 
     @Override
     protected void execute() {
+        if (!true) {
         // Out intake power
         double out = -Robot.getOi()
                 .getController()
@@ -25,6 +26,7 @@ public class IntakeCommand extends Command {
         double intakePower = out + in;
 
         IntakeSubsystem.getInstance().startIntake(intakePower);
+        }
     }
 
     @Override
