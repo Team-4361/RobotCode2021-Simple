@@ -75,7 +75,7 @@ public class SwerveChassis implements Drive {
     /**
      * Should the front-left module be inverted?
      */
-    private static final boolean FL_INVERT = NORMAL;
+    private static final boolean FL_INVERT = INVERTED;
 
     /**
      * Should the back-right module be inverted?
@@ -85,7 +85,7 @@ public class SwerveChassis implements Drive {
     /**
      * Should the back-left module be inverted?
      */
-    private static final boolean BL_INVERT = NORMAL;
+    private static final boolean BL_INVERT = INVERTED;
 
     /**
      * The front-right module's offset, in degrees.
@@ -221,28 +221,28 @@ public class SwerveChassis implements Drive {
                 RobotMap.FR_DRIVE,
                 CPR,
                 FR_INVERT,
-                NORMAL
+                FR_INVERT
         );
         flModule = new SwerveModule(
                 RobotMap.FL_TURN,
                 RobotMap.FL_DRIVE,
                 CPR,
-                FL_INVERT,
-                NORMAL
+                NORMAL,
+                FL_INVERT
         );
         brModule = new SwerveModule(
                 RobotMap.BR_TURN,
                 RobotMap.BR_DRIVE,
                 CPR,
                 BR_INVERT,
-                NORMAL
+                BR_INVERT
         );
         blModule = new SwerveModule(
                 RobotMap.BL_TURN,
                 RobotMap.BL_DRIVE,
                 CPR,
-                BL_INVERT,
-                NORMAL
+                NORMAL,
+                BL_INVERT
         );
     }
     

@@ -8,13 +8,15 @@ public class SwerveSparkMotor implements SwerveMotor {
     private static final MotorType TYPE = MotorType.kBrushless;
     private static final IdleMode IDLE = IdleMode.kBrake;
     public static final double DEAD = 0.08;
+    private final boolean inverted;
     private final CANSparkMax spark;
 
     public SwerveSparkMotor(int id,
                             boolean inverted) {
         spark = new CANSparkMax(id, TYPE);
-        spark.setInverted(inverted);
         spark.setIdleMode(IDLE);
+
+        this.inverted = inverted;
     }
 
     public CANSparkMax getSpark() {
@@ -23,7 +25,8 @@ public class SwerveSparkMotor implements SwerveMotor {
 
     @Override
     public void setPower(double power) {
-        spark.set(power);
+        if (inverted) spark.set(-power);
+        else spark.set(power);
     }
 
     @Override

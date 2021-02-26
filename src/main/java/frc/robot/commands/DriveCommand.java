@@ -75,12 +75,12 @@ public class DriveCommand extends Command {
     /**
      * Forwards multiplier.
      */
-    public static final int FORWARDS_MULTIPLIER = 1;
+    public static final int FORWARDS_MULTIPLIER = -1;
 
     /**
      * Strafe multiplier.
      */
-    public static final int STRAFE_MULTIPLIER = 1;
+    public static final int STRAFE_MULTIPLIER = -1;
 
     /**
      * Turn multiplier.
