@@ -12,6 +12,8 @@ import frc.robot.swerve.encoder.SwerveCANEncoder;
 import frc.robot.swerve.module.SwerveModule;
 import frc.robot.swerve.motor.SwerveCombo;
 import frc.robot.swerve.motor.SwerveSparkMotor;
+import me.wobblyyyy.intra.ftc2.utils.math.Comparator;
+import me.wobblyyyy.intra.ftc2.utils.math.Math;
 
 /**
  * Representation of a swerve drivetrain.
@@ -24,6 +26,12 @@ import frc.robot.swerve.motor.SwerveSparkMotor;
  * @since 0.0.0
  */
 public class SwerveChassis implements Drive {
+    /**
+     * Comparator used in determining if the chassis's angle
+     * is close enough to being correct.
+     */
+    private static final Comparator angleComparator = new Comparator(2);
+    
     /**
      * Meters-to-inches conversion factor.
      */
@@ -237,45 +245,7 @@ public class SwerveChassis implements Drive {
                 NORMAL
         );
     }
-
-    /**
-     * Get a power value from two angles.
-     *
-     * <p>
-     * As for now, this method uses the following ruleset:
-     * <ul>
-     *     <li>
-     *         If the target is 90 degrees away from the current angle, we
-     *         tell the motor to go at full speed.
-     *     </li>
-     *     <li>
-     *         If the target is less than 90 degrees, the motor will go as
-     *         fast as close to completion it is.
-     *     </li>
-     * </ul>
-     * </p>
-     *
-     * @param current module current angle.
-     * @param target  module target angle.
-     * @return a power value.
-     */
-    private double getPowerFromAngle(double current,
-                                     double target) {
-        current = Math.toDegrees(current);
-        target = Math.toDegrees(target);
-
-        if (target >= current + 90) {
-            return 1;
-        }
-
-        if (target <= current - 90) {
-            return -1;
-        }
-
-        double calculated = (target - current) / 90;
-        return Math.abs(calculated) < 0.08 ? 0 : calculated;
-    }
-
+    
     /**
      * Update the shuffleboard display to show the following information:
      *
@@ -325,33 +295,23 @@ public class SwerveChassis implements Drive {
 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
 
+        // if (false) {
         frModule.setState(new frc.robot.swerve.module.SwerveModuleState(
-                getPowerFromAngle(
-                        frModule.getAngle(),
-                        states[0].angle.getRadians()
-                ),
+                states[0].angle.getRadians(),
                 states[0].speedMetersPerSecond
         ));
         flModule.setState(new frc.robot.swerve.module.SwerveModuleState(
-                getPowerFromAngle(
-                        flModule.getAngle(),
-                        states[1].angle.getRadians()
-                ),
+                states[1].angle.getRadians(),
                 states[1].speedMetersPerSecond
         ));
         brModule.setState(new frc.robot.swerve.module.SwerveModuleState(
-                getPowerFromAngle(
-                        brModule.getAngle(),
-                        states[2].angle.getRadians()
-                ),
+                states[2].angle.getRadians(),
                 states[2].speedMetersPerSecond
         ));
         blModule.setState(new frc.robot.swerve.module.SwerveModuleState(
-                getPowerFromAngle(
-                        blModule.getAngle(),
-                        states[3].angle.getRadians()
-                ),
+                states[3].angle.getRadians(),
                 states[3].speedMetersPerSecond
         ));
+        // }
     }
 }

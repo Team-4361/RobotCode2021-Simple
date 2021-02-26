@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import frc.robot.commands.DriveCommand;
 import frc.robot.swerve.chassis.SwerveChassis;
 
 /**
@@ -17,7 +19,7 @@ import frc.robot.swerve.chassis.SwerveChassis;
  * @see SwerveChassis
  * @since 0.0.0
  */
-public class DriveSubsystem implements Drive {
+public class DriveSubsystem extends Subsystem implements Drive {
     private static DriveSubsystem driveSubsystem;
     private final Drive drive;
 
@@ -72,5 +74,10 @@ public class DriveSubsystem implements Drive {
         );
 
         return driveSubsystem;
+    }
+
+    @Override
+    protected void initDefaultCommand() {
+        setDefaultCommand(new DriveCommand());
     }
 }

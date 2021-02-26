@@ -87,9 +87,9 @@ public class DriveCommand extends Command {
      */
     public static final int TURN_MULTIPLIER = 1;
 
-//    public DriveCommand() {
-//        requires(DrivetrainSubsystem.getInstance());
-//    }
+    public DriveCommand() {
+        requires(DriveSubsystem.getInstance());
+    }
 
     /**
      * Drive the robot using controller input.

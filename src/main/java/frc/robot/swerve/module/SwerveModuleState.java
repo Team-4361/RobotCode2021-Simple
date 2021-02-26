@@ -13,8 +13,8 @@ public class SwerveModuleState {
     /**
      * Create a new SwerveModuleState.
      *
-     * @param turn  turn power.
-     * @param drive drive power.
+     * @param turn  turn power (mps)
+     * @param drive drive angle (radians)
      */
     public SwerveModuleState(final double turn,
                              final double drive) {
