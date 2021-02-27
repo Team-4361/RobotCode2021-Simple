@@ -11,7 +11,7 @@ public class StorageCommand extends Command {
     }
 
     private void powerStorage() {
-        double power = Robot.getOi().getTrigger(OI.Hands.R);
+        double power = Robot.getOi().getTrigger(OI.Hands.L);
 
         StorageSubsystem.getInstance().move(power);
     }

@@ -1,8 +1,8 @@
-package frc.robot.swerve.motor;
+package frc.robot.subsystems.swerve.motor;
 
-import frc.robot.swerve.encoder.SwerveCANEncoder;
-import frc.robot.swerve.encoder.SwerveEncoder;
-import frc.robot.swerve.encoder.SwerveNEOEncoder;
+import frc.robot.subsystems.swerve.encoder.SwerveCANEncoder;
+import frc.robot.subsystems.swerve.encoder.SwerveEncoder;
+import frc.robot.subsystems.swerve.encoder.SwerveNEOEncoder;
 
 /**
  * A combination of the {@link SwerveMotor} and {@link SwerveEncoder}

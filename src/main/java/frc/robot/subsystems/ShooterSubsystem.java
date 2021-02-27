@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.subsystems.shooter.ShooterImpl;
 
 public class ShooterSubsystem extends Subsystem implements Shooter {
     private static ShooterSubsystem instance;
@@ -14,7 +15,7 @@ public class ShooterSubsystem extends Subsystem implements Shooter {
 
     public static ShooterSubsystem getInstance() {
         if (instance == null) instance = new ShooterSubsystem(
-                new frc.robot.shooter.Shooter(
+                new ShooterImpl(
                         RobotMap.SHOOTER_FLYWHEEL
                 )
         );

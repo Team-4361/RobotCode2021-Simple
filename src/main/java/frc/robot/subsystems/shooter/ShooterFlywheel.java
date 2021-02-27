@@ -1,4 +1,4 @@
-package frc.robot.shooter;
+package frc.robot.subsystems.shooter;
 
 public class ShooterFlywheel {
     private final ShooterMotors motors;

@@ -1,9 +1,9 @@
-package frc.robot.swerve.module;
+package frc.robot.subsystems.swerve.module;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
-import frc.robot.swerve.motor.SwerveCombo;
-import frc.robot.swerve.motor.SwerveMotor;
-import frc.robot.swerve.motor.SwerveSparkMotor;
+import frc.robot.subsystems.swerve.motor.SwerveCombo;
+import frc.robot.subsystems.swerve.motor.SwerveMotor;
+import frc.robot.subsystems.swerve.motor.SwerveSparkMotor;
 import me.wobblyyyy.intra.ftc2.utils.math.Math;
 
 /**

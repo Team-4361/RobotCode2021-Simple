@@ -1,4 +1,4 @@
-package frc.robot.swerve.module;
+package frc.robot.subsystems.swerve.module;
 
 /**
  * A resource class representing the state of a swerve module.

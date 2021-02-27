@@ -1,4 +1,4 @@
-package frc.robot.swerve.encoder;
+package frc.robot.subsystems.swerve.encoder;
 
 /**
  * Core interface for various types of encoders.

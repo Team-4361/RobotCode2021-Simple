@@ -1,6 +1,6 @@
-package frc.robot.swerve.module;
+package frc.robot.subsystems.swerve.module;
 
-import frc.robot.swerve.motor.SwerveCombo;
+import frc.robot.subsystems.swerve.motor.SwerveCombo;
 
 /**
  * Encoded swerve module.

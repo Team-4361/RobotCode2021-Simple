@@ -1,15 +1,15 @@
-package frc.robot.intake;
+package frc.robot.subsystems.intake;
 
-public class Intake implements frc.robot.subsystems.Intake {
+public class IntakeImpl implements frc.robot.subsystems.Intake {
     private final IntakeLimits limits;
     private final IntakeMotors motors;
     private final IntakeActuator actuator;
     private final IntakeRoller roller;
 
-    public Intake(int actuatorId,
-                  int rollerId,
-                  int topChannel,
-                  int bottomChannel) {
+    public IntakeImpl(int actuatorId,
+                      int rollerId,
+                      int topChannel,
+                      int bottomChannel) {
         this.limits = new IntakeLimits(topChannel, bottomChannel);
         this.motors = new IntakeMotors(actuatorId, rollerId);
 

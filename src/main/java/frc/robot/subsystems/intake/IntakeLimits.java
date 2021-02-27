@@ -1,4 +1,4 @@
-package frc.robot.intake;
+package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 

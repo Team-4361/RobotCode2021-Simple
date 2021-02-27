@@ -1,4 +1,4 @@
-package frc.robot.swerve.motor;
+package frc.robot.subsystems.swerve.motor;
 
 public interface SwerveMotor {
     void setPower(double power);

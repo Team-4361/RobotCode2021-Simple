@@ -1,4 +1,4 @@
-package frc.robot.swerve.chassis;
+package frc.robot.subsystems.swerve.chassis;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drive;
-import frc.robot.swerve.encoder.SwerveCANEncoder;
-import frc.robot.swerve.module.SwerveModule;
-import frc.robot.swerve.motor.SwerveCombo;
-import frc.robot.swerve.motor.SwerveSparkMotor;
+import frc.robot.subsystems.swerve.encoder.SwerveCANEncoder;
+import frc.robot.subsystems.swerve.module.SwerveModule;
+import frc.robot.subsystems.swerve.motor.SwerveCombo;
+import frc.robot.subsystems.swerve.motor.SwerveSparkMotor;
 import me.wobblyyyy.intra.ftc2.utils.math.Comparator;
 import me.wobblyyyy.intra.ftc2.utils.math.Math;
 
@@ -316,19 +316,19 @@ public class SwerveChassis implements Drive {
          */
 
         // if (false) {
-        frModule.setState(new frc.robot.swerve.module.SwerveModuleState(
+        frModule.setState(new frc.robot.subsystems.swerve.module.SwerveModuleState(
                 states[1].angle.getRadians(),
                 states[1].speedMetersPerSecond
         ));
-        flModule.setState(new frc.robot.swerve.module.SwerveModuleState(
+        flModule.setState(new frc.robot.subsystems.swerve.module.SwerveModuleState(
                 states[0].angle.getRadians(),
                 states[0].speedMetersPerSecond
         ));
-        brModule.setState(new frc.robot.swerve.module.SwerveModuleState(
+        brModule.setState(new frc.robot.subsystems.swerve.module.SwerveModuleState(
                 states[3].angle.getRadians(),
                 states[3].speedMetersPerSecond
         ));
-        blModule.setState(new frc.robot.swerve.module.SwerveModuleState(
+        blModule.setState(new frc.robot.subsystems.swerve.module.SwerveModuleState(
                 states[2].angle.getRadians(),
                 states[2].speedMetersPerSecond
         ));

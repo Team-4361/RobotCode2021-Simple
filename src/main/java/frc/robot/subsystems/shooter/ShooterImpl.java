@@ -1,10 +1,10 @@
-package frc.robot.shooter;
+package frc.robot.subsystems.shooter;
 
-public class Shooter implements frc.robot.subsystems.Shooter {
+public class ShooterImpl implements frc.robot.subsystems.Shooter {
     private final ShooterMotors motors;
     private final ShooterFlywheel flywheel;
 
-    public Shooter(int flywheelId) {
+    public ShooterImpl(int flywheelId) {
         this.motors = new ShooterMotors(flywheelId);
 
         flywheel = new ShooterFlywheel(motors);

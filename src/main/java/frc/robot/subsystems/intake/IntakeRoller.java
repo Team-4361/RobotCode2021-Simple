@@ -1,4 +1,4 @@
-package frc.robot.intake;
+package frc.robot.subsystems.intake;
 
 public class IntakeRoller {
     private final IntakeMotors motors;

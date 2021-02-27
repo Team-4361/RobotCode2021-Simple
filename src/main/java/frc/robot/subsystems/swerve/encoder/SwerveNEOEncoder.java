@@ -1,7 +1,8 @@
-package frc.robot.swerve.encoder;
+package frc.robot.subsystems.swerve.encoder;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.EncoderType;
 
 /**
  * CAN encoder based off a Spark motor controller.
@@ -9,19 +10,20 @@ import com.revrobotics.CANSparkMax;
  * @author Colin Robertson
  * @since 0.0.0
  */
-public class SwerveCANEncoder implements SwerveEncoder {
+public class SwerveNEOEncoder implements SwerveEncoder {
+    private static final EncoderType TYPE = EncoderType.kQuadrature;
     private final CANEncoder encoder;
     private final int cpr;
 
-    public SwerveCANEncoder(CANSparkMax spark,
+    public SwerveNEOEncoder(CANSparkMax spark,
                             int cpr) {
-        encoder = spark.getAlternateEncoder(cpr);
+        encoder = spark.getEncoder(TYPE, cpr);
         this.cpr = cpr;
     }
 
-    public static SwerveCANEncoder get(CANSparkMax spark,
+    public static SwerveNEOEncoder get(CANSparkMax spark,
                                        int cpr) {
-        return new SwerveCANEncoder(spark, cpr);
+        return new SwerveNEOEncoder(spark, cpr);
     }
 
     @Override
