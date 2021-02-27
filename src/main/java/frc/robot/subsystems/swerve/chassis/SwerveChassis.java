@@ -277,10 +277,22 @@ public class SwerveChassis implements Drive {
      * </p>
      */
     private void updateDisplay() {
-        SmartDashboard.putNumber("fro", frModule.getOffset());
-        SmartDashboard.putNumber("flo", flModule.getOffset());
-        SmartDashboard.putNumber("bro", brModule.getOffset());
-        SmartDashboard.putNumber("blo", blModule.getOffset());
+        SmartDashboard.putNumber(
+                "FR Velocity",
+                frModule.getTurnVelocity()
+        );
+        SmartDashboard.putNumber(
+                "FL Velocity",
+                flModule.getTurnVelocity()
+        );
+        SmartDashboard.putNumber(
+                "BR Velocity",
+                brModule.getTurnVelocity()
+        );
+        SmartDashboard.putNumber(
+                "BL Velocity",
+                flModule.getTurnVelocity()
+        );
     }
 
     /**
