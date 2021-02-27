@@ -135,7 +135,7 @@ public class DriveCommand extends Command {
          */
         double T = Robot
                 .getOi()
-                .getSecondaryJoystick()
+                .getPrimaryJoystick()
                 .getRawAxis(TURN_AXIS) * TURN_MULTIPLIER;
 
         /* Dead-band the forwards axis. */

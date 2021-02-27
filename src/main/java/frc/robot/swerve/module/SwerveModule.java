@@ -85,7 +85,7 @@ public class SwerveModule {
     }
 
     private double calculatePower(double angle) {
-        return Math.clip(CLIP_MIN_TEST, CLIP_MAX_TEST, turnController.calculate(
+        return Math.clip(CLIP_MIN, CLIP_MAX, turnController.calculate(
             Math.toRadians(getAngle()),
             angle
         ));
