@@ -6,8 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class IntakeMotors {
     private static final ControlMode MODE = ControlMode.PercentOutput;
 
-    private static final double ACTUATOR_COEFFICIENT = 0.5;
-    private static final double ROLLER_COEFFICIENT = 0.5;
+    private static final double ACTUATOR_COEFFICIENT = 1.0;
+    private static final double ROLLER_COEFFICIENT = 0.75;
 
     private final TalonSRX actuator;
     private final TalonSRX roller;

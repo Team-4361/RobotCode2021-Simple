@@ -2,6 +2,8 @@ package frc.robot.intake;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class IntakeActuator {
     private static final String THREAD_NAME = "IntakeActuator";
 
@@ -14,7 +16,7 @@ public class IntakeActuator {
     private final TalonSRX actuatorMotor;
     private final IntakeLimits limits;
     private final Thread actuatorThread;
-    private ActuationTarget actuationTarget;
+    private ActuationTarget actuationTarget = ActuationTarget.REST;
 
     public IntakeActuator(IntakeMotors motors,
                           IntakeLimits limits) {
@@ -25,17 +27,21 @@ public class IntakeActuator {
             do {
                 Thread.onSpinWait();
 
+                SmartDashboard.putNumber("power", getActuationPower());
+
                 motors.setActuatorSpeed(getActuationPower());
 
-                stopActuation();
-            } while (!isActuationDone());
+                // stopActuation();
+            } while (true);
 
-            motors.setActuatorSpeed(getActuationPower());
+            // motors.setActuatorSpeed(getActuationPower());
         }, THREAD_NAME);
+
+        actuatorThread.start();
     }
 
     private void startActuation() {
-        actuatorThread.start();
+        
     }
 
     private boolean isActuationDone() {

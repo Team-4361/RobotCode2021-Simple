@@ -17,8 +17,6 @@ public class IntakeCommand extends Command {
     protected void execute() {
         boolean aPressed = Robot.getOi().getController().getAButton();
         boolean bPressed = Robot.getOi().getController().getBButton();
-        aPressedLast = aPressed;
-        bPressedLast = bPressed;
         double intakeSpeed = Robot.getOi().getController().getX(GenericHID.Hand.kLeft);
 
         if (!aPressedLast && aPressed) {
@@ -28,6 +26,9 @@ public class IntakeCommand extends Command {
         }
 
         IntakeSubsystem.getInstance().intake(intakeSpeed);
+
+        aPressedLast = aPressed;
+        bPressedLast = bPressed;
 //        if (!true) {
 //         Out intake power
 //        double out = -Robot.getOi()
