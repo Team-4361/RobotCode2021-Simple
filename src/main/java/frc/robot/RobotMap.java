@@ -37,4 +37,9 @@ public class RobotMap {
      * Shooter stuff! Or something... maybe...
      */
     public static final int SHOOTER_FLYWHEEL = 7; // SPARK over CAN
+
+    /*
+     * Storage stuff! Or something... yay!
+     */
+    public static final int STORAGE_INDEXER = 2; // TALON over CAN
 }

@@ -1,6 +1,6 @@
 package frc.robot.shooter;
 
-public class Shooter implements frc.robot.Shooter {
+public class Shooter implements frc.robot.subsystems.Shooter {
     private final ShooterMotors motors;
     private final ShooterFlywheel flywheel;
 

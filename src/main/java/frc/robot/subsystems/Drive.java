@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;

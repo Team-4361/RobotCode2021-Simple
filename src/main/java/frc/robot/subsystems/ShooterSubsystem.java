@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.Shooter;
 import frc.robot.commands.ShooterCommand;
 
 public class ShooterSubsystem extends Subsystem implements Shooter {

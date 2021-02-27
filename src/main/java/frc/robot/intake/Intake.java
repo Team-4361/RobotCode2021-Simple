@@ -1,6 +1,6 @@
 package frc.robot.intake;
 
-public class Intake implements frc.robot.Intake {
+public class Intake implements frc.robot.subsystems.Intake {
     private final IntakeLimits limits;
     private final IntakeMotors motors;
     private final IntakeActuator actuator;
