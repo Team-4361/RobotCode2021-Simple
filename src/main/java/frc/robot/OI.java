@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class OI {
     /*
@@ -17,9 +16,9 @@ public class OI {
 
     public OI() {
         // Back button zeroes the drivetrain
-        new JoystickButton(primaryJoystick, 7).whenPressed(
-                new InstantCommand(() -> DrivetrainSubsystem.getInstance().resetGyroscope())
-        );
+        // new JoystickButton(primaryJoystick, 7).whenPressed(
+                // new InstantCommand(() -> DrivetrainSubsystem.getInstance().resetGyroscope())
+        // );
     }
 
     public Joystick getPrimaryJoystick() {

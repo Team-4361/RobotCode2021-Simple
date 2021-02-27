@@ -70,7 +70,7 @@ public class DriveCommand extends Command {
      * Joystick: 1
      * </p>
      */
-    public static final int TURN_AXIS = 3;
+    public static final int TURN_AXIS = 2;
 
     /**
      * Forwards multiplier.

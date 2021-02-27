@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.OI.Hands;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCommand extends Command {
@@ -21,15 +22,18 @@ public class IntakeCommand extends Command {
         boolean bPressed = Robot.getOi().getPressed(B);
 
         if (aPressed) IntakeSubsystem.getInstance().actuateUp();
-        if (bPressed) IntakeSubsystem.getInstance().actuateDown();
+        else if (bPressed) IntakeSubsystem.getInstance().actuateDown();
     }
 
     private void rollerControl() {
-        double L = Robot.getOi().getTrigger(OI.Hands.L);
-        double R = Robot.getOi().getTrigger(OI.Hands.R);
+        double power = 0;
 
-        double power = R - L;
-
+        boolean O = Robot.getOi().getBumper(Hands.L);
+        boolean I = Robot.getOi().getBumper(Hands.R);
+    
+        if (O) power = -1.0;
+        if (I) power = 1.0;
+        
         IntakeSubsystem.getInstance().intake(power);
     }
 

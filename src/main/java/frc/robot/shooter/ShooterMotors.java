@@ -1,19 +1,21 @@
 package frc.robot.shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class ShooterMotors {
-    private static final ControlMode MODE = ControlMode.PercentOutput;
+    private static final CANSparkMaxLowLevel.MotorType TYPE = MotorType.kBrushless;
 
-    private static final double FLYWHEEL_COEFFICIENT = 0.5;
+    private static final double FLYWHEEL_COEFFICIENT = -0.75;
 
-    private final TalonSRX flywheel;
+    private final CANSparkMax flywheel;
 
     private double flywheelSpeed = 0;
 
     public ShooterMotors(int flywheelId) {
-        flywheel = new TalonSRX(flywheelId);
+        flywheel = new CANSparkMax(flywheelId, TYPE);
     }
 
     private double calculateFlywheelSpeed(double input) {
@@ -22,7 +24,7 @@ public class ShooterMotors {
 
     public void setFlywheelSpeed(double speed) {
         speed = calculateFlywheelSpeed(speed);
-        flywheel.set(MODE, speed);
+        flywheel.set(speed);
         this.flywheelSpeed = speed;
     }
 
