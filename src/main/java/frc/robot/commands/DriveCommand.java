@@ -70,7 +70,7 @@ public class DriveCommand extends Command {
      * Joystick: 1
      * </p>
      */
-    public static final int TURN_AXIS = 0;
+    public static final int TURN_AXIS = 3;
 
     /**
      * Forwards multiplier.
@@ -118,7 +118,7 @@ public class DriveCommand extends Command {
                 .getRawAxis(STRAFE_AXIS) * STRAFE_MULTIPLIER;
         double T = Robot
                 .getOi()
-                .getPrimaryJoystick()
+                .getSecondaryJoystick()
                 .getRawAxis(TURN_AXIS) * TURN_MULTIPLIER;
 
         F = Math.abs(F) <= d_f ? 0 : F;
