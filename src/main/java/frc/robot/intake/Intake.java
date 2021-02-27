@@ -1,6 +1,6 @@
 package frc.robot.intake;
 
-public class Intake {
+public class Intake implements frc.robot.Intake {
     private final IntakeLimits limits;
     private final IntakeMotors motors;
     private final IntakeActuator actuator;
@@ -15,5 +15,20 @@ public class Intake {
 
         this.actuator = new IntakeActuator(motors, limits);
         this.roller = new IntakeRoller(motors);
+    }
+
+    @Override
+    public void actuateUp() {
+        actuator.actuateUp();
+    }
+
+    @Override
+    public void actuateDown() {
+        actuator.actuateDown();
+    }
+
+    @Override
+    public void intake(double speed) {
+        roller.intake(speed);
     }
 }

@@ -1,11 +1,13 @@
 package frc.robot.intake;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 public class IntakeRoller {
-    private final TalonSRX roller;
+    private final IntakeMotors motors;
 
     public IntakeRoller(IntakeMotors motors) {
-        this.roller = motors.getRoller();
+        this.motors = motors;
+    }
+
+    public void intake(double speed) {
+        motors.setRollerSpeed(speed);
     }
 }
