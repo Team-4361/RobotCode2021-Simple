@@ -65,6 +65,24 @@ public class OI {
         return 0.0;
     }
 
+    public boolean getBumper(Hands h) {
+        switch (h) {
+            case L: return controller.getBumper(GenericHID.Hand.kLeft);
+            case R: return controller.getBumper(GenericHID.Hand.kRight);
+        }
+
+        return false;
+    }
+
+    public boolean getBumperPressed(Hands h) {
+        switch (h) {
+            case L: return controller.getBumperPressed(GenericHID.Hand.kLeft);
+            case R: return controller.getBumperPressed(GenericHID.Hand.kRight);
+        }
+
+        return false;
+    }
+
     public enum Buttons {
         A,
         B,

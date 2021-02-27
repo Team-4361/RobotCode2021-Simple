@@ -108,26 +108,61 @@ public class DriveCommand extends Command {
      */
     @Override
     protected void execute() {
+        /*
+         * F = Forwards.
+         *
+         * This controls the Y part of the later-generated translation.
+         */
         double F = Robot
                 .getOi()
                 .getSecondaryJoystick()
                 .getRawAxis(FORWARDS_AXIS) * FORWARDS_MULTIPLIER;
+
+        /*
+         * S = Strafe.
+         *
+         * This controls the X part of the later-generated translation.
+         */
         double S = Robot
                 .getOi()
                 .getSecondaryJoystick()
                 .getRawAxis(STRAFE_AXIS) * STRAFE_MULTIPLIER;
+
+        /*
+         * T = Turn.
+         *
+         * This controls the rotational aspect of the robot's movement.
+         */
         double T = Robot
                 .getOi()
                 .getSecondaryJoystick()
                 .getRawAxis(TURN_AXIS) * TURN_MULTIPLIER;
 
+        /* Dead-band the forwards axis. */
         F = Math.abs(F) <= d_f ? 0 : F;
+
+        /* Dead-band the strafe axis. */
         S = Math.abs(S) <= d_s ? 0 : S;
+
+        /* Dead-band the turn axis. */
         T = Math.abs(T) <= d_t ? 0 : T;
 
+        /*
+         * Create a new translation using the forwards and strafe values.
+         *
+         * Translations are essentially extensions of an arc-tangent 2
+         * (Math.atan2) calculation.
+         */
         Translation2d translation = new Translation2d(F, S);
+
+        /*
+         * Rotation, measured in... radians! Or something.
+         */
         Rotation2d rotation = new Rotation2d(T);
 
+        /*
+         * Command the robot to drive.
+         */
         DriveSubsystem.getInstance().drive(
                 translation,
                 rotation
