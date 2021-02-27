@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.shooter.ShooterImpl;
@@ -31,5 +32,10 @@ public class ShooterSubsystem extends Subsystem implements Shooter {
     @Override
     public void shoot(double power) {
         shooter.shoot(power);
+    }
+
+    @Override
+    public double getVelocity() {
+        return shooter.getVelocity();
     }
 }

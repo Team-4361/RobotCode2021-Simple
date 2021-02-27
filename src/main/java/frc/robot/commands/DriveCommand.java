@@ -85,7 +85,7 @@ public class DriveCommand extends Command {
     /**
      * Turn multiplier.
      */
-    public static final int TURN_MULTIPLIER = 1;
+    public static final int TURN_MULTIPLIER = -1;
 
     public DriveCommand() {
         requires(DriveSubsystem.getInstance());

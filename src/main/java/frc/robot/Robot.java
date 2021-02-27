@@ -5,12 +5,14 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.StorageSubsystem;
 
 public class Robot extends TimedRobot {
     private static OI oi;
     private static DriveSubsystem drive;
     private static IntakeSubsystem intake;
     private static ShooterSubsystem shooter;
+    private static StorageSubsystem storage;
 
     public static OI getOi() {
         return oi;
@@ -26,6 +28,7 @@ public class Robot extends TimedRobot {
         drive = DriveSubsystem.getInstance();
         intake = IntakeSubsystem.getInstance();
         shooter = ShooterSubsystem.getInstance();
+        storage = StorageSubsystem.getInstance();
     }
 
     @Override

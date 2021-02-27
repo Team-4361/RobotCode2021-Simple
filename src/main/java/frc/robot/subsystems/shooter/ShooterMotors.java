@@ -17,6 +17,10 @@ public class ShooterMotors {
         flywheel = new CANSparkMax(flywheelId, TYPE);
     }
 
+    public CANSparkMax getFlywheel() {
+        return flywheel;
+    }
+
     private double calculateFlywheelSpeed(double input) {
         return input * FLYWHEEL_COEFFICIENT;
     }
