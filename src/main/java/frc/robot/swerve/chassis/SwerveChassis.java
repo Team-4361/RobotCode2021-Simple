@@ -178,6 +178,16 @@ public class SwerveChassis implements Drive {
      * These are provided by WPILIB and the math here SHOULD work. This can,
      * for the most part, be left entirely alone.
      * </p>
+     * 
+     * <p>
+     * The order of this is as follows:
+     * <ul>
+     * <li>Front-left</li>
+     * <li>Front-right</li>
+     * <li>Back-left</li>
+     * <li>Back-right</li>
+     * </ul>
+     * </p>
      */
     private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
             new Translation2d(WHEELBASE_X_METERS / 2.0, WHEELBASE_Y_METERS / 2.0),
@@ -295,22 +305,32 @@ public class SwerveChassis implements Drive {
 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
 
+        /*
+         * Remember from earlier: The order of these modules is
+         * as following.
+         * 
+         * 1: front-left
+         * 2. front-right
+         * 3. back-left
+         * 4. back-right
+         */
+
         // if (false) {
         frModule.setState(new frc.robot.swerve.module.SwerveModuleState(
-                states[0].angle.getRadians(),
-                states[0].speedMetersPerSecond
-        ));
-        flModule.setState(new frc.robot.swerve.module.SwerveModuleState(
                 states[1].angle.getRadians(),
                 states[1].speedMetersPerSecond
         ));
-        brModule.setState(new frc.robot.swerve.module.SwerveModuleState(
-                states[2].angle.getRadians(),
-                states[2].speedMetersPerSecond
+        flModule.setState(new frc.robot.swerve.module.SwerveModuleState(
+                states[0].angle.getRadians(),
+                states[0].speedMetersPerSecond
         ));
-        blModule.setState(new frc.robot.swerve.module.SwerveModuleState(
+        brModule.setState(new frc.robot.swerve.module.SwerveModuleState(
                 states[3].angle.getRadians(),
                 states[3].speedMetersPerSecond
+        ));
+        blModule.setState(new frc.robot.swerve.module.SwerveModuleState(
+                states[2].angle.getRadians(),
+                states[2].speedMetersPerSecond
         ));
         // }
     }

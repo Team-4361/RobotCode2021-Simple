@@ -2,6 +2,7 @@ package frc.robot.swerve.motor;
 
 import frc.robot.swerve.encoder.SwerveCANEncoder;
 import frc.robot.swerve.encoder.SwerveEncoder;
+import frc.robot.swerve.encoder.SwerveNEOEncoder;
 
 /**
  * A combination of the {@link SwerveMotor} and {@link SwerveEncoder}
@@ -11,17 +12,28 @@ import frc.robot.swerve.encoder.SwerveEncoder;
  * @since 0.0.0
  */
 public class SwerveCombo implements SwerveMotor, SwerveEncoder {
+    private static final String NO_SPARK = "Spark motors are not supported.";
+    private static final String NO_NEO = "Neo motors are not supported.";
+    private static final String NO_TALON = "Talon motors are not supported.";
+    private static final String NO_SRX = "SRX motors are not supported.";
+    private static final String WRONG_TYPE = "Invalid motor type!";
+
     /**
      * SPARK MAX TYPE. DEFAULT.
      */
     public static final int SPARK = 0;
 
     /**
+     * NEO TYPE. PROBABLY USED FOR DRIVE MOTORS.
+     */
+    public static final int NEO = 1;
+
+    /**
      * TALON TYPE. DEPRECATED
      *
      * @deprecated Use the {@link SwerveCombo#SPARK} instead.
      */
-    public static final int TALON = 1;
+    public static final int TALON = 2;
 
     private SwerveMotor motor;
     private SwerveEncoder encoder;
@@ -45,20 +57,24 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
                        int motorId,
                        int cpr,
                        boolean isInverted) {
-        if (type == 0) {
-            motor = new SwerveSparkMotor(
-                    motorId,
-                    isInverted
-            );
-            encoder = SwerveCANEncoder.get(
-                    ((SwerveSparkMotor) motor).getSpark(),
-                    cpr
-            );
-        } else if (type == 1) {
-            throw new UnsupportedOperationException("No talons yet!");
-        } else {
-            throw new IllegalArgumentException("Invalid motor type!");
+        switch (type) {
+            case 0:
+                motor = new SwerveSparkMotor(motorId, isInverted);
+                encoder = SwerveCANEncoder.get(((SwerveSparkMotor) motor).getSpark(), cpr);
+                break;
+            case 1:
+                motor = new SwerveSparkMotor(motorId, isInverted);
+                encoder = SwerveNEOEncoder.get(((SwerveSparkMotor) motor).getSpark(), cpr);
+                break;
+            case 2:
+                throw new UnsupportedOperationException(NO_TALON);
+            default:
+                throw new IllegalArgumentException(WRONG_TYPE);
         }
+    }
+
+    public SwerveMotor getMotor() {
+        return motor;
     }
 
     @Override

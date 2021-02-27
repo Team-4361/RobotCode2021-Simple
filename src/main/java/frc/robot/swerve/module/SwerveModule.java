@@ -39,6 +39,8 @@ public class SwerveModule {
 
     private final PIDController turnController;
 
+    protected static final double CLIP_MIN_TEST = -0.2;
+    protected static final double CLIP_MAX_TEST = 0.2;
     protected static final double CLIP_MIN = -0.9;
     protected static final double CLIP_MAX = 0.9;
 
@@ -71,7 +73,7 @@ public class SwerveModule {
     }
 
     private double calculatePower(double angle) {
-        return Math.clip(CLIP_MIN, CLIP_MAX, turnController.calculate(
+        return Math.clip(CLIP_MIN_TEST, CLIP_MAX_TEST, turnController.calculate(
             Math.toRadians(getAngle()),
             angle
         ));
@@ -102,5 +104,17 @@ public class SwerveModule {
 
     public double getOffset() {
         return turn.getPos() - origin;
+    }
+
+    public SwerveCombo getTurn() {
+        return turn;
+    }
+
+    public SwerveMotor getTurnMotor() {
+        return turn.getMotor();
+    }
+
+    public SwerveMotor getDriveMotor() {
+        return drive;
     }
 }
