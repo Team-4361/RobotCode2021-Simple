@@ -1,4 +1,4 @@
-package frc.robot.storage;
+package frc.robot.subsystems.storage;
 
 public class StorageIndexer {
     private final StorageMotors motors;

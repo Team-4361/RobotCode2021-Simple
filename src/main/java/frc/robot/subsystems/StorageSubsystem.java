@@ -14,7 +14,7 @@ public class StorageSubsystem extends Subsystem implements Storage {
 
     public static StorageSubsystem getInstance() {
         if (instance == null) instance = new StorageSubsystem(
-                new frc.robot.storage.Storage(
+                new frc.robot.subsystems.storage.Storage(
                         RobotMap.STORAGE_INDEXER
                 )
         );

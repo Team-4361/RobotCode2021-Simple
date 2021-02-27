@@ -1,4 +1,4 @@
-package frc.robot.storage;
+package frc.robot.subsystems.storage;
 
 public class Storage implements frc.robot.subsystems.Storage {
     private final StorageMotors motors;
