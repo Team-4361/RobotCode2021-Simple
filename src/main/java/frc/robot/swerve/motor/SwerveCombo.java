@@ -35,8 +35,38 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
      */
     public static final int TALON = 2;
 
-    private SwerveMotor motor;
-    private SwerveEncoder encoder;
+    private final SwerveMotor motor;
+    private final SwerveEncoder encoder;
+
+    /**
+     * Create a new {@code SwerveCombo} instance.
+     *
+     * @param motor      the combo's swerve motor.
+     * @param type       the swerve motor's type.
+     * @param cpr        the {@code SwerveCombo}'s encoder's CPR.
+     * @param isInverted should the motor be inverted?
+     */
+    public SwerveCombo(SwerveMotor motor,
+                       int type,
+                       int cpr,
+                       boolean isInverted) {
+        this.motor = motor;
+
+        switch (type) {
+            case 0:
+                encoder = SwerveCANEncoder.get(((SwerveSparkMotor) motor).getSpark(), cpr);
+                break;
+            case 1:
+                encoder = SwerveNEOEncoder.get(((SwerveSparkMotor) motor).getSpark(), cpr);
+                break;
+            case 2:
+                throw new UnsupportedOperationException(NO_TALON);
+            case 3:
+                throw new UnsupportedOperationException(NO_SRX);
+            default:
+                throw new IllegalArgumentException(WRONG_TYPE);
+        }
+    }
 
     /**
      * Create a new {@code SwerveCombo} instance.
@@ -80,6 +110,11 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
     @Override
     public double getPos() {
         return encoder.getPos();
+    }
+
+    @Override
+    public double getVelocity() {
+        return encoder.getVelocity();
     }
 
     @Override

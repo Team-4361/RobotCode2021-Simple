@@ -13,5 +13,6 @@ package frc.robot.swerve.encoder;
  */
 public interface SwerveEncoder {
     double getPos();
+    double getVelocity();
     int getCpr();
 }

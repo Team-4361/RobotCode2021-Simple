@@ -47,6 +47,12 @@ public class SwerveModule {
     private SwerveCombo turn;
     private SwerveMotor drive;
 
+    private final int turnId;
+    private final int driveId;
+    private final int cpr;
+    private final boolean isTurnInverted;
+    private final boolean isDriveInverted;
+
     private final double origin;
     private final double angleOffset;
 
@@ -70,6 +76,12 @@ public class SwerveModule {
         angleOffset = getRealAngle();
 
         turnController = new PIDController(KP, KI, KD);
+
+        this.turnId = turnId;
+        this.driveId = driveId;
+        this.cpr = cpr;
+        this.isTurnInverted = isTurnInverted;
+        this.isDriveInverted = isDriveInverted;
     }
 
     private double calculatePower(double angle) {
@@ -106,6 +118,10 @@ public class SwerveModule {
         return turn.getPos() - origin;
     }
 
+    public double getTurnVelocity() {
+        return turn.getVelocity();
+    }
+
     public SwerveCombo getTurn() {
         return turn;
     }
@@ -116,5 +132,25 @@ public class SwerveModule {
 
     public SwerveMotor getDriveMotor() {
         return drive;
+    }
+
+    public int getTurnId() {
+        return turnId;
+    }
+
+    public int getDriveId() {
+        return driveId;
+    }
+
+    public int getCpr() {
+        return cpr;
+    }
+
+    public boolean isTurnInverted() {
+        return isTurnInverted;
+    }
+
+    public boolean isDriveInverted() {
+        return isDriveInverted;
     }
 }

@@ -46,4 +46,12 @@ public class RobotMap {
      */
     public static final int BL_TURN = 5;
     public static final int BL_DRIVE = 6;
+
+    /*
+     * Intake stuff! Or something...
+     */
+    public static final int INTAKE_TOP = 1;      // Digital input
+    public static final int INTAKE_BOTTOM = 0;   // Digital input
+    public static final int INTAKE_ACTUATOR = 1; // TALON over CAN
+    public static final int INTAKE_ROLLER = 12;  // TALON over CAN
 }

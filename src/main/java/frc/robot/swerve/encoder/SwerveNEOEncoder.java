@@ -32,6 +32,11 @@ public class SwerveNEOEncoder implements SwerveEncoder {
     }
 
     @Override
+    public double getVelocity() {
+        return encoder.getVelocity();
+    }
+
+    @Override
     public int getCpr() {
         return cpr;
     }
