@@ -7,7 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class ShooterMotors {
     private static final CANSparkMaxLowLevel.MotorType TYPE = MotorType.kBrushless;
 
-    private static final double FLYWHEEL_COEFFICIENT = -0.75;
+    private static final double FLYWHEEL_COEFFICIENT = 0.8;
 
     private final CANSparkMax flywheel;
 

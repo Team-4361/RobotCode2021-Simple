@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.swerve.encoder.SwerveCANEncoder;
-import frc.robot.subsystems.swerve.module.SwerveModule;
+import frc.robot.subsystems.swerve.module.ModuleState;
+import frc.robot.subsystems.swerve.module.SwerveEncodedModule;
 import frc.robot.subsystems.swerve.motor.SwerveCombo;
 import frc.robot.subsystems.swerve.motor.SwerveSparkMotor;
 import me.wobblyyyy.intra.ftc2.utils.math.Comparator;
@@ -199,22 +200,22 @@ public class SwerveChassis implements Drive {
     /**
      * The front-right swerve module.
      */
-    private final SwerveModule frModule;
+    private final SwerveEncodedModule frModule;
 
     /**
      * The front-left swerve module.
      */
-    private final SwerveModule flModule;
+    private final SwerveEncodedModule flModule;
 
     /**
      * The back-right swerve module.
      */
-    private final SwerveModule brModule;
+    private final SwerveEncodedModule brModule;
 
     /**
      * The back-left swerve module.
      */
-    private final SwerveModule blModule;
+    private final SwerveEncodedModule blModule;
 
     /**
      * Create a new swerve chassis.
@@ -226,30 +227,34 @@ public class SwerveChassis implements Drive {
      * </p>
      */
     public SwerveChassis() {
-        frModule = new SwerveModule(
+        frModule = new SwerveEncodedModule(
                 RobotMap.FR_TURN,
                 RobotMap.FR_DRIVE,
+                CPR,
                 CPR,
                 FR_INVERT,
                 FR_INVERT
         );
-        flModule = new SwerveModule(
+        flModule = new SwerveEncodedModule(
                 RobotMap.FL_TURN,
                 RobotMap.FL_DRIVE,
+                CPR,
                 CPR,
                 NORMAL,
                 FL_INVERT
         );
-        brModule = new SwerveModule(
+        brModule = new SwerveEncodedModule(
                 RobotMap.BR_TURN,
                 RobotMap.BR_DRIVE,
+                CPR,
                 CPR,
                 BR_INVERT,
                 BR_INVERT
         );
-        blModule = new SwerveModule(
+        blModule = new SwerveEncodedModule(
                 RobotMap.BL_TURN,
                 RobotMap.BL_DRIVE,
+                CPR,
                 CPR,
                 NORMAL,
                 BL_INVERT
@@ -279,19 +284,19 @@ public class SwerveChassis implements Drive {
     private void updateDisplay() {
         SmartDashboard.putNumber(
                 "FR Velocity",
-                frModule.getTurnVelocity()
+                frModule.getDriveVelocity()
         );
         SmartDashboard.putNumber(
                 "FL Velocity",
-                flModule.getTurnVelocity()
+                flModule.getDriveVelocity()
         );
         SmartDashboard.putNumber(
                 "BR Velocity",
-                brModule.getTurnVelocity()
+                brModule.getDriveVelocity()
         );
         SmartDashboard.putNumber(
                 "BL Velocity",
-                flModule.getTurnVelocity()
+                flModule.getDriveVelocity()
         );
     }
 
@@ -327,23 +332,9 @@ public class SwerveChassis implements Drive {
          * 4. back-right
          */
 
-        // if (false) {
-        frModule.setState(new frc.robot.subsystems.swerve.module.SwerveModuleState(
-                states[1].angle.getRadians(),
-                states[1].speedMetersPerSecond
-        ));
-        flModule.setState(new frc.robot.subsystems.swerve.module.SwerveModuleState(
-                states[0].angle.getRadians(),
-                states[0].speedMetersPerSecond
-        ));
-        brModule.setState(new frc.robot.subsystems.swerve.module.SwerveModuleState(
-                states[3].angle.getRadians(),
-                states[3].speedMetersPerSecond
-        ));
-        blModule.setState(new frc.robot.subsystems.swerve.module.SwerveModuleState(
-                states[2].angle.getRadians(),
-                states[2].speedMetersPerSecond
-        ));
-        // }
+        frModule.setState(states[1]);
+        flModule.setState(states[0]);
+        brModule.setState(states[3]);
+        blModule.setState(states[2]);
     }
 }

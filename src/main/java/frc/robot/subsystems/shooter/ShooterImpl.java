@@ -7,14 +7,13 @@ public class ShooterImpl implements frc.robot.subsystems.Shooter {
 
     public ShooterImpl(int flywheelId) {
         this.motors = new ShooterMotors(flywheelId);
-        this.encoders = new ShooterEncoders(this.motors);
-
-        this.flywheel = new ShooterFlywheel(this.motors);
+        this.encoders = new ShooterEncoders(motors);
+        this.flywheel = new ShooterFlywheel(motors, encoders);
     }
 
     @Override
-    public void shoot(double power) {
-        flywheel.shoot(power);
+    public void shoot() {
+        flywheel.shoot();
     }
 
     @Override

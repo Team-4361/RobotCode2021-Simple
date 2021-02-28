@@ -14,7 +14,7 @@ public class ShooterCommand extends Command {
     private void powerShooter() {
         double power = Robot.getOi().getTrigger(OI.Hands.R);
 
-        ShooterSubsystem.getInstance().shoot(power);
+        ShooterSubsystem.getInstance().shoot();
     }
 
     @Override

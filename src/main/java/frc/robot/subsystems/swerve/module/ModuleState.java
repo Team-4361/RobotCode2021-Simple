@@ -6,7 +6,7 @@ package frc.robot.subsystems.swerve.module;
  * @author Colin Robertson
  * @since 0.0.0
  */
-public class SwerveModuleState {
+public class ModuleState {
     private final double turn;
     private final double drive;
 
@@ -16,8 +16,8 @@ public class SwerveModuleState {
      * @param turn  turn power (mps)
      * @param drive drive angle (radians)
      */
-    public SwerveModuleState(final double turn,
-                             final double drive) {
+    public ModuleState(final double turn,
+                       final double drive) {
         this.turn = turn;
         this.drive = drive;
     }

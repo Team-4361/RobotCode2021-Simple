@@ -2,6 +2,8 @@ package frc.robot.subsystems.storage;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.Constants;
+import me.wobblyyyy.intra.ftc2.utils.math.Math;
 
 public class StorageMotors {
     private static final ControlMode MODE = ControlMode.PercentOutput;
@@ -17,7 +19,11 @@ public class StorageMotors {
     }
 
     private double calculateIndexerSpeed(double input) {
-        return input * INDEXER_COEFFICIENT;
+        return Math.clip(
+                Constants.STORAGE_CLIP * -1,
+                Constants.STORAGE_CLIP * 1,
+                input * INDEXER_COEFFICIENT
+        );
     }
 
     public void setIndexerSpeed(double speed) {

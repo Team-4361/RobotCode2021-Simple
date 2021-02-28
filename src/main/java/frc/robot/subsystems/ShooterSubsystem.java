@@ -30,8 +30,8 @@ public class ShooterSubsystem extends Subsystem implements Shooter {
     }
 
     @Override
-    public void shoot(double power) {
-        shooter.shoot(power);
+    public void shoot() {
+        shooter.shoot();
     }
 
     @Override

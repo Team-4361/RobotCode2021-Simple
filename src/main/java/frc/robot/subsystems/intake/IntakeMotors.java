@@ -2,6 +2,8 @@ package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.Constants;
+import me.wobblyyyy.intra.ftc2.utils.math.Math;
 
 public class IntakeMotors {
     private static final ControlMode MODE = ControlMode.PercentOutput;
@@ -30,11 +32,15 @@ public class IntakeMotors {
     }
 
     private double calculateActuatorSpeed(double input) {
-        return input * ACTUATOR_COEFFICIENT;
+        return Math.clip(input * ACTUATOR_COEFFICIENT);
     }
 
     private double calculateRollerSpeed(double input) {
-        return input * ROLLER_COEFFICIENT;
+        return Math.clip(
+                Constants.INTAKE_CLIP * -1,
+                Constants.INTAKE_CLIP * 1,
+                input * ROLLER_COEFFICIENT
+        );
     }
 
     public void setActuatorSpeed(double speed) {
