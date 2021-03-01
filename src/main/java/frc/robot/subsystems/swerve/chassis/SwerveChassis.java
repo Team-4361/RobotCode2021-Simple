@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.swerve.encoder.SwerveCANEncoder;
-import frc.robot.subsystems.swerve.module.ModuleState;
 import frc.robot.subsystems.swerve.module.SwerveEncodedModule;
 import frc.robot.subsystems.swerve.motor.SwerveCombo;
 import frc.robot.subsystems.swerve.motor.SwerveSparkMotor;

@@ -22,9 +22,9 @@ import frc.robot.subsystems.StorageSubsystem;
  */
 public class Robot extends TimedRobot {
     /**
-     * User input class.
+     * Revamped user input class.
      */
-    private static OI oi;
+    private static IO io;
 
     /**
      * Drive subsystem.
@@ -47,12 +47,12 @@ public class Robot extends TimedRobot {
     private static StorageSubsystem storage;
 
     /**
-     * Get the robot's OI class.
+     * Get the robot's revamped input class.
      *
-     * @return the robot's OI class.
+     * @return the robot's IO class.
      */
-    public static OI getOi() {
-        return oi;
+    public static IO getIo() {
+        return io;
     }
 
     /**
@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        oi = new OI();
+        io = new IO();
         drive = DriveSubsystem.getInstance();
         intake = IntakeSubsystem.getInstance();
         shooter = ShooterSubsystem.getInstance();

@@ -5,7 +5,7 @@ package frc.robot.controls;
  * it easier to switch between them.
  *
  * <p>
- * Unless you have brain damage of some sort, it makes absolutely no sense to
+ * Unless you don't have much programming experience, it makes no sense to
  * have a single hard-coded class for all controls. Anyone who drives the robot
  * will want to have controls customized to their likings. Using an interface
  * as a supplier and a class as a wrapper allows for on-the-fly control

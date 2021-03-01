@@ -29,9 +29,7 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
     public static final int NEO = 1;
 
     /**
-     * TALON TYPE. DEPRECATED
-     *
-     * @deprecated Use the {@link SwerveCombo#SPARK} instead.
+     * TALON TYPE.
      */
     public static final int TALON = 2;
 
@@ -54,10 +52,12 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
 
         switch (type) {
             case 0:
-                encoder = SwerveCANEncoder.get(((SwerveSparkMotor) motor).getSpark(), cpr);
+                encoder = SwerveCANEncoder.get(((SwerveSparkMotor) motor)
+                        .getSpark(), cpr);
                 break;
             case 1:
-                encoder = SwerveNEOEncoder.get(((SwerveSparkMotor) motor).getSpark(), cpr);
+                encoder = SwerveNEOEncoder.get(((SwerveSparkMotor) motor)
+                        .getSpark(), cpr);
                 break;
             case 2:
                 throw new UnsupportedOperationException(NO_TALON);
@@ -90,11 +90,13 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
         switch (type) {
             case 0:
                 motor = new SwerveSparkMotor(motorId, isInverted);
-                encoder = SwerveCANEncoder.get(((SwerveSparkMotor) motor).getSpark(), cpr);
+                encoder = SwerveCANEncoder.get(((SwerveSparkMotor) motor)
+                        .getSpark(), cpr);
                 break;
             case 1:
                 motor = new SwerveSparkMotor(motorId, isInverted);
-                encoder = SwerveNEOEncoder.get(((SwerveSparkMotor) motor).getSpark(), cpr);
+                encoder = SwerveNEOEncoder.get(((SwerveSparkMotor) motor)
+                        .getSpark(), cpr);
                 break;
             case 2:
                 throw new UnsupportedOperationException(NO_TALON);

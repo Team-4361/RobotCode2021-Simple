@@ -66,7 +66,7 @@ public class DriveSubsystem extends Subsystem implements Drive {
      * and any re-usable code should always be as configurable as possible.
      * </p>
      *
-     * @return
+     * @return drivetrain instance.
      */
     public static DriveSubsystem getInstance() {
         if (driveSubsystem == null) driveSubsystem = new DriveSubsystem(

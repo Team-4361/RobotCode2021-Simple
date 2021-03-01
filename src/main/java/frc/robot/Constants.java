@@ -1,5 +1,10 @@
 package frc.robot;
 
+import frc.robot.controls.ControlScheme;
+import frc.robot.controls.ControlSchemes;
+
+import static frc.robot.controls.ControlSchemes.COLIN;
+
 /**
  * Constants used in multiple places throughout the codebase.
  *
@@ -20,6 +25,43 @@ package frc.robot;
  * @since 0.0.0
  */
 public class Constants {
+    /**
+     * The robot's control scheme.
+     *
+     * <p>
+     * Control schemes were added in the interest of switching robot controls
+     * on the fly. Different drivers would prefer different methods of driving
+     * the robot. Additionally, it is a lot easier for me to debug when I
+     * can use whatever controls I'm comfortable with rather than whatever
+     * controls someone else is comfortable with.
+     * </p>
+     *
+     * <p>
+     * All of the information about control schemes is explained through
+     * documentation. To learn more, check out the {@code see} tags in this
+     * JavaDoc.
+     * </p>
+     *
+     * @see ControlScheme
+     * @see ControlSchemes
+     */
+    public static final ControlSchemes scheme = COLIN;
+
+    /**
+     * Port for the first joystick.
+     */
+    public static final int PORT_JOYSTICK_1 = 0;
+
+    /**
+     * Port for the second joystick.
+     */
+    public static final int PORT_JOYSTICK_2 = 1;
+
+    /**
+     * Port for the Xbox controller.
+     */
+    public static final int PORT_CONTROLLER = 2;
+
     /**
      * Encoder CPR - used for drive wheels and turn wheels.
      */

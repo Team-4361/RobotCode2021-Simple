@@ -113,30 +113,21 @@ public class DriveCommand extends Command {
          *
          * This controls the Y part of the later-generated translation.
          */
-        double F = Robot
-                .getOi()
-                .getSecondaryJoystick()
-                .getRawAxis(FORWARDS_AXIS) * FORWARDS_MULTIPLIER;
+        double F = Robot.getIo().getF() * FORWARDS_MULTIPLIER;
 
         /*
          * S = Strafe.
          *
          * This controls the X part of the later-generated translation.
          */
-        double S = Robot
-                .getOi()
-                .getSecondaryJoystick()
-                .getRawAxis(STRAFE_AXIS) * STRAFE_MULTIPLIER;
+        double S = Robot.getIo().getS() * STRAFE_MULTIPLIER;
 
         /*
          * T = Turn.
          *
          * This controls the rotational aspect of the robot's movement.
          */
-        double T = Robot
-                .getOi()
-                .getPrimaryJoystick()
-                .getRawAxis(TURN_AXIS) * TURN_MULTIPLIER;
+        double T = Robot.getIo().getT() * TURN_MULTIPLIER;
 
         /* Dead-band the forwards axis. */
         F = Math.abs(F) <= d_f ? 0 : F;

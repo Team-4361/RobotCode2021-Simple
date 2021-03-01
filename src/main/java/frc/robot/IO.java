@@ -1,7 +1,7 @@
 package frc.robot;
 
-import frc.robot.controls.Colin;
 import frc.robot.controls.ControlScheme;
+import frc.robot.controls.ControlSchemes;
 
 /**
  * Wrapper class for control schemes.
@@ -42,16 +42,16 @@ public class IO implements ControlScheme {
      * </p>
      *
      * <p>
-     * In order to change this, you can simply instance a different control
-     * scheme. Examples:
-     * <ul>
-     *     <li>new Colin()</li>
-     *     <li>new Generic()</li>
-     * </ul>
-     * ... and whatever else you'd like.
+     * The documentation right here might not be very clear. I'm not about
+     * to type an entire Wikipedia article here, so the relevant documentation
+     * and information is linked here.
      * </p>
+     *
+     * @see ControlScheme
+     * @see ControlSchemes
+     * @see Constants#scheme
      */
-    private final ControlScheme scheme = new Colin(0, 1, 2);
+    private final ControlScheme scheme = Constants.scheme.getScheme();
 
     /**
      * Desired swerve drive forwards power.

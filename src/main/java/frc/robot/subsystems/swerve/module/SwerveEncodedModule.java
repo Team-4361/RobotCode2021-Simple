@@ -11,6 +11,17 @@ import me.wobblyyyy.intra.ftc2.utils.math.Math;
 /**
  * Generic dual-encoded swerve module.
  *
+ * <p>
+ * Unlike the more simple {@link SwerveModule}, this type of swerve module
+ * provides users with the ability to track the rotation, velocity, and
+ * position of the module's drive wheel.
+ * </p>
+ *
+ * <p>
+ * Functionally, this is no different from the {@link SwerveModule} class.
+ * In essence, it's just an extension of it.
+ * </p>
+ *
  * @author Colin Robertson
  * @see SwerveModule
  * @since 0.0.0
@@ -18,16 +29,51 @@ import me.wobblyyyy.intra.ftc2.utils.math.Math;
 public class SwerveEncodedModule {
     /**
      * The turn motor's type.
+     *
+     * <p>
+     * Motor types can more accurately be described as encoder types. I don't
+     * want to refactor this much code this late into the season.
+     * </p>
+     *
+     * <p>
+     * ALTERNATE ENCODER TYPE, FOR TURN MOTORS.
+     * </p>
      */
-    private static final int TURN_TYPE = 0;
+    private static final int TURN_TYPE = SwerveCombo.SPARK;
 
     /**
      * The drive motor's type.
+     *
+     * <p>
+     * Motor types can more accurately be described as encoder types. I don't
+     * want to refactor this much code this late into the season.
+     * </p>
+     *
+     * <p>
+     * NEO ENCODER TYPE, FOR DRIVE MOTORS.
+     * </p>
      */
-    private static final int DRIVE_TYPE = 0;
+    private static final int DRIVE_TYPE = SwerveCombo.NEO;
 
+    /**
+     * Proportional coefficient.
+     *
+     * @see Constants#SWERVE_KP
+     */
     private static final double KP = Constants.SWERVE_KP;
+
+    /**
+     * Integral coefficient.
+     *
+     * @see Constants#SWERVE_KI
+     */
     private static final double KI = Constants.SWERVE_KI;
+
+    /**
+     * Derivative coefficient.
+     *
+     * @see Constants#SWERVE_KD
+     */
     private static final double KD = Constants.SWERVE_KD;
 
     /**
@@ -35,9 +81,26 @@ public class SwerveEncodedModule {
      */
     private final PIDController turnController;
 
-    protected static final double CLIP_MIN_TEST = -0.2;
-    protected static final double CLIP_MAX_TEST = 0.2;
+    /**
+     * Minimum value for turn motor power.
+     *
+     * <p>
+     * This value is multiplied by -1, as it is negative.
+     * </p>
+     *
+     * @see Constants#TURN_CLIP
+     */
     protected static final double CLIP_MIN = Constants.TURN_CLIP * -1;
+
+    /**
+     * Maximum value for turn motor power.
+     *
+     * <p>
+     * This value is multiplied by +1, as it is positive.
+     * </p>
+     *
+     * @see Constants#TURN_CLIP
+     */
     protected static final double CLIP_MAX = Constants.TURN_CLIP * 1;
 
     /**
@@ -48,14 +111,42 @@ public class SwerveEncodedModule {
 
     /**
      * Drive motor. Drive motors don't have to be encoded.
+     *
+     * <p>
+     * Unlike the {@link SwerveModule} class, drive motors ARE encoded here.
+     * As a result, this does, in fact, need to be encoded.
+     * </p>
      */
     private final SwerveCombo drive;
 
+    /**
+     * Turn motor ID.
+     */
     private final int turnId;
+
+    /**
+     * Drive motor ID.
+     */
     private final int driveId;
+
+    /**
+     * Turn motor CPR.
+     */
     private final int turnCpr;
+
+    /**
+     * Drive motor CPR.
+     */
     private final int driveCpr;
+
+    /**
+     * Is the turn motor inverted?
+     */
     private final boolean isTurnInverted;
+
+    /**
+     * Is the drive motor inverted?
+     */
     private final boolean isDriveInverted;
 
     /**
@@ -142,6 +233,17 @@ public class SwerveEncodedModule {
      * class to optimize the wheel's turning.
      * </p>
      *
+     * <p>
+     * If optimization doesn't work, it should be removed. It will always be
+     * a better idea to have working code than to have very cool experimental
+     * code.
+     * </p>
+     *
+     * <p>
+     * Swerve module optimization is handled with WPILIB's optimization code:
+     * {@link SwerveModuleState#optimize(SwerveModuleState, Rotation2d)}.
+     * </p>
+     *
      * @param state the swerve module's state.
      */
     public void setState(SwerveModuleState state) {
@@ -213,6 +315,7 @@ public class SwerveEncodedModule {
      * Get the turn swerve combo.
      *
      * @return the turn swerve combo.
+     * @see SwerveEncodedModule#getTurnMotor()
      */
     public SwerveCombo getTurn() {
         return turn;
@@ -222,6 +325,7 @@ public class SwerveEncodedModule {
      * Get the drive swerve combo.
      *
      * @return the drive swerve combo.
+     * @see SwerveEncodedModule#getDriveMotor()
      */
     public SwerveCombo getDrive() {
         return drive;
@@ -231,6 +335,7 @@ public class SwerveEncodedModule {
      * Get the turn motor.
      *
      * @return the turn motor.
+     * @see SwerveEncodedModule#getTurn()
      */
     public SwerveMotor getTurnMotor() {
         return turn.getMotor();
@@ -240,6 +345,7 @@ public class SwerveEncodedModule {
      * Get the drive motor.
      *
      * @return the drive motor.
+     * @see SwerveEncodedModule#getDrive()
      */
     public SwerveMotor getDriveMotor() {
         return drive;
