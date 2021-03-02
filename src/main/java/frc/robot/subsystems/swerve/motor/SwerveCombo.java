@@ -33,7 +33,14 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
      */
     public static final int TALON = 2;
 
+    /**
+     * Internally-used motor.
+     */
     private final SwerveMotor motor;
+
+    /**
+     * Internally-used encoder.
+     */
     private final SwerveEncoder encoder;
 
     /**
@@ -105,30 +112,66 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
         }
     }
 
+    /**
+     * Get the combo's motor.
+     *
+     * @return the combo's motor.
+     */
     public SwerveMotor getMotor() {
         return motor;
     }
 
+    /**
+     * Get the combo's position.
+     *
+     * <p>
+     * This is a position value reported by the encoder. In most cases, this
+     * value will be measured in radians, with a range of (-1, 1).
+     * </p>
+     *
+     * @return the combo's position.
+     */
     @Override
     public double getPos() {
         return encoder.getPos();
     }
 
+    /**
+     * Get the combo's encoder's velocity.
+     *
+     * @return the combo's encoder's velocity.
+     */
     @Override
     public double getVelocity() {
         return encoder.getVelocity();
     }
 
+    /**
+     * Get the combo's encoder's counts per rotation.
+     *
+     * @return get the combo's encoder's counts per rotation.
+     */
     @Override
     public int getCpr() {
         return encoder.getCpr();
     }
 
+    /**
+     * Set power to the combo's motor.
+     *
+     * @param power the power value to set to the combo's motor. This power
+     *              value should most often be within a range of (-1, 1).
+     */
     @Override
     public void setPower(double power) {
         motor.setPower(power);
     }
 
+    /**
+     * Get the combo's current power value.
+     *
+     * @return the combo's current power value.
+     */
     @Override
     public double getPower() {
         return motor.getPower();

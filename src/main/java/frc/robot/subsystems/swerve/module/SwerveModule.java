@@ -29,7 +29,9 @@ import me.wobblyyyy.intra.ftc2.utils.math.Math;
  *
  * @author Colin Robertson
  * @since 0.0.0
+ * @deprecated USE {@link SwerveEncodedModule} INSTEAD.
  */
+@Deprecated(forRemoval = true)
 public class SwerveModule {
     /**
      * The turn motor's type.

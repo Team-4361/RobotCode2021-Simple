@@ -15,8 +15,9 @@ public interface Shooter {
      * velocity instead of manual user input. This way, it shoots with as
      * close to the same velocity every single time.
      * </p>
+     * @param power
      */
-    void shoot();
+    void shoot(double power);
 
     /**
      * Get the shooter's velocity.

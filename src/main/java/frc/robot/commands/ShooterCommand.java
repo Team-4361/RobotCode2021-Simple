@@ -11,9 +11,11 @@ public class ShooterCommand extends Command {
     }
 
     private void powerShooter() {
-        if (Robot.getIo().getShooter()) {
-            ShooterSubsystem.getInstance().shoot();
-        }
+        ShooterSubsystem.getInstance().shoot(
+                Robot.getIo().getShooter() ?
+                        1.0 :
+                        0.0
+        );
     }
 
     @Override

@@ -18,7 +18,25 @@ public class ShooterFlywheel {
                 Constants.SHOOTER_KI,
                 Constants.SHOOTER_KD
         );
-        flywheelPid.setSetpoint(Constants.SHOOTER_TARGET);
+    }
+
+    /**
+     * Calculate the suggested power for the shooter based on the input
+     * value and the target velocity.
+     *
+     * @param power input power.
+     * @return output power, goes to the motor.
+     */
+    private double getShooterPower(double power) {
+        double current = encoders.getFlywheelVelocity();
+
+        flywheelPid.setSetpoint(power * Constants.SHOOTER_TARGET);
+
+        double suggested = flywheelPid.calculate(current);
+
+        if (suggested > 0) suggested = 0;
+
+        return suggested;
     }
 
     /**
@@ -38,9 +56,9 @@ public class ShooterFlywheel {
      * and not be able to correct very well.
      * </p>
      */
-    public void shoot() {
+    public void shoot(double power) {
         double currentVelocity = encoders.getFlywheelVelocity();
-        double suggested = flywheelPid.calculate(currentVelocity);
+        double suggested = flywheelPid.calculate(currentVelocity, power);
 
         if (suggested > 0) suggested *= 0.25;
 

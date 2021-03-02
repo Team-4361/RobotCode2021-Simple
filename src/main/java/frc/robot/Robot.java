@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         io = new IO();
+
         drive = DriveSubsystem.getInstance();
         intake = IntakeSubsystem.getInstance();
         shooter = ShooterSubsystem.getInstance();

@@ -12,8 +12,8 @@ public class ShooterImpl implements frc.robot.subsystems.Shooter {
     }
 
     @Override
-    public void shoot() {
-        flywheel.shoot();
+    public void shoot(double power) {
+        flywheel.shoot(power);
     }
 
     @Override

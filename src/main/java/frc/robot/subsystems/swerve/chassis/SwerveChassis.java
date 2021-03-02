@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.swerve.SwerveSet;
 import frc.robot.subsystems.swerve.encoder.SwerveCANEncoder;
 import frc.robot.subsystems.swerve.module.SwerveEncodedModule;
 import frc.robot.subsystems.swerve.motor.SwerveCombo;
@@ -302,6 +303,14 @@ public class SwerveChassis implements Drive {
     /**
      * Physically drive the drivetrain.
      *
+     * <p>
+     * In addition to setting power to the motors, we do some (very cool)
+     * calculations behind the scene. The first of these is set normalization,
+     * offered by the {@link SwerveSet#normalize(SwerveModuleState[], double[])}
+     * method. This is designed to prevent robot drift by normalizing all
+     * swerve motor powers based on recorded encoder velocities.
+     * </p>
+     *
      * @param translation the drivetrain's translation. Translations are pairs
      *                    of X and Y values indicating how far in each
      *                    direction the vehicle should move.
@@ -321,15 +330,15 @@ public class SwerveChassis implements Drive {
 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
 
-        /*
-         * Remember from earlier: The order of these modules is
-         * as following.
-         * 
-         * 1: front-left
-         * 2. front-right
-         * 3. back-left
-         * 4. back-right
-         */
+        states = SwerveSet.normalize(
+                states,
+                new double[] {
+                        flModule.getDriveVelocity(),
+                        frModule.getDriveVelocity(),
+                        blModule.getDriveVelocity(),
+                        brModule.getDriveVelocity()
+                }
+        );
 
         frModule.setState(states[1]);
         flModule.setState(states[0]);
