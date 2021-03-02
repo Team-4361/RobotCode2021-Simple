@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Robot;
 import me.wobblyyyy.intra.ftc2.utils.math.Comparator;
@@ -128,6 +129,8 @@ public class DriveCommand extends Command {
          * This controls the rotational aspect of the robot's movement.
          */
         double T = Robot.getIo().getT() * TURN_MULTIPLIER;
+
+        SmartDashboard.putNumber("forwards", F);
 
         /* Dead-band the forwards axis. */
         F = Math.abs(F) <= d_f ? 0 : F;

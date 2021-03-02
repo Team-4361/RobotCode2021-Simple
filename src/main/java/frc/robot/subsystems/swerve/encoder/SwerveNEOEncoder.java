@@ -11,7 +11,7 @@ import com.revrobotics.EncoderType;
  * @since 0.0.0
  */
 public class SwerveNEOEncoder implements SwerveEncoder {
-    private static final EncoderType TYPE = EncoderType.kQuadrature;
+    private static final EncoderType TYPE = EncoderType.kHallSensor;
     private final CANEncoder encoder;
     private final int cpr;
 

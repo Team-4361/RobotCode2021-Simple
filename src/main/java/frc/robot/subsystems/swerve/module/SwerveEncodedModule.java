@@ -3,6 +3,7 @@ package frc.robot.subsystems.swerve.module;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.subsystems.swerve.motor.SwerveCombo;
 import frc.robot.subsystems.swerve.motor.SwerveMotor;
@@ -53,7 +54,8 @@ public class SwerveEncodedModule {
      * NEO ENCODER TYPE, FOR DRIVE MOTORS.
      * </p>
      */
-    private static final int DRIVE_TYPE = SwerveCombo.NEO;
+    private static final int DRIVE_TYPE = SwerveCombo.NEO
+    ;
 
     /**
      * Proportional coefficient.
@@ -192,6 +194,7 @@ public class SwerveEncodedModule {
         angleOffset = getRealAngle();
 
         turnController = new PIDController(KP, KI, KD);
+        turnController.enableContinuousInput(-1, 1);
 
         this.turnId = turnId;
         this.driveId = driveId;
