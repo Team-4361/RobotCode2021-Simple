@@ -1,7 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.auton.DriveTenFeet;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -47,6 +49,11 @@ public class Robot extends TimedRobot {
     private static StorageSubsystem storage;
 
     /**
+     * Command for autonomous mode (???)
+     */
+    private static Command autonomousCommand;
+
+    /**
      * Get the robot's revamped input class.
      *
      * @return the robot's IO class.
@@ -71,6 +78,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         io = new IO();
 
+        autonomousCommand = new DriveTenFeet();
+
         drive = DriveSubsystem.getInstance();
         intake = IntakeSubsystem.getInstance();
         shooter = ShooterSubsystem.getInstance();
@@ -91,5 +100,10 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
         Scheduler.getInstance().run();
+    }
+
+    @Override
+    public void autonomousInit() {
+        autonomousCommand.start();
     }
 }

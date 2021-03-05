@@ -7,6 +7,10 @@ public class ShooterFlywheel {
     private final ShooterMotors motors;
     private final ShooterEncoders encoders;
     private final PIDController flywheelPid;
+    private double power = 0;
+    private double lastPower = 0;
+    private boolean hasThreadStarted = false;
+    private final Thread shooterThread;
 
     public ShooterFlywheel(ShooterMotors motors,
                            ShooterEncoders encoders) {
@@ -18,6 +22,14 @@ public class ShooterFlywheel {
                 Constants.SHOOTER_KI,
                 Constants.SHOOTER_KD
         );
+
+        this.shooterThread = new Thread(() -> {
+            do {
+                double suggested = getShooterPower(power);
+
+                motors.setFlywheelSpeed(suggested);
+            } while (hasThreadStarted);
+        });
     }
 
     /**
@@ -28,13 +40,20 @@ public class ShooterFlywheel {
      * @return output power, goes to the motor.
      */
     private double getShooterPower(double power) {
-        double current = encoders.getFlywheelVelocity();
+        if (power != lastPower) {
+            flywheelPid.reset();
+        }
+        lastPower = power;
 
         flywheelPid.setSetpoint(power * Constants.SHOOTER_TARGET);
 
+        if (power == 0) return 0.0;
+
+        double current = encoders.getFlywheelVelocity();
+
         double suggested = flywheelPid.calculate(current);
 
-        if (suggested > 0) suggested = 0;
+        if (suggested > 0) suggested *= 0.1;
 
         return suggested;
     }
@@ -57,11 +76,12 @@ public class ShooterFlywheel {
      * </p>
      */
     public void shoot(double power) {
-        double currentVelocity = encoders.getFlywheelVelocity();
-        double suggested = flywheelPid.calculate(currentVelocity, power);
+        // if (!hasThreadStarted) {
+            // shooterThread.start();
+            // hasThreadStarted = true;
+        // }
 
-        if (suggested > 0) suggested *= 0.25;
-
-        motors.setFlywheelSpeed(suggested);
+        // this.power = power;
+        motors.setFlywheelSpeed(power * -1.0);
     }
 }

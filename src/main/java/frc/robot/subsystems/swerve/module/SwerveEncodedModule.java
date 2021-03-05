@@ -368,8 +368,12 @@ public class SwerveEncodedModule {
      * @param state the swerve module's state.
      */
     public void setState(SwerveModuleState state) {
-        SwerveModuleState optimized = SwerveModuleState
-                .optimize(state, new Rotation2d(getAngleRads()));
+        // SwerveModuleState optimized = SwerveModuleState
+                // .optimize(state, new Rotation2d(getAngleRads()));
+        SwerveModuleState optimized = SwerveModuleState.optimize(
+            state,
+            Rotation2d.fromDegrees(getAngle())
+        );
 
         setState(new ModuleState(
                 optimized.angle.getRadians(),

@@ -104,7 +104,7 @@ public class IO implements ControlScheme {
      */
     @Override
     public boolean getShooter() {
-        return scheme.getStorage();
+        return scheme.getShooter();
     }
 
     /**

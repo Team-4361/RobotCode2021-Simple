@@ -1,5 +1,9 @@
 package frc.robot.subsystems.swerve.chassis;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
@@ -27,6 +31,8 @@ import me.wobblyyyy.intra.ftc2.utils.math.Math;
  * @since 0.0.0
  */
 public class SwerveChassis implements Drive {
+    private final AHRS navx;
+
     /**
      * Comparator used in determining if the chassis's angle
      * is close enough to being correct.
@@ -259,6 +265,8 @@ public class SwerveChassis implements Drive {
                 NORMAL,
                 BL_INVERT
         );
+
+        navx = new AHRS(SPI.Port.kMXP);
     }
     
     /**
@@ -322,13 +330,25 @@ public class SwerveChassis implements Drive {
     public void drive(Translation2d translation, Rotation2d rotation) {
         updateDisplay();
 
-        ChassisSpeeds speeds = new ChassisSpeeds(
-                translation.getX(),
-                translation.getY(),
-                rotation.getRadians() * 2 / R
+        // ChassisSpeeds speeds = new ChassisSpeeds(
+                // translation.getX(),
+                // translation.getY(),
+                // rotation.getRadians() * 2 / R
+        // );
+
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                translation.getX(), 
+                translation.getY(), 
+                rotation.getRadians() * 2 / R, 
+                Rotation2d.fromDegrees(-navx.getAngle())
         );
 
+        // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
+                //     Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
+
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+
+        SmartDashboard.putNumber("angle", navx.getAngle());
 
         states = SwerveSet.normalize(
                 states,

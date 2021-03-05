@@ -105,6 +105,6 @@ public class Constants {
     public static final double SWERVE_KD = 0.005;
 
     public static final double SHOOTER_KP = 0.00032;
-    public static final double SHOOTER_KI = 0.00000;
+    public static final double SHOOTER_KI = 0.8;
     public static final double SHOOTER_KD = 0.00005;
 }

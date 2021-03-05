@@ -19,19 +19,22 @@ public class SwerveSet {
      */
     public static double[] getNormalizedPower(double[] input) {
         double[] normalized = new double[input.length];
-        double min = input[0];
+        double min = Math.abs(input[0]);
 
         for (double d : input) {
             min = Math.min(min, Math.abs(d));
         }
 
-        int ctr = 0;
-        for (double d : input) {
-            normalized[ctr] = min / Math.abs(d);
-            ctr++;
-        }
+        // if (min < 100) return new double[] {1.0, 1.0, 1.0, 1.0};
+        return new double[] {1.0, 1.0, 1.0, 1.0};
 
-        return normalized;
+        // int ctr = 0;
+        // for (double d : input) {
+            // normalized[ctr] = min / Math.abs(d);
+            // ctr++;
+        // }
+
+        // return normalized;
     }
 
     /**
@@ -79,7 +82,7 @@ public class SwerveSet {
             ctr++;
         }
 
-        return normalized;
+        return states;
     }
 
     /**
