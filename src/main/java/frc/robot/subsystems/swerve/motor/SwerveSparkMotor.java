@@ -34,7 +34,7 @@ public class SwerveSparkMotor implements SwerveMotor {
      * The minimum power the motor can receive that will still allow it to
      * turn forwards.
      */
-    public static final double DEAD = 0.08;
+    public static final double DEAD = 0.00;
 
     /**
      * Is the motor running in inverted mode?

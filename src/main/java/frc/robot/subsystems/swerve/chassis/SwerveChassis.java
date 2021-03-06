@@ -330,21 +330,12 @@ public class SwerveChassis implements Drive {
     public void drive(Translation2d translation, Rotation2d rotation) {
         updateDisplay();
 
-        // ChassisSpeeds speeds = new ChassisSpeeds(
-                // translation.getX(),
-                // translation.getY(),
-                // rotation.getRadians() * 2 / R
-        // );
-
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                 translation.getX(), 
                 translation.getY(), 
                 rotation.getRadians() * 2 / R, 
                 Rotation2d.fromDegrees(-navx.getAngle())
         );
-
-        // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-                //     Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
 
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
 
