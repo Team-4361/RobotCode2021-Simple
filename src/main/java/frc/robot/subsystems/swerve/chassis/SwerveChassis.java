@@ -19,6 +19,7 @@ import frc.robot.subsystems.swerve.encoder.SwerveCANEncoder;
 import frc.robot.subsystems.swerve.module.SwerveEncodedModule;
 import frc.robot.subsystems.swerve.motor.SwerveCombo;
 import frc.robot.subsystems.swerve.motor.SwerveSparkMotor;
+import me.wobblyyyy.edt.DynamicArray;
 import me.wobblyyyy.edt.StaticArray;
 import me.wobblyyyy.edt.functional.Analyzable;
 import me.wobblyyyy.edt.functional.Normalizable;
@@ -314,17 +315,54 @@ public class SwerveChassis implements Drive {
                 frModule.getDriveVelocity()
         );
         SmartDashboard.putNumber(
+                "FR Power",
+                frModule.getDriveMotor().getPower()
+        );
+
+        SmartDashboard.putNumber(
                 "FL Velocity",
                 flModule.getDriveVelocity()
         );
+        SmartDashboard.putNumber(
+                "FL Power",
+                flModule.getDriveMotor().getPower()
+        );
+
         SmartDashboard.putNumber(
                 "BR Velocity",
                 brModule.getDriveVelocity()
         );
         SmartDashboard.putNumber(
-                "BL Velocity",
-                flModule.getDriveVelocity()
+                "BR Power",
+                brModule.getDriveMotor().getPower()
         );
+
+        SmartDashboard.putNumber(
+                "BL Velocity",
+                blModule.getDriveVelocity()
+        );
+        SmartDashboard.putNumber(
+                "BL Power",
+                blModule.getDriveMotor().getPower()
+        );
+        
+        SmartDashboard.putNumber(
+            "NavX Angle", 
+            navx.getAngle()
+        );
+    }
+
+    private ChassisSpeeds getSpeeds(Translation2d translation, Rotation2d rotation) {
+        return ChassisSpeeds.fromFieldRelativeSpeeds(
+                translation.getX(), 
+                translation.getY(), 
+                rotation.getRadians() * 2 / R, 
+                Rotation2d.fromDegrees(-navx.getAngle())
+        );
+    }
+
+    private SwerveModuleState[] getNormalStates(ChassisSpeeds speeds) {
+        return kinematics.toSwerveModuleStates(speeds);
     }
 
     private SwerveModuleState[] getStates(ChassisSpeeds speeds) {
@@ -333,26 +371,39 @@ public class SwerveChassis implements Drive {
 
         suppliers.setStates(originalStates);
 
-        Analyzable<Double> powers = Normalizable.normalizeSuppliers(
+        Analyzable<Double> normalizedPowers = Normalizable.normalizeSuppliers(
             velocitySuppliers, 
             powerSuppliers
         );
+        DynamicArray<Double> powers = new DynamicArray<>(normalizedPowers);
+        // SmartDashboard.putNumberArray("powers", powers.toDoubleArray());
+
+        double maxPower = Math.abs(normalizedPowers.maximum().doubleValue());
+        double minPower = Math.abs(normalizedPowers.minimum().doubleValue());
+        double max = maxPower < minPower ? minPower : maxPower;
+
+        powers.itr().forEach(power -> {
+            if (Math.abs(power) < (max / 2)) {
+                final double pm = power < 0 ? -1.0 : 1.0;
+                powers.set(powers.itr().index(), (max * pm * 1.00));
+            }
+        });
 
         SwerveModuleState[] newStates = new SwerveModuleState[] {
             new SwerveModuleState(
-                powers.get(1),
+                powers.get(1) * 0.97,
                 originalStates[0].angle
             ),
             new SwerveModuleState(
-                powers.get(0),
+                powers.get(0) * 1.00,
                 originalStates[1].angle
             ),
             new SwerveModuleState(
-                powers.get(3),
+                powers.get(3) * 0.97,
                 originalStates[2].angle
             ),
             new SwerveModuleState(
-                powers.get(2),
+                powers.get(2) * 1.00,
                 originalStates[3].angle
             ),
         };
@@ -387,7 +438,13 @@ public class SwerveChassis implements Drive {
      */
     @Override
     public void drive(Translation2d translation, Rotation2d rotation) {
+        ChassisSpeeds speeds = getSpeeds(translation, rotation);
+        // SwerveModuleState[] states = getNormalStates(speeds);
+        SwerveModuleState[] states = getStates(speeds);
+        setStates(states);
         updateDisplay();
+
+        // updateDisplay();
 
         // ChassisSpeeds speeds = new ChassisSpeeds(
                 // translation.getX(),
@@ -395,23 +452,16 @@ public class SwerveChassis implements Drive {
                 // rotation.getRadians() * 2 / R
         // );
 
-        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                translation.getX(), 
-                translation.getY(), 
-                rotation.getRadians() * 2 / R, 
-                Rotation2d.fromDegrees(-navx.getAngle())
-        );
+        // ChassisSpeeds speeds = getSpeeds(translation, rotation);
 
-        SwerveModuleState[] states = getStates(speeds);
+        // SwerveModuleState[] states = getStates(speeds);
 
-        setStates(states);
+        // setStates(states);
 
         // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
                 //     Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
 
         // SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
-
-        SmartDashboard.putNumber("angle", navx.getAngle());
 
         // states = SwerveSet.normalize(
                 // states,
