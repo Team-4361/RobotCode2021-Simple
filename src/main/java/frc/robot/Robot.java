@@ -104,6 +104,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        autonomousCommand.start();
+        // autonomousCommand.start();
     }
 }

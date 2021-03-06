@@ -45,7 +45,7 @@ public class Constants {
      * @see ControlScheme
      * @see ControlSchemes
      */
-    public static final ControlSchemes scheme = COLIN;
+    public static final ControlSchemes scheme = ControlSchemes.GENERIC;
 
     /**
      * Port for the first joystick.

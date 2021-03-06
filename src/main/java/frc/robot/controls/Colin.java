@@ -59,7 +59,7 @@ public class Colin implements ControlScheme {
      */
     @Override
     public double getF() {
-        return controller.getY(GenericHID.Hand.kRight);
+        return -controller.getY(GenericHID.Hand.kRight);
     }
 
     /**
@@ -69,7 +69,7 @@ public class Colin implements ControlScheme {
      */
     @Override
     public double getS() {
-        return controller.getX(GenericHID.Hand.kRight);
+        return -controller.getX(GenericHID.Hand.kRight);
     }
 
     /**
@@ -79,7 +79,7 @@ public class Colin implements ControlScheme {
      */
     @Override
     public double getT() {
-        return controller.getX(GenericHID.Hand.kLeft);
+        return -controller.getX(GenericHID.Hand.kLeft);
     }
 
     /**

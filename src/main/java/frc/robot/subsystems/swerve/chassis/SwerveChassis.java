@@ -438,6 +438,9 @@ public class SwerveChassis implements Drive {
      */
     @Override
     public void drive(Translation2d translation, Rotation2d rotation) {
+        // Rotation2d current = Rotation2d.fromDegrees(navx.getAngle());
+        // Rotation2d difference = new Rotation2d(rotation.getRadians() - current.getRadians());
+        // todo angle correction
         ChassisSpeeds speeds = getSpeeds(translation, rotation);
         // SwerveModuleState[] states = getNormalStates(speeds);
         SwerveModuleState[] states = getStates(speeds);

@@ -52,7 +52,7 @@ public class Generic implements ControlScheme {
      */
     @Override
     public double getF() {
-        return stick1.getRawAxis(1);
+        return stick1.getRawAxis(1) * 0.75;
     }
 
     /**
@@ -62,7 +62,7 @@ public class Generic implements ControlScheme {
      */
     @Override
     public double getS() {
-        return stick1.getRawAxis(0);
+        return stick1.getRawAxis(0) * 0.75;
     }
 
     /**
@@ -72,7 +72,7 @@ public class Generic implements ControlScheme {
      */
     @Override
     public double getT() {
-        return stick2.getRawAxis(2);
+        return stick2.getRawAxis(2) * 0.25;
     }
 
     /**
