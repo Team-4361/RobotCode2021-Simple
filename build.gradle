@@ -141,6 +141,7 @@ dependencies {
 //    implementation files('libs/Pathfinder.jar')
     implementation "com.github.FRCTeam2910.Common:robot:6456e9c82e"
     implementation files ('libs/intra_utils.jar')
+    implementation files ('libs/edt.jar')
 
     implementation wpi.deps.wpilib()
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
