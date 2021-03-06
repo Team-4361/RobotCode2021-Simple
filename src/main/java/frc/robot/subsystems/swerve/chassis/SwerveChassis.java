@@ -1,5 +1,7 @@
 package frc.robot.subsystems.swerve.chassis;
 
+import java.util.function.Supplier;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
@@ -17,6 +19,9 @@ import frc.robot.subsystems.swerve.encoder.SwerveCANEncoder;
 import frc.robot.subsystems.swerve.module.SwerveEncodedModule;
 import frc.robot.subsystems.swerve.motor.SwerveCombo;
 import frc.robot.subsystems.swerve.motor.SwerveSparkMotor;
+import me.wobblyyyy.edt.StaticArray;
+import me.wobblyyyy.edt.functional.Analyzable;
+import me.wobblyyyy.edt.functional.Normalizable;
 import me.wobblyyyy.intra.ftc2.utils.math.Comparator;
 import me.wobblyyyy.intra.ftc2.utils.math.Math;
 
@@ -223,6 +228,10 @@ public class SwerveChassis implements Drive {
      */
     private final SwerveEncodedModule blModule;
 
+    private final Suppliers suppliers;
+    private final StaticArray<Supplier<Double>> velocitySuppliers;
+    private final StaticArray<Supplier<Double>> powerSuppliers;
+
     /**
      * Create a new swerve chassis.
      *
@@ -267,6 +276,16 @@ public class SwerveChassis implements Drive {
         );
 
         navx = new AHRS(SPI.Port.kMXP);
+
+        suppliers = new Suppliers(
+            frModule, 
+            flModule, 
+            brModule, 
+            blModule
+        );
+
+        velocitySuppliers = suppliers.getVelocitySuppliers();
+        powerSuppliers = suppliers.getPowerSuppliers();
     }
     
     /**
@@ -308,6 +327,46 @@ public class SwerveChassis implements Drive {
         );
     }
 
+    private SwerveModuleState[] getStates(ChassisSpeeds speeds) {
+        SwerveModuleState[] originalStates = 
+            kinematics.toSwerveModuleStates(speeds);
+
+        suppliers.setStates(originalStates);
+
+        Analyzable<Double> powers = Normalizable.normalizeSuppliers(
+            velocitySuppliers, 
+            powerSuppliers
+        );
+
+        SwerveModuleState[] newStates = new SwerveModuleState[] {
+            new SwerveModuleState(
+                powers.get(1),
+                originalStates[0].angle
+            ),
+            new SwerveModuleState(
+                powers.get(0),
+                originalStates[1].angle
+            ),
+            new SwerveModuleState(
+                powers.get(3),
+                originalStates[2].angle
+            ),
+            new SwerveModuleState(
+                powers.get(2),
+                originalStates[3].angle
+            ),
+        };
+
+        return newStates;
+    }
+
+    private void setStates(SwerveModuleState[] states) {
+        frModule.setState(states[1]);
+        flModule.setState(states[0]);
+        brModule.setState(states[3]);
+        blModule.setState(states[2]);
+    }
+
     /**
      * Physically drive the drivetrain.
      *
@@ -343,26 +402,25 @@ public class SwerveChassis implements Drive {
                 Rotation2d.fromDegrees(-navx.getAngle())
         );
 
+        SwerveModuleState[] states = getStates(speeds);
+
+        setStates(states);
+
         // speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
                 //     Rotation2d.fromDegrees(gyroscope.getAngle().toDegrees()));
 
-        SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
+        // SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
 
         SmartDashboard.putNumber("angle", navx.getAngle());
 
-        states = SwerveSet.normalize(
-                states,
-                new double[] {
-                        flModule.getDriveVelocity(),
-                        frModule.getDriveVelocity(),
-                        blModule.getDriveVelocity(),
-                        brModule.getDriveVelocity()
-                }
-        );
-
-        frModule.setState(states[1]);
-        flModule.setState(states[0]);
-        brModule.setState(states[3]);
-        blModule.setState(states[2]);
+        // states = SwerveSet.normalize(
+                // states,
+                // new double[] {
+                        // flModule.getDriveVelocity(),
+                        // frModule.getDriveVelocity(),
+                        // blModule.getDriveVelocity(),
+                        // brModule.getDriveVelocity()
+                // }
+        // );
     }
 }
