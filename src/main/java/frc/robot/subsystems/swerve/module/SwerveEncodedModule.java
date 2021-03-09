@@ -340,9 +340,9 @@ public class SwerveEncodedModule {
      *
      * @param state the state to set to the swerve module.
      */
-    public void setState(ModuleState state) {
-        turn.setPower(calculatePower(state.getTurn()));
-        drive.setPower(state.getDrive());
+    public void setState(ModuleState state, boolean isUserControlled) {
+        turn.setPower(calculatePower(state.getTurn()), isUserControlled);
+        drive.setPower(state.getDrive(), isUserControlled);
     }
 
     /**
@@ -367,7 +367,7 @@ public class SwerveEncodedModule {
      *
      * @param state the swerve module's state.
      */
-    public void setState(SwerveModuleState state) {
+    public void setState(SwerveModuleState state, boolean isUserControlled) {
         // SwerveModuleState optimized = SwerveModuleState
                 // .optimize(state, new Rotation2d(getAngleRads()));
         SwerveModuleState optimized = SwerveModuleState.optimize(
@@ -378,7 +378,7 @@ public class SwerveEncodedModule {
         setState(new ModuleState(
                 optimized.angle.getRadians(),
                 optimized.speedMetersPerSecond
-        ));
+        ), isUserControlled);
     }
 
     /**
@@ -543,5 +543,15 @@ public class SwerveEncodedModule {
      */
     public boolean isDriveInverted() {
         return isDriveInverted;
+    }
+
+    public void enableUserControl() {
+        drive.enableUserControl();
+        turn.enableUserControl();
+    }
+
+    public void disableUserControl() {
+        drive.disableUserControl();
+        turn.disableUserControl();
     }
 }

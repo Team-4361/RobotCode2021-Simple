@@ -167,6 +167,11 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
         motor.setPower(power);
     }
 
+    @Override 
+    public void setPower(double power, boolean user) {
+        motor.setPower(power, user);
+    }
+
     /**
      * Get the combo's current power value.
      *
@@ -175,5 +180,15 @@ public class SwerveCombo implements SwerveMotor, SwerveEncoder {
     @Override
     public double getPower() {
         return motor.getPower();
+    }
+
+    @Override
+    public void enableUserControl() {
+        motor.enableUserControl();
+    }
+
+    @Override
+    public void disableUserControl() {
+        motor.disableUserControl();
     }
 }

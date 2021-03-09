@@ -80,4 +80,9 @@ public class DriveSubsystem extends Subsystem implements Drive {
     protected void initDefaultCommand() {
         setDefaultCommand(new DriveCommand());
     }
+
+    public SwerveChassis getSwerveChassis() {
+        if (drive instanceof SwerveChassis) return (SwerveChassis) drive;
+        else return null;
+    }
 }

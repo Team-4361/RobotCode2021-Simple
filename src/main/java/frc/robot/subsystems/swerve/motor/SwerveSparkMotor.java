@@ -12,6 +12,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * @since 0.0.0
  */
 public class SwerveSparkMotor implements SwerveMotor {
+    private boolean isUserControlled = true;
+
     /**
      * The motor's type.
      *
@@ -76,8 +78,20 @@ public class SwerveSparkMotor implements SwerveMotor {
      */
     @Override
     public void setPower(double power) {
-        if (inverted) spark.set(-power);
-        else spark.set(power);
+        setPower(power, true);
+    }
+
+    @Override
+    public void setPower(double power, boolean user) {
+        if (user && isUserControlled) {
+            if (inverted) spark.set(-power);
+            else spark.set(power);
+        }
+
+        if ((!user) && (!isUserControlled)) {
+            if (inverted) spark.set(-power);
+            else spark.set(power);
+        }
     }
 
     /**
@@ -91,5 +105,15 @@ public class SwerveSparkMotor implements SwerveMotor {
 
         if (Math.abs(power) < DEAD) return 0;
         return spark.get();
+    }
+
+    @Override
+    public void enableUserControl() {
+        this.isUserControlled = true;
+    }
+
+    @Override
+    public void disableUserControl() {
+        this.isUserControlled = false;
     }
 }

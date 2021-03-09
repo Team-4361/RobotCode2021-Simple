@@ -4,10 +4,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.auton.DriveTenFeet;
+import frc.robot.auton.PathfinderImpl;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
+import me.wobblyyyy.pathfinder.api.Pathfinder;
+import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
 
 /**
  * The main robot class for the 2021 season's simplified robot code.
@@ -53,6 +56,10 @@ public class Robot extends TimedRobot {
      */
     private static Command autonomousCommand;
 
+    private PathfinderImpl pf;
+
+    private Pathfinder pathfinder;
+
     /**
      * Get the robot's revamped input class.
      *
@@ -84,6 +91,20 @@ public class Robot extends TimedRobot {
         intake = IntakeSubsystem.getInstance();
         shooter = ShooterSubsystem.getInstance();
         storage = StorageSubsystem.getInstance();
+
+        pf = new PathfinderImpl(drive.getSwerveChassis());
+        pathfinder = pf.getPathfinder();
+    }
+
+    @Override
+    public void teleopInit() {
+        pathfinder.close();
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        pathfinder.close();
+        drive.getSwerveChassis().enableUserControl();
     }
 
     /**
@@ -100,10 +121,15 @@ public class Robot extends TimedRobot {
     @Override
     public void testPeriodic() {
         Scheduler.getInstance().run();
+        pathfinder.close();
     }
 
     @Override
     public void autonomousInit() {
+        drive.getSwerveChassis().disableUserControl();
+        pf = new PathfinderImpl(drive.getSwerveChassis());
+        pathfinder = pf.getPathfinder();
+        pathfinder.goToPosition(new HeadingPoint(10, 10, 0));
         // autonomousCommand.start();
     }
 }

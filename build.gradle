@@ -144,8 +144,8 @@ dependencies {
     implementation files ('libs/edt.jar')
     implementation files ('libs/JNILoader-1.0.1.jar')
     implementation files ('libs/OdometryCore-1.0.0.jar')
-    implementation files ('Pathfinder-Java-Main.jar')
-    implementation files ('PathfindingCore.jar')
+    implementation files ('libs/Pathfinder-Java-Main.jar')
+    implementation files ('libs/PathfindingCore.jar')
 
     implementation wpi.deps.wpilib()
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)

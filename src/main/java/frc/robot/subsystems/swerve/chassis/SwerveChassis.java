@@ -5,11 +5,11 @@ import java.util.function.Supplier;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -25,6 +25,9 @@ import me.wobblyyyy.edt.functional.Analyzable;
 import me.wobblyyyy.edt.functional.Normalizable;
 import me.wobblyyyy.intra.ftc2.utils.math.Comparator;
 import me.wobblyyyy.intra.ftc2.utils.math.Math;
+import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
+import me.wobblyyyy.pathfinder.geometry.Point;
+import me.wobblyyyy.pathfinder.util.Distance;
 
 /**
  * Representation of a swerve drivetrain.
@@ -36,7 +39,7 @@ import me.wobblyyyy.intra.ftc2.utils.math.Math;
  * @see SwerveCombo
  * @since 0.0.0
  */
-public class SwerveChassis implements Drive {
+public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive {
     private final AHRS navx;
 
     /**
@@ -232,6 +235,8 @@ public class SwerveChassis implements Drive {
     private final Suppliers suppliers;
     private final StaticArray<Supplier<Double>> velocitySuppliers;
     private final StaticArray<Supplier<Double>> powerSuppliers;
+    private final SwerveDriveOdometry odometry;
+    private final OdometryWrapper wrapper;
 
     /**
      * Create a new swerve chassis.
@@ -287,6 +292,9 @@ public class SwerveChassis implements Drive {
 
         velocitySuppliers = suppliers.getVelocitySuppliers();
         powerSuppliers = suppliers.getPowerSuppliers();
+
+        odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(navx.getAngle()));
+        wrapper = new OdometryWrapper(odometry);
     }
     
     /**
@@ -350,6 +358,8 @@ public class SwerveChassis implements Drive {
             "NavX Angle", 
             navx.getAngle()
         );
+        
+        SmartDashboard.putString("current pos", wrapper.getPos().toString());
     }
 
     private ChassisSpeeds getSpeeds(Translation2d translation, Rotation2d rotation) {
@@ -411,11 +421,11 @@ public class SwerveChassis implements Drive {
         return newStates;
     }
 
-    private void setStates(SwerveModuleState[] states) {
-        frModule.setState(states[1]);
-        flModule.setState(states[0]);
-        brModule.setState(states[3]);
-        blModule.setState(states[2]);
+    private void setStates(SwerveModuleState[] states, boolean isUserControlled) {
+        frModule.setState(states[1], isUserControlled);
+        flModule.setState(states[0], isUserControlled);
+        brModule.setState(states[3], isUserControlled);
+        blModule.setState(states[2], isUserControlled);
     }
 
     /**
@@ -443,9 +453,12 @@ public class SwerveChassis implements Drive {
         // todo angle correction
         ChassisSpeeds speeds = getSpeeds(translation, rotation);
         // SwerveModuleState[] states = getNormalStates(speeds);
-        SwerveModuleState[] states = getStates(speeds);
-        setStates(states);
+        SwerveModuleState[] states = getNormalStates(speeds);
+        setStates(states, isUserControlled);
         updateDisplay();
+        wrapper.updateStates(states);
+        wrapper.updateAngle(-navx.getAngle());
+        wrapper.update();
 
         // updateDisplay();
 
@@ -475,5 +488,54 @@ public class SwerveChassis implements Drive {
                         // brModule.getDriveVelocity()
                 // }
         // );
+    }
+
+    @Override
+    public void drive(HeadingPoint start, HeadingPoint end, double power) {
+        double angle = HeadingPoint.angleOfDeg(start, end);
+        SmartDashboard.putNumber("target angle", angle);
+        Point targetTranslationalPoint = Distance.inDirection(
+            new HeadingPoint(0, 0, angle), 
+            power
+        );
+        Translation2d translation = new Translation2d(
+            targetTranslationalPoint.getX(), 
+            targetTranslationalPoint.getY()
+        );
+        SmartDashboard.putNumber("translation x", translation.getX());
+        SmartDashboard.putNumber("translation y", translation.getY());
+        Rotation2d rotation = new Rotation2d();
+        drive(translation, rotation);
+    }
+
+    @Override
+    public void drive(double power, double angle) {
+
+    }
+
+    public OdometryWrapper getOdometry() {
+        return wrapper;
+    }
+
+    private boolean isUserControlled = true;
+
+    @Override
+    public void enableUserControl() {
+        isUserControlled = true;
+
+        frModule.enableUserControl();
+        flModule.enableUserControl();
+        brModule.enableUserControl();
+        blModule.enableUserControl();
+    }
+
+    @Override
+    public void disableUserControl() {
+        isUserControlled = false;
+
+        frModule.disableUserControl();
+        flModule.disableUserControl();
+        brModule.disableUserControl();
+        blModule.disableUserControl();
     }
 }
