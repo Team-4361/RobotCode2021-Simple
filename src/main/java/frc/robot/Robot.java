@@ -3,8 +3,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import frc.robot.auton.DriveTenFeet;
 import frc.robot.auton.PathfinderImpl;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -88,9 +91,9 @@ public class Robot extends TimedRobot {
         autonomousCommand = new DriveTenFeet();
 
         drive = DriveSubsystem.getInstance();
-        intake = IntakeSubsystem.getInstance();
-        shooter = ShooterSubsystem.getInstance();
-        storage = StorageSubsystem.getInstance();
+        // intake = IntakeSubsystem.getInstance();
+        // shooter = ShooterSubsystem.getInstance();
+        // storage = StorageSubsystem.getInstance();
 
         pf = new PathfinderImpl(drive.getSwerveChassis());
         pathfinder = pf.getPathfinder();
@@ -101,10 +104,13 @@ public class Robot extends TimedRobot {
         pathfinder.close();
     }
 
+    private final DriveCommand driveCommand = new DriveCommand();
+
     @Override
     public void teleopPeriodic() {
         pathfinder.close();
         drive.getSwerveChassis().enableUserControl();
+        // driveCommand.execute();
     }
 
     /**
@@ -129,7 +135,15 @@ public class Robot extends TimedRobot {
         drive.getSwerveChassis().disableUserControl();
         pf = new PathfinderImpl(drive.getSwerveChassis());
         pathfinder = pf.getPathfinder();
-        pathfinder.goToPosition(new HeadingPoint(10, 10, 0));
+        pathfinder.goToPosition(new HeadingPoint(100, 0, 0));
+        pathfinder.lock();
+        drive.getSwerveChassis().drive(new Translation2d(), new Rotation2d());
+        pathfinder.goToPosition(new HeadingPoint(10, 0, 0));
+        pathfinder.lock();
+        drive.getSwerveChassis().drive(new Translation2d(), new Rotation2d());
+        pathfinder.goToPosition(new HeadingPoint(100, 100, 0));
+        pathfinder.lock();
+        drive.getSwerveChassis().drive(new Translation2d(), new Rotation2d());
         // autonomousCommand.start();
     }
 }
