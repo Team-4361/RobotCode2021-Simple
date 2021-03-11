@@ -327,6 +327,26 @@ public class PathfinderConfig {
     private boolean usesThetaStar;
 
     /**
+     * The speed that certain types of linear followers should run at.
+     */
+    private double speed = 0.5;
+
+    /**
+     * Should the pathfinder swap X and Y pairs?
+     */
+    private boolean swapXY = false;
+
+    /**
+     * Should X values be inverted?
+     */
+    private boolean invertX = false;
+
+    /**
+     * Should Y values be inverted?
+     */
+    private boolean invertY = false;
+
+    /**
      * Create a new {@code PathfinderConfig} without any configuration elements
      * set.
      */
@@ -378,6 +398,7 @@ public class PathfinderConfig {
      *                      a game field with all your different obstacles and
      *                      what not.
      * @param follower      what type of follower the pathfinder uses.
+     * @param speed         the speed that linear followers should run at.
      * @param usesLightning see: {@link PathfinderConfig#usesLightning}
      * @param usesFast      see: {@link PathfinderConfig#usesFast}
      * @param usesThetaStar see: {@link PathfinderConfig#usesThetaStar}
@@ -394,6 +415,7 @@ public class PathfinderConfig {
                             Drive drive,
                             Map map,
                             Followers follower,
+                            double speed,
                             boolean usesLightning,
                             boolean usesFast,
                             boolean usesThetaStar) {
@@ -409,6 +431,7 @@ public class PathfinderConfig {
         this.drive = drive;
         this.map = map;
         this.follower = follower;
+        this.speed = speed;
         this.usesLightning = usesLightning;
         this.usesFast = usesFast;
         this.usesThetaStar = usesThetaStar;
@@ -615,6 +638,24 @@ public class PathfinderConfig {
     }
 
     /**
+     * Set the speed that linear followers will be executed at.
+     *
+     * @param speed the speed that linear followers will be executed at.
+     */
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    /**
+     * Get the speed that linear followers should run at.
+     *
+     * @return the speed linear followers should run at.
+     */
+    public double getSpeed() {
+        return speed;
+    }
+
+    /**
      * Does the pathfinder utilize lightning finding?
      *
      * @return whether or not the pathfinder utilizes x type of finding.
@@ -639,5 +680,49 @@ public class PathfinderConfig {
      */
     public boolean doesUseThetaStar() {
         return usesThetaStar;
+    }
+
+    /**
+     * Swap the X and Y coordinate inputs.
+     */
+    public void swapXY(boolean xy) {
+        this.swapXY = xy;
+    }
+
+    /**
+     * Set the X coordinates to be inverted or not.
+     * True = inverted, false = normal.
+     */
+    public void invertX(boolean invert) {
+        this.invertX = invert;
+    }
+
+    /**
+     * Set the Y coordinates to be inverted or not.
+     * True = inverted, false = normal.
+     */
+    public void invertY(boolean invert) {
+        this.invertY = invert;
+    }
+
+    /**
+     * Are the X and Y coordinates swapped?
+     */
+    public boolean swapXY() {
+        return swapXY;
+    }
+
+    /**
+     * Is the X coordinate inverted?
+     */
+    public boolean invertX() {
+        return invertX;
+    }
+
+    /**
+     * Is the Y coordinate inverted?
+     */
+    public boolean invertY() {
+        return invertY;
     }
 }

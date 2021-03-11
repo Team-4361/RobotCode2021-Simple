@@ -30,11 +30,11 @@
 package me.wobblyyyy.pathfinder.core;
 
 import me.wobblyyyy.edt.DynamicArray;
+import me.wobblyyyy.pathfinder.annotations.Async;
+import me.wobblyyyy.pathfinder.annotations.Sync;
+import me.wobblyyyy.pathfinder.annotations.Wait;
 import me.wobblyyyy.pathfinder.config.PathfinderConfig;
 import me.wobblyyyy.pathfinder.error.InvalidPathException;
-import me.wobblyyyy.pathfinder.followers.LinearFollower;
-import me.wobblyyyy.pathfinder.followers.PIDFollower;
-import me.wobblyyyy.pathfinder.followers.SwerveFollower;
 import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
 import me.wobblyyyy.pathfinder.geometry.Point;
 import me.wobblyyyy.pathfinder.map.Map;
@@ -68,7 +68,7 @@ import me.wobblyyyy.pathfinder.util.Extra;
  * @version 1.0.0
  * @since 0.1.0
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "FieldCanBeLocal"})
 public class PathfinderManager {
     /**
      * The pathfinder's configuration.
@@ -102,17 +102,17 @@ public class PathfinderManager {
     /**
      * A reference to the pathfinding pathfinder.
      */
-    private final GeneratorManager finder;
+    private GeneratorManager finder;
 
     /**
      * The follower execution system.
      */
-    private final FollowerExecutor exec;
+    private FollowerExecutor exec;
 
     /**
      * Manager used for updating loaded odometry systems.
      */
-    private final PathfinderThreadManager thread;
+    private PathfinderThreadManager thread;
 
     /**
      * Create a new PathfinderManager.
@@ -125,6 +125,7 @@ public class PathfinderManager {
      *
      * @param config the pathfinder's configuration class.
      */
+    @Sync
     public PathfinderManager(PathfinderConfig config) {
         this.config = config;
 
@@ -132,12 +133,20 @@ public class PathfinderManager {
         this.height = config.getFieldHeight();
         this.specificity = config.getSpecificity();
         this.map = config.getMap();
+    }
 
+    /**
+     * Open the {@code PathfinderManager}'s threads and make it start doing
+     * its thing. The {@code PathfinderManager} or {@code Pathfinder} MUST be
+     * opened before it can be used - not opening the {@code PathfinderManager}
+     * will result in {@link NullPointerException}s being thrown. And we all
+     * know those aren't very fun.
+     */
+    @Sync
+    public void open() {
         finder = new GeneratorManager(config);
         exec = new FollowerExecutor(config.getDrive());
         thread = new PathfinderThreadManager(config.getOdometry());
-
-        Factory.init(config);
 
         exec.start();
         thread.start();
@@ -157,6 +166,7 @@ public class PathfinderManager {
      * @return a merged array list of several different paths.
      * @see Extra#removeDuplicatePoints(DynamicArray)
      */
+    @Sync
     public final DynamicArray<Point> merge(DynamicArray<DynamicArray<Point>> paths) {
         DynamicArray<Point> merged = new DynamicArray<>();
 
@@ -189,6 +199,7 @@ public class PathfinderManager {
      * @return a path between two given points.
      * @see GeneratorManager#getCoordinatePath(Point, Point)
      */
+    @Sync
     public DynamicArray<Point> getPath(HeadingPoint start,
                                        HeadingPoint end) {
         if (HeadingPoint.isSame(start, end)) {
@@ -228,6 +239,7 @@ public class PathfinderManager {
      * @return an extended path based off of waypoints.
      * @see PathfinderManager#getPath(HeadingPoint, HeadingPoint)
      */
+    @Sync
     public DynamicArray<Point> getWaypointPath(DynamicArray<HeadingPoint> points) {
         if (points.size() < 2) {
             try {
@@ -252,80 +264,6 @@ public class PathfinderManager {
     }
 
     /**
-     * Get a single PID follower for a route between two points.
-     *
-     * <p>
-     * Remember, our PID followers only follow straight lines - if you're
-     * trying to call this method without having verified that your path
-     * won't cause any collisions, you're... making a little bit of a mistake.
-     * </p>
-     *
-     * @param start the starting point.
-     * @param end   the ending point.
-     * @return a PID follower for those two points.
-     * @deprecated Use the Factory class to generate and create new followers.
-     */
-    public PIDFollower getPIDFollower(HeadingPoint start,
-                                      HeadingPoint end) {
-        return new PIDFollower(
-                config.getDrive(),
-                config.getProfile(),
-                start,
-                end
-        );
-    }
-
-    /**
-     * Get a new linear follower.
-     *
-     * <p>
-     * Linear followers have absolutely no optimization applied to them -
-     * they simply drive in one direction at one speed until they reach
-     * their target position.
-     * </p>
-     *
-     * @param start start position.
-     * @param end   end position.
-     * @return a new linear follower.
-     * @deprecated Use the Factory class to generate and create new followers.
-     */
-    public LinearFollower getLinearFollower(HeadingPoint start,
-                                            HeadingPoint end) {
-        return new LinearFollower(
-                config.getDrive(),
-                config.getOdometry(),
-                start,
-                end,
-                0.75
-        );
-    }
-
-    /**
-     * Get a swerve follower. PLEASE READ!
-     *
-     * <p>
-     * Unlike every other type of follower, the Jaci implementations only
-     * require a single Follower trajectory rather than multiple per leg.
-     * This type of follower is capable of swerving around at light speed,
-     * meaning you don't have to stop between points. Thus, it's the fastest.
-     * </p>
-     *
-     * @param points the defined waypoints to follow.
-     * @return a new swerve follower.
-     * @deprecated Use the Factory class to generate and create new followers.
-     */
-    public SwerveFollower getSwerveFollower(DynamicArray<HeadingPoint> points) {
-        return new SwerveFollower(
-                points,
-                config.getOdometry(),
-                config.getDrive(),
-                config.getGapX(),
-                config.getGapY(),
-                config.getProfile()
-        );
-    }
-
-    /**
      * Generate a list of followers to complete a given path.
      *
      * <p>
@@ -337,65 +275,66 @@ public class PathfinderManager {
      *
      * @param path a list of points, comprising a path.
      * @return a list of followers to follow that path.
-     * @see Factory
      * @see PathfinderConfig#getFollowerType()
-     * @see Factory.PID
-     * @see Factory.Linear
-     * @see Factory.Swerve
      */
-    public DynamicArray<Follower> generateFollowers(DynamicArray<HeadingPoint> path) {
+    @Sync
+    public DynamicArray<Follower> generateFollowers(
+            DynamicArray<HeadingPoint> path) {
         DynamicArray<Follower> followers = new DynamicArray<>();
 
-        switch (config.getFollowerType()) {
-            case PID:
-                path.itr().forEach(point -> {
-                    try {
-                        HeadingPoint next = path.itr().next();
-                        if (next != null)
-                            followers.add(Factory.pid.build(
-                                    new DynamicArray<>() {{
-                                        add(point);
-                                        add(next);
-                                    }}));
-                    } catch (Exception ignored) {
-                    }
-                });
-                break;
-            case PROPORTIONAL:
-                // TODO add a proportional follower!
-            case LINEAR:
-                path.itr().forEach(point -> {
-                    try {
-                        HeadingPoint next = path.itr().next();
-                        if (next != null)
-                            followers.add(Factory.linear.build(
-                                    new DynamicArray<>() {{
-                                        add(point);
-                                        add(next);
-                                    }}));
-                    } catch (Exception ignored) {
-                    }
-                });
-                break;
-            case SWERVE:
-                followers.add(Factory.swerve.build(path));
-                break;
+        Followers followerType = config.getFollowerType();
+
+        if (followerType != Followers.LINEAR &&
+                followerType != Followers.DUAL_PID &&
+                followerType != Followers.TRI_PID) {
+            throw new UnsupportedOperationException(
+                    "Follower type " + followerType.toString() + " " +
+                            "is not yet supported!"
+            );
         }
 
-        return followers;
-    }
+        path.add(0, config.getOdometry().getPos());
 
-    /**
-     * Get the next follower in line.
-     *
-     * @param list            current list of followers.
-     * @param currentFollower current follower.
-     * @return next follower.
-     * @deprecated Archaic and stupid. Don't use it.
-     */
-    public Follower getNextFollower(DynamicArray<Follower> list,
-                                    Follower currentFollower) {
-        return list.get(list.indexOf(currentFollower) + 1);
+        path.itr().forEach(point -> {
+            try {
+                HeadingPoint nextPoint = path.itr().next();
+
+                if (nextPoint != null) {
+                    DynamicArray<HeadingPoint> points = new DynamicArray<>(
+                            point, nextPoint
+                    );
+
+                    switch (config.getFollowerType()) {
+                        case LINEAR:
+                            followers.add(
+                                    FollowerFactory.linear(
+                                            config, points
+                                    )
+                            );
+                            break;
+                        case DUAL_PID:
+                            followers.add(
+                                    FollowerFactory.dualPid(
+                                            config, points
+                                    )
+                            );
+                            break;
+                        case TRI_PID:
+                            followers.add(
+                                    FollowerFactory.triPid(
+                                            config, points
+                                    )
+                            );
+                            break;
+                        default:
+                    }
+                }
+            } catch (Exception ignored) {
+
+            }
+        });
+
+        return followers;
     }
 
     /**
@@ -414,6 +353,7 @@ public class PathfinderManager {
      * @see PathfinderManager#generateFollowers(DynamicArray)
      * @see FollowerExecutor#queueFollower(Follower)
      */
+    @Sync
     public PromisedFinder generateAndQueueFollowers(HeadingPoint start,
                                                     HeadingPoint end) {
         DynamicArray<Point> path = getPath(start, end);
@@ -448,6 +388,7 @@ public class PathfinderManager {
      * @param followers followers to be queued.
      * @see FollowerExecutor#queueFollower(Follower)
      */
+    @Sync
     public void queueFollowers(DynamicArray<Follower> followers) {
         exec.queueFollowers(followers);
     }
@@ -471,6 +412,7 @@ public class PathfinderManager {
      * @param end    the end point.
      * @return a new array list.
      */
+    @Sync
     public DynamicArray<HeadingPoint> withHeading(DynamicArray<Point> points,
                                                   HeadingPoint start,
                                                   HeadingPoint end) {
@@ -518,6 +460,7 @@ public class PathfinderManager {
      * @return a chainable PromisedFinder object.
      * @see PathfinderManager#generateAndQueueFollowers(HeadingPoint, HeadingPoint)
      */
+    @Async
     public PromisedFinder goToPosition(HeadingPoint end) {
         /*
          * A bit confusing here - but what happens...
@@ -571,6 +514,7 @@ public class PathfinderManager {
      * @return a chainable PromisedFinder object.
      * @see PathfinderManager#followPath(DynamicArray)
      */
+    @Async
     public PromisedFinder followPath(HeadingPoint... points) {
         DynamicArray<HeadingPoint> list = new DynamicArray<>(points);
 
@@ -600,6 +544,7 @@ public class PathfinderManager {
      * @see PathfinderManager#generateFollowers(DynamicArray)
      * @see PathfinderManager#queueFollowers(DynamicArray)
      */
+    @Async
     public PromisedFinder followPath(DynamicArray<HeadingPoint> points) {
         DynamicArray<Point> path = getWaypointPath(points);
         DynamicArray<Follower> followers = generateFollowers(
@@ -645,8 +590,20 @@ public class PathfinderManager {
      *
      * @see FollowerExecutor#lock()
      */
+    @Sync
+    @Wait
     public void lock() {
         exec.lock();
+    }
+
+    /**
+     * Stop the robot's drivetrain. This is useful when you're trying to
+     * make sure the robot stops at a target point - ie, if you don't stop
+     * the robot at that target point, it'll miss the point entirely.
+     */
+    @Sync
+    public void stopRobot() {
+        config.getDrive().drive(0, 0);
     }
 
     /**
@@ -659,6 +616,7 @@ public class PathfinderManager {
      * unpause it. Lovely, right?
      * </p>
      */
+    @Sync
     public void pauseOdometry() {
         thread.stop();
     }
@@ -673,6 +631,7 @@ public class PathfinderManager {
      * unpause it. Lovely, right?
      * </p>
      */
+    @Async
     public void unpauseOdometry() {
         thread.start();
     }
@@ -682,6 +641,7 @@ public class PathfinderManager {
      *
      * @return the robot's width.
      */
+    @Sync
     public int getWidth() {
         return width;
     }
@@ -691,6 +651,7 @@ public class PathfinderManager {
      *
      * @return the robot's height.
      */
+    @Sync
     public int getHeight() {
         return height;
     }
@@ -700,6 +661,7 @@ public class PathfinderManager {
      *
      * @return the field's specificity.
      */
+    @Sync
     public int getSpecificity() {
         return config.getSpecificity();
     }
@@ -709,6 +671,7 @@ public class PathfinderManager {
      *
      * @return the pathfinder's configuration.
      */
+    @Sync
     public PathfinderConfig getConfig() {
         return config;
     }
@@ -725,6 +688,7 @@ public class PathfinderManager {
      * Otherwise, you might have dangling threads that can eat up a lot of CPU.
      * </p>
      */
+    @Sync
     public void close() {
         exec.close();
         thread.close();

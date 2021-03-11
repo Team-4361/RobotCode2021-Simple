@@ -12,6 +12,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
+import me.wobblyyyy.edt.DynamicArray;
 import me.wobblyyyy.pathfinder.api.Pathfinder;
 import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
 
@@ -135,15 +136,49 @@ public class Robot extends TimedRobot {
         drive.getSwerveChassis().disableUserControl();
         pf = new PathfinderImpl(drive.getSwerveChassis());
         pathfinder = pf.getPathfinder();
-        pathfinder.goToPosition(new HeadingPoint(100, 0, 0));
-        pathfinder.lock();
-        drive.getSwerveChassis().drive(new Translation2d(), new Rotation2d());
-        pathfinder.goToPosition(new HeadingPoint(10, 0, 0));
-        pathfinder.lock();
-        drive.getSwerveChassis().drive(new Translation2d(), new Rotation2d());
-        pathfinder.goToPosition(new HeadingPoint(100, 100, 0));
-        pathfinder.lock();
-        drive.getSwerveChassis().drive(new Translation2d(), new Rotation2d());
+        pathfinder.open();
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(10, 0, 0)));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(10, 10, 0)));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(10, 10, 0)));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 10, 0)));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 0, 0)));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 20, 0)));
+        // X IS Y
+        // Y IS INVERTED
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(20, 0, 0)));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(20, -20, 0)));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, -20, 0)));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 0, 0)));
+        // pathfinder.waitForAndStop(pathfinder.followPath(new DynamicArray<>(
+            // new HeadingPoint(20, 0, 0),
+            // new HeadingPoint(20, -20, 0),
+            // new HeadingPoint(0, -20, 0),
+            // new HeadingPoint(0, 0, 0)
+            // new HeadingPoint(0, 20, 0),
+            // new HeadingPoint(20, 20, 0),
+            // new HeadingPoint(20, 0, 0),
+            // new HeadingPoint(0, 0, 0)
+        // )));
+        pathfinder.waitForAndStop(pathfinder.followPath(PathfinderImpl.star20));
+        pathfinder.close();
+        try {
+            Thread.sleep(250);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        drive.getSwerveChassis().enableUserControl();
+        drive.getSwerveChassis().drive(new Translation2d(0, 0), new Rotation2d(0));
+        drive.getSwerveChassis().enableUserControl();
+        drive.getSwerveChassis().drive(new Translation2d(0, 0), new Rotation2d(0));
+        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 20, 0)));
+        // pathfinder.close();
+        // pathfinder.close();
+        // try {
+            // Thread.sleep(250);   
+        // } catch (Exception e) {
+            // e.printStackTrace();
+        // }
+        // drive.getSwerveChassis().drive(new Translation2d(), new Rotation2d());
         // autonomousCommand.start();
     }
 }
