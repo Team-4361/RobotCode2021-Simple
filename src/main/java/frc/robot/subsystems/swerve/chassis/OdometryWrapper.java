@@ -85,13 +85,18 @@ public class OdometryWrapper implements Odometry {
      * MINUTE. These velocites can be acquired with the getVelocity() method.
      */
     public void updateRobot(SwerveModuleState[] states, double[] velocities) {
-        double[] rpm = toRps(velocities);
-        double[] ips = toDistance(rpm, 4.0, 8.16);
+        velocities[1] *= -1; // invert FR, it's backwards
+        velocities[3] *= -1; // invert BR, it's backwards
+        double[] rps = toRps(velocities); // convert velocities (rpm) to rotations per sec
+        double[] ips = toDistance(rps, 4.0, 8.16); // convert rps to inches per second
         double[] mps = ips; // reassignment, stop using MPS, use IPS
 
-        SmartDashboard.putNumberArray("rps", rpm);
+        // logging stuff! heck yeah!
+        SmartDashboard.putNumberArray("rps", rps);
         SmartDashboard.putNumberArray("ips", ips);
 
+        // create new states, arrays are mutable, we can't set the states
+        // of the previous array so we have to make a new one
         SwerveModuleState[] fixedStates = new SwerveModuleState[] {
             new SwerveModuleState(mps[0], states[0].angle),
             new SwerveModuleState(mps[1], states[1].angle),
@@ -99,14 +104,15 @@ public class OdometryWrapper implements Odometry {
             new SwerveModuleState(mps[3], states[3].angle),
         };
 
+        // update the internal states
         updateStates(fixedStates);
     }
 
-    public void updateVelocities(double frV, double flV, double brV, double blV) {
+    private void updateVelocities(double frV, double flV, double brV, double blV) {
 
     }
 
-    public void updateStates(SwerveModuleState[] states) {
+    private void updateStates(SwerveModuleState[] states) {
         this.states = states;
     }
 
