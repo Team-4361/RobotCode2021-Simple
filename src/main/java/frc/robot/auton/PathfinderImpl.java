@@ -29,6 +29,10 @@ public class PathfinderImpl {
         new HeadingPoint(10, 10, 0),
         new HeadingPoint(0, 0, 0)
     );
+    public static DynamicArray<HeadingPoint> forwards10 = new DynamicArray<>(
+        new HeadingPoint(0, 10, 0),
+        new HeadingPoint(0, 0, 0)
+    );
 
     public PathfinderImpl(SwerveChassis chassis) {
         config = new SimpleConfig() {{

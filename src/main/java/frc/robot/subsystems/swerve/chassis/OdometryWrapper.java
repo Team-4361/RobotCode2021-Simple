@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import me.wobblyyyy.intra.ftc2.utils.math.Math;
 import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
 import me.wobblyyyy.pathfinder.robot.Odometry;
@@ -29,6 +30,80 @@ public class OdometryWrapper implements Odometry {
         double y = Distance.METERS_TO_INCHES * poseMeters.getY();
         double z = Math.toDegrees(poseMeters.getRotation().getRadians());
         return new HeadingPoint(x, y, z);
+    }
+
+    public double toRps(double rpm) {
+        return rpm / 60;
+    }
+
+    public double[] toRps(double[] vs) {
+        return new double[] {
+            toRps(vs[0]),
+            toRps(vs[1]),
+            toRps(vs[2]),
+            toRps(vs[3])
+        };
+    } 
+
+    // 8.16 equals 12.566
+    // 12.566/8.16 (distance per rotation)
+    public double toDistance(double rps, double diameter, double ratio) {
+        double distancePerRotation = (diameter * Math.PI) / ratio;
+
+        return rps * distancePerRotation;
+    }
+
+    /**
+     * @param rps rotations per second array
+     * @return distance array
+     */
+    public double[] toDistance(double[] rps, double diameter, double ratio) {
+        return new double[] {
+            toDistance(rps[0], diameter, ratio),
+            toDistance(rps[1], diameter, ratio),
+            toDistance(rps[2], diameter, ratio),
+            toDistance(rps[3], diameter, ratio),
+        };
+    }
+
+    public double toMeters(double inches) {
+        return inches * 0.0254;
+    }
+
+    public double[] toMeters(double[] inches) {
+        return new double[] {
+            toMeters(inches[0]),
+            toMeters(inches[1]),
+            toMeters(inches[2]),
+            toMeters(inches[3]),
+        };
+    }
+
+    /**
+     * @param states     all of the swerve module states - FL FR BL BR
+     * @param velocities an array of velocities, each measured in ROTATIONS PER
+     * MINUTE. These velocites can be acquired with the getVelocity() method.
+     */
+    public void updateRobot(SwerveModuleState[] states, double[] velocities) {
+        double[] rpm = toRps(velocities);
+        double[] ips = toDistance(rpm, 4.0, 8.16);
+        double[] mps = ips; // reassignment, stop using MPS, use IPS
+
+        SmartDashboard.putNumberArray("rps", rpm);
+        SmartDashboard.putNumberArray("ips", ips);
+
+        SwerveModuleState[] fixedStates = new SwerveModuleState[] {
+            new SwerveModuleState(mps[0], states[0].angle),
+            new SwerveModuleState(mps[1], states[1].angle),
+            new SwerveModuleState(mps[2], states[2].angle),
+            new SwerveModuleState(mps[3], states[3].angle),
+        };
+
+        updateStates(fixedStates);
+    }
+
+    public void updateVelocities(double frV, double flV, double brV, double blV) {
+
     }
 
     public void updateStates(SwerveModuleState[] states) {

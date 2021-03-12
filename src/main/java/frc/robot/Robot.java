@@ -159,7 +159,7 @@ public class Robot extends TimedRobot {
             // new HeadingPoint(20, 0, 0),
             // new HeadingPoint(0, 0, 0)
         // )));
-        pathfinder.waitForAndStop(pathfinder.followPath(PathfinderImpl.star20));
+        pathfinder.waitForAndStop(pathfinder.followPath(PathfinderImpl.forwards10));
         pathfinder.close();
         try {
             Thread.sleep(250);
