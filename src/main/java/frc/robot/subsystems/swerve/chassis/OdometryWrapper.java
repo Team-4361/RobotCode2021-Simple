@@ -7,10 +7,12 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import me.wobblyyyy.intra.ftc2.utils.math.Math;
 import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
+import me.wobblyyyy.pathfinder.kinematics.SwerveOdometry;
 import me.wobblyyyy.pathfinder.robot.Odometry;
 import me.wobblyyyy.pathfinder.util.Distance;
 
 public class OdometryWrapper implements Odometry {
+    private SwerveOdometry odometry;
     private SwerveDriveOdometry internal;
     private double gyroAngle = 0;
     private SwerveModuleState[] states;
@@ -26,8 +28,10 @@ public class OdometryWrapper implements Odometry {
     @Override
     public HeadingPoint getPos() {
         Pose2d poseMeters = getPoseMeters();
-        double x = Distance.METERS_TO_INCHES * poseMeters.getX();
-        double y = Distance.METERS_TO_INCHES * poseMeters.getY();
+        // double x = Distance.METERS_TO_INCHES * poseMeters.getX();
+        // double y = Distance.METERS_TO_INCHES * poseMeters.getY();
+        double x = poseMeters.getX();
+        double y = poseMeters.getY();
         double z = Math.toDegrees(poseMeters.getRotation().getRadians());
         return new HeadingPoint(x, y, z);
     }
