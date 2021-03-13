@@ -338,7 +338,6 @@ public class Pathfinder {
      */
     @Sync
     public void stopRobot() {
-        getManager().getConfig().getDrive().enableUserControl();
         getManager().stopRobot();
     }
 

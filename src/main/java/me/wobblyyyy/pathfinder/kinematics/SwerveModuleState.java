@@ -27,8 +27,28 @@
  *
  */
 
-package me.wobblyyyy.pathfinder.runtime;
+package me.wobblyyyy.pathfinder.kinematics;
 
-public class AnnotationProcessor {
+import me.wobblyyyy.pathfinder.geometry.Angle;
 
+public class SwerveModuleState extends ModuleState {
+    private final Angle turnAngle;
+
+    public SwerveModuleState(double power, Angle turnAngle) {
+        super(power);
+
+        this.turnAngle = turnAngle;
+    }
+
+    public Angle getTurnAngle() {
+        return turnAngle;
+    }
+
+    public double getDegrees() {
+        return turnAngle.getDegrees();
+    }
+
+    public double getRadians() {
+        return turnAngle.getRadians();
+    }
 }

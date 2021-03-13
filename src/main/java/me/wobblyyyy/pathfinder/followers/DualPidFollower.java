@@ -29,7 +29,6 @@
 
 package me.wobblyyyy.pathfinder.followers;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import me.wobblyyyy.intra.ftc2.utils.math.PidController;
 import me.wobblyyyy.pathfinder.annotations.Sync;
 import me.wobblyyyy.pathfinder.core.Follower;
@@ -85,23 +84,6 @@ public class DualPidFollower implements Follower {
         this.odometry = odometry;
         this.targetPosition = targetPosition;
         this.driveSpeedCoefficient = driveSpeedCoefficient;
-
-        HeadingPoint currentPosition = currentPosition();
-
-        double distanceX = Distance.distanceX(currentPosition, targetPosition);
-        double distanceY = Distance.distanceY(currentPosition, targetPosition);
-
-        double kP_x = 1 / distanceX;
-        double kP_y = 1 / distanceY;
-
-        this.pidControllerX = new PidController(kP_x, 0, 0);
-        this.pidControllerY = new PidController(kP_y, 0, 0);
-
-        pidControllerX.setSetpoint(targetPosition.getX());
-        pidControllerY.setSetpoint(targetPosition.getY());
-
-        calculatedPowerX = 0;
-        calculatedPowerY = 0;
     }
 
     @Sync
@@ -120,10 +102,8 @@ public class DualPidFollower implements Follower {
         double distanceX = Distance.distanceX(currentPosition, targetPosition);
         double distanceY = Distance.distanceY(currentPosition, targetPosition);
 
-        // this.calculatedPowerX = pidControllerX.calculate(distanceX);
-        // this.calculatedPowerY = pidControllerY.calculate(distanceY);
-        this.calculatedPowerX = distanceX;
-        this.calculatedPowerY = distanceY;
+        this.calculatedPowerX = pidControllerX.calculate(distanceX);
+        this.calculatedPowerY = pidControllerY.calculate(distanceY);
     }
 
     /**
@@ -138,6 +118,19 @@ public class DualPidFollower implements Follower {
     @Sync
     @Override
     public void calculate() {
+        HeadingPoint currentPosition = currentPosition();
+
+        double distanceX = -Distance.distanceX(currentPosition, targetPosition);
+        double distanceY = -Distance.distanceY(currentPosition, targetPosition);
+
+        double kP_x = 1 / distanceX;
+        double kP_y = 1 / distanceY;
+
+        this.pidControllerX = new PidController(kP_x, 0, 0);
+        this.pidControllerY = new PidController(kP_y, 0, 0);
+
+        pidControllerX.setSetpoint(0);
+        pidControllerY.setSetpoint(0);
     }
 
     /**
@@ -152,17 +145,12 @@ public class DualPidFollower implements Follower {
     @Sync
     @Override
     public void drive() {
-        // if (!(Math.abs(calculatedPowerX) >= 0)) calculatedPowerX = 0;
-        // if (!(Math.abs(calculatedPowerY) >= 0)) calculatedPowerY = 0;
         HeadingPoint currentPosition = currentPosition();
         HeadingPoint calculatedTargetPoint = new HeadingPoint(
                 calculatedPowerX,
                 calculatedPowerY,
                 targetPosition.getHeading()
         );
-
-        SmartDashboard.putString("destination", targetPosition.toString());
-        SmartDashboard.putString("target", calculatedTargetPoint.toString());
 
         drive.drive(
                 currentPosition,
@@ -182,7 +170,7 @@ public class DualPidFollower implements Follower {
         return Distance.isNearPoint(
                 currentPosition(),
                 targetPosition,
-                0.5
+                2
         );
     }
 

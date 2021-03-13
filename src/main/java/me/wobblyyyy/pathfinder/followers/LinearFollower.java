@@ -77,7 +77,7 @@ public class LinearFollower implements Follower {
      * the {@code LinearFollower} will execute. This value can be changed
      * through either configuration options or the {@code Factory} class.
      */
-    private final double coefficient;
+    private double coefficient;
 
     /**
      * Create a new linear follower.
@@ -98,6 +98,42 @@ public class LinearFollower implements Follower {
         this.drive = drive;
         this.odometry = odometry;
         this.coefficient = coefficient;
+    }
+
+    /**
+     * Get the linear follower's drive speed coefficient.
+     *
+     * @return the linear follower's drive speed coefficient.
+     */
+    public double getCoefficient() {
+        return coefficient;
+    }
+
+    /**
+     * Set the linear follower's drive speed coefficient.
+     *
+     * @param coefficient the linear follower's new drive speed coefficient.
+     */
+    public void setCoefficient(double coefficient) {
+        this.coefficient = coefficient;
+    }
+
+    /**
+     * Get a reference to the odometry system used by the follower.
+     *
+     * @return the follower's odometry system.
+     */
+    public Odometry getOdometry() {
+        return odometry;
+    }
+
+    /**
+     * Get the follower's target/goal/end position.
+     *
+     * @return the follower's target/goal/end position.
+     */
+    public HeadingPoint getTargetPos() {
+        return end;
     }
 
     /**
@@ -154,7 +190,7 @@ public class LinearFollower implements Follower {
         if (Distance.isNearPoint(
                 odometry.getPos(),
                 end,
-                0.5
+                4
         )) {
             drive.drive(0.0, 0.0);
             return true;

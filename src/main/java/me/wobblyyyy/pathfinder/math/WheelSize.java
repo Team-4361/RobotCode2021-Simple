@@ -27,8 +27,34 @@
  *
  */
 
-package me.wobblyyyy.pathfinder.runtime;
+package me.wobblyyyy.pathfinder.math;
 
-public class AnnotationProcessor {
+import me.wobblyyyy.intra.ftc2.utils.math.Math;
 
+public class WheelSize {
+    private final double diameter;
+
+    public WheelSize(double diameter) {
+        this.diameter = diameter;
+    }
+
+    public static WheelSize diameter(double diameter) {
+        return new WheelSize(diameter);
+    }
+
+    public static WheelSize radius(double radius) {
+        return new WheelSize(radius * 2);
+    }
+
+    public double getDiameter() {
+        return diameter;
+    }
+
+    public double getRadius() {
+        return diameter / 2;
+    }
+
+    public double getCircumference() {
+        return diameter * Math.PI;
+    }
 }

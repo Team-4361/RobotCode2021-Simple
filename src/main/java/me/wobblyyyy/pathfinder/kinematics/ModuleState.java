@@ -27,8 +27,20 @@
  *
  */
 
-package me.wobblyyyy.pathfinder.runtime;
+package me.wobblyyyy.pathfinder.kinematics;
 
-public class AnnotationProcessor {
+public class ModuleState {
+    private final double power;
 
+    public ModuleState() {
+        this(0.0);
+    }
+
+    public ModuleState(double power) {
+        this.power = power;
+    }
+
+    public double getPower() {
+        return power;
+    }
 }

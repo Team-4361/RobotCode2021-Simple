@@ -27,8 +27,36 @@
  *
  */
 
-package me.wobblyyyy.pathfinder.runtime;
+package me.wobblyyyy.pathfinder.util;
 
-public class AnnotationProcessor {
+/**
+ * Static time measurement utility designed to reduce the length of time
+ * values by scaling them all down at start.
+ *
+ * @author Colin Robertson
+ * @since 0.3.0
+ */
+public class Time {
+    /**
+     * The time at which this library's execution begins. This is used as an
+     * offset.
+     */
+    private static final double startTime = System.currentTimeMillis();
 
+    /**
+     * Make it so Time can't be instantiated.
+     */
+    private Time() {
+
+    }
+
+    /**
+     * Get the current relative time. This is, most simply, the current time,
+     * minus whatever time this method was first called at.
+     *
+     * @return the current relative time.
+     */
+    public static double relativeTime() {
+        return System.currentTimeMillis() - startTime;
+    }
 }

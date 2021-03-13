@@ -60,12 +60,6 @@ public class TriPidFollower extends DualPidFollower {
                           HeadingPoint targetPosition,
                           double driveSpeedCoefficient) {
         super(drive, odometry, targetPosition, driveSpeedCoefficient);
-
-        double distanceFromTarget = distanceFromTarget();
-        double kP_speed = 1 / distanceFromTarget;
-
-        speedController = new PidController(kP_speed, 0, 0);
-        speedController.setSetpoint(0);
     }
 
     private double distanceFromTarget() {
@@ -102,6 +96,12 @@ public class TriPidFollower extends DualPidFollower {
     @Sync
     @Override
     public void calculate() {
+        double distanceFromTarget = distanceFromTarget();
+        double kP_speed = 1 / distanceFromTarget;
+
+        speedController = new PidController(kP_speed, 0, 0);
+        speedController.setSetpoint(0);
+
         super.calculate();
     }
 

@@ -27,8 +27,58 @@
  *
  */
 
-package me.wobblyyyy.pathfinder.runtime;
+package me.wobblyyyy.pathfinder.kinematics;
 
-public class AnnotationProcessor {
+import me.wobblyyyy.pathfinder.geometry.Angle;
+import me.wobblyyyy.pathfinder.geometry.Point;
+import me.wobblyyyy.pathfinder.util.Distance;
 
+public class RTransform {
+    private final Point start;
+    private final Point stop;
+    private final Angle turn;
+
+    private final double x;
+    private final double y;
+
+    public RTransform(Point start,
+                      Point stop,
+                      Angle turn) {
+        this.start = start;
+        this.stop = stop;
+        this.turn = turn;
+
+        this.x = Distance.distanceX(start, stop);
+        this.y = Distance.distanceY(start, stop);
+    }
+
+    public RTransform(double x,
+                      double y,
+                      Angle turn) {
+        this(
+                new Point(0, 0),
+                new Point(x, y),
+                turn
+        );
+    }
+
+    public Point getStart() {
+        return start;
+    }
+
+    public Point getStop() {
+        return stop;
+    }
+
+    public Angle getTurn() {
+        return turn;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 }
