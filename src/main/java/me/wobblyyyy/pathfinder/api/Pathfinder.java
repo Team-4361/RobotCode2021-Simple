@@ -235,7 +235,7 @@ public class Pathfinder {
      * trajectory-based follower, such as the {@link SwerveFollower}. Although
      * it does work with any other type of follower, you don't get any of the
      * benefits of waypoint-based path generation by using a simpler follower
-     * type, such as the {@link PIDFollower}.
+     * type, such as the {@link PidFollower}.
      * </p>
      *
      * @param points the points to be used as waypoints in path generation.

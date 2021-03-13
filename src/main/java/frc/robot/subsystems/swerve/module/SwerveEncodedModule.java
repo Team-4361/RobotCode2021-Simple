@@ -381,6 +381,10 @@ public class SwerveEncodedModule {
         ), isUserControlled);
     }
 
+    public void setState(me.wobblyyyy.pathfinder.kinematics.SwerveModuleState state, boolean isUserControlled) {
+        setState(new SwerveModuleState(state.getPower(), Rotation2d.fromDegrees(state.getDegrees())), isUserControlled);
+    };
+
     /**
      * Get the "real" angle without any offset.
      *

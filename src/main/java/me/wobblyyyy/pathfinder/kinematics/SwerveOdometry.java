@@ -98,6 +98,7 @@ public class SwerveOdometry {
     public HeadingPoint update(double currentSeconds,
                                Angle gyroAngle,
                                StaticArray<SwerveModuleState> states) {
+        currentSeconds /= 1000;
         double timeSinceLastUpdate = getGapAndUpdateTime(currentSeconds);
         Angle angle = applyAngleOffset(gyroAngle);
         RTransform transformation = getChassisStateFromStates(states);

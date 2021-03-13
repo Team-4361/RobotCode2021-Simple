@@ -376,7 +376,7 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
             navx.getAngle()
         );
         
-        SmartDashboard.putString("current pos", newOdometry.getPos().toString());
+        SmartDashboard.putString("current pos", wrapper.getPos().toString());
     }
 
     private ChassisSpeeds getSpeeds(Translation2d translation, Rotation2d rotation) {
@@ -439,36 +439,40 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
     }
 
     private void setStates(SwerveModuleState[] states, boolean isUserControlled) {
-        frModule.setState(states[1], isUserControlled);
-        flModule.setState(states[0], isUserControlled);
-        brModule.setState(states[3], isUserControlled);
-        blModule.setState(states[2], isUserControlled);
+        try {
+            frModule.setState(states[1], isUserControlled);
+            flModule.setState(states[0], isUserControlled);
+            brModule.setState(states[3], isUserControlled);
+            blModule.setState(states[2], isUserControlled);
+    
+            wrapper.updateRobot(states, new double[] {
+                flModule.getDriveVelocity(),
+                frModule.getDriveVelocity(),
+                blModule.getDriveVelocity(),
+                brModule.getDriveVelocity()
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        wrapper.updateRobot(states, new double[] {
-            flModule.getDriveVelocity(),
-            frModule.getDriveVelocity(),
-            blModule.getDriveVelocity(),
-            brModule.getDriveVelocity()
-        });
-
-        newOdometry.update(new StaticArray<me.wobblyyyy.pathfinder.kinematics.SwerveModuleState>(
-            new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
-                states[0].speedMetersPerSecond, 
-                Angle.fromDegrees(states[0].angle.getDegrees())
-            ),
-            new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
-                states[1].speedMetersPerSecond, 
-                Angle.fromDegrees(states[1].angle.getDegrees())
-            ),
-            new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
-                states[2].speedMetersPerSecond, 
-                Angle.fromDegrees(states[2].angle.getDegrees())
-            ),
-            new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
-                states[3].speedMetersPerSecond, 
-                Angle.fromDegrees(states[3].angle.getDegrees())
-            )
-        ));
+        // newOdometry.update(new StaticArray<me.wobblyyyy.pathfinder.kinematics.SwerveModuleState>(
+        //     new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
+        //         states[0].speedMetersPerSecond, 
+        //         Angle.fromDegrees(states[0].angle.getDegrees())
+        //     ),
+        //     new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
+        //         states[1].speedMetersPerSecond, 
+        //         Angle.fromDegrees(states[1].angle.getDegrees())
+        //     ),
+        //     new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
+        //         states[2].speedMetersPerSecond, 
+        //         Angle.fromDegrees(states[2].angle.getDegrees())
+        //     ),
+        //     new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
+        //         states[3].speedMetersPerSecond, 
+        //         Angle.fromDegrees(states[3].angle.getDegrees())
+        //     )
+        // ));
     }
 
     /**
@@ -558,6 +562,10 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
     public OdometryWrapper getOdometry() {
         return wrapper;
     }
+
+    // public FOdometry getOdometry() {
+        // return newOdometry;
+    // }
 
     private boolean isUserControlled = true;
 

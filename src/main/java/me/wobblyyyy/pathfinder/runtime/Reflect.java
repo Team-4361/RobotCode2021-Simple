@@ -29,19 +29,19 @@
 
 package me.wobblyyyy.pathfinder.runtime;
 
-import org.reflections.Reflections;
-import org.reflections.scanners.FieldAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
+// import org.reflections.Reflections;
+// import org.reflections.scanners.FieldAnnotationsScanner;
+// import org.reflections.util.ClasspathHelper;
+// import org.reflections.util.ConfigurationBuilder;
 
 public class Reflect {
-    private static final Reflections reflections = new Reflections(
-            new ConfigurationBuilder()
-                    .setUrls(ClasspathHelper.forPackage(""))
-                    .setScanners(new FieldAnnotationsScanner())
-    );
+    // private static final Reflections reflections = new Reflections(
+            // new ConfigurationBuilder()
+                    // .setUrls(ClasspathHelper.forPackage(""))
+                    // .setScanners(new FieldAnnotationsScanner())
+    // );
 
-    public static Reflections get() {
-        return reflections;
-    }
+    // public static Reflections get() {
+        // return reflections;
+    // }
 }

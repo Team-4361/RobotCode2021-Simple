@@ -2,7 +2,7 @@ package frc.robot.subsystems.swerve.chassis;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.swerve.module.SwerveEncodedModule;
 import me.wobblyyyy.edt.StaticArray;
 import me.wobblyyyy.pathfinder.geometry.Angle;
@@ -90,7 +90,7 @@ public class FOdometry implements me.wobblyyyy.pathfinder.robot.Odometry {
     public void update(StaticArray<SwerveModuleState> states) {
         double gyroAngle = gyroSupplier.get();
 
-        StaticArray<SwerveModuleState> real = new StaticArray<>() {{
+        StaticArray<SwerveModuleState> real = new StaticArray<>(4) {{
             set(0, new SwerveModuleState(
                 fl.inchesPerSecond(), 
                 states.get(0).getTurnAngle())
@@ -108,6 +108,8 @@ public class FOdometry implements me.wobblyyyy.pathfinder.robot.Odometry {
                 states.get(3).getTurnAngle())
             );
         }};
+
+        SmartDashboard.putNumber("FR IPS", fr.inchesPerSecond());
 
         odometry.update(Angle.fromDegrees(gyroAngle), real);
     }
