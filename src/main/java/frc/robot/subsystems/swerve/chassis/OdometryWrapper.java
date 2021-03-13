@@ -1,5 +1,7 @@
 package frc.robot.subsystems.swerve.chassis;
 
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
@@ -97,10 +99,13 @@ public class OdometryWrapper implements Odometry {
             double[] mps = ips; // reassignment, stop using MPS, use IPS
     
             // logging stuff! heck yeah!
-            SmartDashboard.putNumberArray("rps", rps);
-            SmartDashboard.putNumberArray("ips", ips);
+            // SmartDashboard.putNumberArray("rps", rps);
+            // SmartDashboard.putNumberArray("ips", ips);
+
             SmartDashboard.putNumber("fl ips", ips[0]);
             SmartDashboard.putNumber("fr ips", ips[1]);
+            SmartDashboard.putNumber("bl ips", ips[2]);
+            SmartDashboard.putNumber("br ips", ips[3]);
     
             // create new states, arrays are mutable, we can't set the states
             // of the previous array so we have to make a new one
@@ -112,7 +117,7 @@ public class OdometryWrapper implements Odometry {
             };
     
             // update the internal states
-            updateStates(fixedStates);
+            updateStates(Arrays.copyOf(fixedStates, 4));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -446,9 +446,9 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
             blModule.setState(states[2], isUserControlled);
     
             wrapper.updateRobot(states, new double[] {
-                flModule.getDriveVelocity(),
+                -flModule.getDriveVelocity(),
                 frModule.getDriveVelocity(),
-                blModule.getDriveVelocity(),
+                -blModule.getDriveVelocity(),
                 brModule.getDriveVelocity()
             });
         } catch (Exception e) {
