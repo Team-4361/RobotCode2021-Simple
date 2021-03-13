@@ -25,8 +25,11 @@ import me.wobblyyyy.edt.functional.Analyzable;
 import me.wobblyyyy.edt.functional.Normalizable;
 import me.wobblyyyy.intra.ftc2.utils.math.Comparator;
 import me.wobblyyyy.intra.ftc2.utils.math.Math;
+import me.wobblyyyy.pathfinder.geometry.Angle;
 import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
 import me.wobblyyyy.pathfinder.geometry.Point;
+import me.wobblyyyy.pathfinder.kinematics.SwerveKinematics;
+import me.wobblyyyy.pathfinder.robot.Odometry;
 import me.wobblyyyy.pathfinder.util.Distance;
 
 /**
@@ -211,6 +214,12 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
             new Translation2d(-WHEELBASE_X_METERS / 2.0, WHEELBASE_Y_METERS / 2.0),
             new Translation2d(-WHEELBASE_X_METERS / 2.0, -WHEELBASE_Y_METERS / 2.0)
     );
+    private final SwerveKinematics pfKinematics = new SwerveKinematics(new StaticArray<>(
+        new Point(WHEELBASE_X_METERS / 2, WHEELBASE_Y_METERS / 2),
+        new Point(WHEELBASE_X_METERS / 2, -WHEELBASE_Y_METERS / 2),
+        new Point(-WHEELBASE_X_METERS / 2, WHEELBASE_Y_METERS / 2),
+        new Point(-WHEELBASE_X_METERS / 2, -WHEELBASE_Y_METERS / 2)
+    ));
 
     /**
      * The front-right swerve module.
@@ -237,6 +246,7 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
     private final StaticArray<Supplier<Double>> powerSuppliers;
     private final SwerveDriveOdometry odometry;
     private final OdometryWrapper wrapper;
+    private final FOdometry newOdometry;
 
     /**
      * Create a new swerve chassis.
@@ -295,6 +305,13 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
 
         odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(navx.getAngle()));
         wrapper = new OdometryWrapper(odometry);
+        newOdometry = new FOdometry(
+            pfKinematics, 
+            Angle.fromDegrees(navx.getAngle()), new HeadingPoint(0, 0, 0)
+        ) {{
+            setGyroSupplier(navx::getAngle);
+            setModules(frModule, flModule, brModule, blModule);
+        }};
     }
     
     /**
@@ -359,7 +376,7 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
             navx.getAngle()
         );
         
-        SmartDashboard.putString("current pos", wrapper.getPos().toString());
+        SmartDashboard.putString("current pos", newOdometry.getPos().toString());
     }
 
     private ChassisSpeeds getSpeeds(Translation2d translation, Rotation2d rotation) {
@@ -433,6 +450,25 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
             blModule.getDriveVelocity(),
             brModule.getDriveVelocity()
         });
+
+        newOdometry.update(new StaticArray<me.wobblyyyy.pathfinder.kinematics.SwerveModuleState>(
+            new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
+                states[0].speedMetersPerSecond, 
+                Angle.fromDegrees(states[0].angle.getDegrees())
+            ),
+            new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
+                states[1].speedMetersPerSecond, 
+                Angle.fromDegrees(states[1].angle.getDegrees())
+            ),
+            new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
+                states[2].speedMetersPerSecond, 
+                Angle.fromDegrees(states[2].angle.getDegrees())
+            ),
+            new me.wobblyyyy.pathfinder.kinematics.SwerveModuleState(
+                states[3].speedMetersPerSecond, 
+                Angle.fromDegrees(states[3].angle.getDegrees())
+            )
+        ));
     }
 
     /**

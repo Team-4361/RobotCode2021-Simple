@@ -15,7 +15,7 @@ import me.wobblyyyy.pathfinder.math.GearRatio;
 import me.wobblyyyy.pathfinder.math.RotationalVelocity;
 import me.wobblyyyy.pathfinder.math.WheelSize;
 
-public class Odometry implements me.wobblyyyy.pathfinder.robot.Odometry {
+public class FOdometry implements me.wobblyyyy.pathfinder.robot.Odometry {
     private final SwerveOdometry odometry;
     private final SwerveKinematics kinematics;
 
@@ -66,7 +66,7 @@ public class Odometry implements me.wobblyyyy.pathfinder.robot.Odometry {
         gearRatio
     );
 
-    public Odometry(SwerveKinematics kinematics,
+    public FOdometry(SwerveKinematics kinematics,
                     Angle gyroOffset,
                     HeadingPoint startPoint) {
         this.kinematics = kinematics;
