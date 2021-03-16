@@ -190,7 +190,7 @@ public class LinearFollower implements Follower {
         if (Distance.isNearPoint(
                 odometry.getPos(),
                 end,
-                4
+                0.5
         )) {
             drive.drive(0.0, 0.0);
             return true;

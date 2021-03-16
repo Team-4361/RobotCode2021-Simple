@@ -378,6 +378,8 @@ public class SwerveEncodedModule {
         setState(new ModuleState(
                 optimized.angle.getRadians(),
                 optimized.speedMetersPerSecond
+                // state.angle.getRadians(),
+                // state.speedMetersPerSecond
         ), isUserControlled);
     }
 
@@ -443,7 +445,8 @@ public class SwerveEncodedModule {
      * @return the turn motor's velocity.
      */
     public double getTurnVelocity() {
-        return turn.getVelocity();
+        double velocity = turn.getVelocity();
+        return (!isTurnInverted()) ? velocity : velocity * -1;
     }
 
     /**
@@ -452,7 +455,8 @@ public class SwerveEncodedModule {
      * @return the drive motor's velocity.
      */
     public double getDriveVelocity() {
-        return drive.getVelocity();
+        double velocity = drive.getVelocity();
+        return (!isDriveInverted()) ? velocity : velocity * -1;
     }
 
     /**

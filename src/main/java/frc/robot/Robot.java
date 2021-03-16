@@ -159,17 +159,14 @@ public class Robot extends TimedRobot {
             // new HeadingPoint(20, 0, 0),
             // new HeadingPoint(0, 0, 0)
         // )));
-        pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.forwards10));
+        pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.rectangle120));
         pathfinder.close();
+        drive.getSwerveChassis().stopAllMotors();
         try {
             Thread.sleep(250);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        drive.getSwerveChassis().enableUserControl();
-        drive.getSwerveChassis().drive(new Translation2d(0, 0), new Rotation2d(0));
-        drive.getSwerveChassis().enableUserControl();
-        drive.getSwerveChassis().drive(new Translation2d(0, 0), new Rotation2d(0));
         // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 20, 0)));
         // pathfinder.close();
         // pathfinder.close();

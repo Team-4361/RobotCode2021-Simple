@@ -418,7 +418,7 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
 
         SwerveModuleState[] newStates = new SwerveModuleState[] {
             new SwerveModuleState(
-                powers.get(1) * 0.97,
+                powers.get(1) * 1.00,
                 originalStates[0].angle
             ),
             new SwerveModuleState(
@@ -426,7 +426,7 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
                 originalStates[1].angle
             ),
             new SwerveModuleState(
-                powers.get(3) * 0.97,
+                powers.get(3) * 1.00,
                 originalStates[2].angle
             ),
             new SwerveModuleState(
@@ -446,9 +446,9 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
             blModule.setState(states[2], isUserControlled);
     
             wrapper.updateRobot(states, new double[] {
-                -flModule.getDriveVelocity(),
+                flModule.getDriveVelocity(),
                 frModule.getDriveVelocity(),
-                -blModule.getDriveVelocity(),
+                blModule.getDriveVelocity(),
                 brModule.getDriveVelocity()
             });
         } catch (Exception e) {
@@ -557,6 +557,18 @@ public class SwerveChassis implements Drive, me.wobblyyyy.pathfinder.drive.Drive
     @Override
     public void drive(double power, double angle) {
 
+    }
+
+    public void stopAllMotors() {
+        frModule.getTurn().getMotor().setPower(0.0);
+        flModule.getTurn().getMotor().setPower(0.0);
+        brModule.getTurn().getMotor().setPower(0.0);
+        blModule.getTurn().getMotor().setPower(0.0);
+
+        frModule.getDrive().getMotor().setPower(0.0);
+        flModule.getDrive().getMotor().setPower(0.0);
+        brModule.getDrive().getMotor().setPower(0.0);
+        blModule.getDrive().getMotor().setPower(0.0);
     }
 
     public OdometryWrapper getOdometry() {

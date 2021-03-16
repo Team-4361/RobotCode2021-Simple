@@ -56,7 +56,7 @@ public class OdometryWrapper implements Odometry {
     public double toDistance(double rps, double diameter, double ratio) {
         double distancePerRotation = (diameter * Math.PI) / ratio;
 
-        return rps * distancePerRotation * -1.0;
+        return rps * distancePerRotation;
     }
 
     /**
