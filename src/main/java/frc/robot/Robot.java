@@ -137,36 +137,18 @@ public class Robot extends TimedRobot {
         pf = new PathfinderImpl(drive.getSwerveChassis());
         pathfinder = pf.getPathfinder();
         pathfinder.open();
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(10, 0, 0)));
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(10, 10, 0)));
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(10, 10, 0)));
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 10, 0)));
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 0, 0)));
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 20, 0)));
-        // X IS Y
-        // Y IS INVERTED
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(20, 0, 0)));
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(20, -20, 0)));
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, -20, 0)));
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 0, 0)));
-        // pathfinder.waitForAndStop(pathfinder.followPath(new DynamicArray<>(
-            // new HeadingPoint(20, 0, 0),
-            // new HeadingPoint(20, -20, 0),
-            // new HeadingPoint(0, -20, 0),
-            // new HeadingPoint(0, 0, 0)
-            // new HeadingPoint(0, 20, 0),
-            // new HeadingPoint(20, 20, 0),
-            // new HeadingPoint(20, 0, 0),
-            // new HeadingPoint(0, 0, 0)
-        // )));
-        pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.rectangle120));
-        pathfinder.close();
+        pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.slamonPath));
         drive.getSwerveChassis().stopAllMotors();
         try {
-            Thread.sleep(250);
+            Thread.sleep(5000);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        pathfinder.waitFor(pathfinder.goToPosition(new HeadingPoint(0.1, 0.1, 0.1)));
+        drive.getSwerveChassis().stopAllMotors();
+        pathfinder.close();
+        // pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.backwardsSlamonPath));
+        // pathfinder.close();
         // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 20, 0)));
         // pathfinder.close();
         // pathfinder.close();
