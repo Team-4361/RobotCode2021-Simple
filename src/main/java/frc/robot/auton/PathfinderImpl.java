@@ -71,6 +71,11 @@ public class PathfinderImpl {
         new HeadingPoint(0, 0, 0),
         new HeadingPoint(-120, 0, 0)
     ), false, true);
+    // x and y values are switched
+    // each point needs to be "unique", meaning you can't have -60 and -60
+    // you have to have something like -60.1 -60.2 etc etc
+    // you can just suffix every number with a decimal point that's different
+    // from the last one and all your problems will go away! magical!
     public static DynamicArray<HeadingPoint> slamonPath = mutate(new DynamicArray<>(
         new HeadingPoint(10.1, 0.1, 0),
         new HeadingPoint(72.2, -90.2, 0),
