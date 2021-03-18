@@ -111,7 +111,7 @@ public class PathfinderImpl {
             setGapX(23.5);
             setGapY(23.5);
             setMap(new EmptyFRC());
-            setSpeed(0.2);
+            setSpeed(0.225);
             swapXY(false);
             invertX(false);
             invertY(false);
