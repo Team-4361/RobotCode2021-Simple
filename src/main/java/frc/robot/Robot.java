@@ -136,7 +136,10 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         pf = new PathfinderImpl(drive.getSwerveChassis());
         drive.getSwerveChassis().disableUserControl();
-        Autonomous.execute(pf, Autonomous.slamonPath);
+        // Uncomment the Autonomous path you want to run
+        Autonomous.execute(pf, Autonomous.slalomPath);
+        //Autonomous.execute(pf, Autonomous.barrelRacingPath);
+        //Autonomous.execute(pf, Autonomous.bouncePath);
         drive.getSwerveChassis().enableUserControl();
         drive.getSwerveChassis().stopAllMotors();
         // drive.getSwerveChassis().disableUserControl();
