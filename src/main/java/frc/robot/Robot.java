@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import frc.robot.auton.Autonomous;
 import frc.robot.auton.DriveTenFeet;
 import frc.robot.auton.PathfinderImpl;
 import frc.robot.commands.DriveCommand;
@@ -89,29 +90,30 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         io = new IO();
 
-        autonomousCommand = new DriveTenFeet();
+        //autonomousCommand = new DriveTenFeet();
 
         drive = DriveSubsystem.getInstance();
-        // intake = IntakeSubsystem.getInstance();
-        // shooter = ShooterSubsystem.getInstance();
-        // storage = StorageSubsystem.getInstance();
+        intake = IntakeSubsystem.getInstance();
+        shooter = ShooterSubsystem.getInstance();
+        storage = StorageSubsystem.getInstance();
 
-        pf = new PathfinderImpl(drive.getSwerveChassis());
-        pathfinder = pf.getPathfinder();
+        //pf = new PathfinderImpl(drive.getSwerveChassis());
+        //pathfinder = pf.getPathfinder();
     }
 
     @Override
     public void teleopInit() {
-        pathfinder.close();
+        //pathfinder.close();
     }
 
     private final DriveCommand driveCommand = new DriveCommand();
 
     @Override
     public void teleopPeriodic() {
-        pathfinder.close();
+        //pathfinder.close();
         drive.getSwerveChassis().enableUserControl();
-        // driveCommand.execute();
+        Scheduler.getInstance().run();
+        //driveCommand.execute();
     }
 
     /**
@@ -119,7 +121,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        Scheduler.getInstance().run();
     }
 
     /**
@@ -133,20 +134,25 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        drive.getSwerveChassis().disableUserControl();
         pf = new PathfinderImpl(drive.getSwerveChassis());
-        pathfinder = pf.getPathfinder();
-        pathfinder.open();
-        pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.slamonPath));
+        drive.getSwerveChassis().disableUserControl();
+        Autonomous.execute(pf, Autonomous.slamonPath);
+        drive.getSwerveChassis().enableUserControl();
         drive.getSwerveChassis().stopAllMotors();
-        try {
-            Thread.sleep(5000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        pathfinder.waitFor(pathfinder.goToPosition(new HeadingPoint(0.1, 0.1, 0.1)));
-        drive.getSwerveChassis().stopAllMotors();
-        pathfinder.close();
+        // drive.getSwerveChassis().disableUserControl();
+        // pf = new PathfinderImpl(drive.getSwerveChassis());
+        // pathfinder = pf.getPathfinder();
+        // pathfinder.open();
+        // pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.slamonPath));
+        // drive.getSwerveChassis().stopAllMotors();
+        // try {
+            // Thread.sleep(5000);
+        // } catch (Exception e) {
+            // e.printStackTrace();
+        // }
+        // pathfinder.waitFor(pathfinder.goToPosition(new HeadingPoint(0.1, 0.1, 0.1)));
+        // drive.getSwerveChassis().stopAllMotors();
+        // pathfinder.close();
         // pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.backwardsSlamonPath));
         // pathfinder.close();
         // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 20, 0)));
