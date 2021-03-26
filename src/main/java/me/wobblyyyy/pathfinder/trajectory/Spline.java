@@ -40,10 +40,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Ahh... splines. Basically gay lines. I swear I'm not homophobic, I like men
- * too. Anyways. Straight lines are very linear and very boring. Splines, on
- * the other hand, are basically straight lines that aren't at all straight -
- * rather, they curve. Splines are incredibly useful in making complex movement
+ * Splines are incredibly useful in making complex movement
  * trajectories and profiles. Unlike regular lines, splines, as you know, have
  * an element of curvature. This element of curvature allows for your robot to
  * continually move without ever having to come to a stop or a hard direction
