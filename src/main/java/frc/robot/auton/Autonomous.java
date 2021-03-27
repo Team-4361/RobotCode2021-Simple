@@ -186,8 +186,10 @@ public class Autonomous {
             DynamicArray<HeadingPoint> points) {
         DynamicArray<HeadingPoint> newPoints = new DynamicArray<>();
         points.itr().forEach(point -> {
-            final double x = point.getY();
-            final double y = point.getX();
+            double x = point.getY();
+            double y = point.getX();
+            x += points.itr().index() / 100;
+            y += points.itr().index() / 100;
             newPoints.add(new HeadingPoint(x, y, point.getHeading()));
         });
         return newPoints;
@@ -199,8 +201,10 @@ public class Autonomous {
             boolean invertY) {
         DynamicArray<HeadingPoint> newPoints = new DynamicArray<>();
         points.itr().forEach(point -> {
-            final double x = !invertX ? point.getX() : point.getX() * -1;
-            final double y = !invertY ? point.getY() : point.getY() * -1;
+            double x = !invertX ? point.getX() : point.getX() * -1;
+            double y = !invertY ? point.getY() : point.getY() * -1;
+            x += points.itr().index() / 100;
+            y += points.itr().index() / 100;
             newPoints.add(new HeadingPoint(x, y, point.getHeading()));
         });
         return newPoints;
