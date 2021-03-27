@@ -7,10 +7,16 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 
 public class ShooterCommand extends Command {
-    private static final double TARGET_A = 0;
-    private static final double TARGET_B = 0;
-    private static final double TARGET_X = 0;
-    private static final double TARGET_Y = 0;
+    private static final double aPower = .865; //green zone
+    private static final double yPower = .745; //yellow zone
+    private static final double xPower = .795; // blue zone
+    private static final double bPower = .875; // red zone
+    
+
+    private static final double TARGET_A = 5500 * aPower;
+    private static final double TARGET_B = 5500 * bPower;
+    private static final double TARGET_X = 5500 * xPower;
+    private static final double TARGET_Y = 5500 * yPower;
     private static final double TARGET = 0;
 
     public ShooterCommand() {
