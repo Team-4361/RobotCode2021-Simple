@@ -83,6 +83,16 @@ public class Autonomous {
                 final Point D10_CENTER = new Point(0, 300);
                 final double D10_RADIUS = 24;
 
+                // FIXME
+                // i would (and we should) use the class
+                // me.wobblyyyy.pathfinder.geometry.CircleInterpolator
+                // instead of declaring a bunch of arrays based on interpolated
+                // arcs, but the project code here is too old to support
+                // newer versions of pathfinder. drive class would need to be
+                // refactored entirely (use RTransform instead of translations
+                // and rotations as it currently does) and some import locations
+                // related to complex geometry may have changed.
+
                 DynamicArray<HeadingPoint> D5_A = Curves.increasingFrom(
                         Curves.interpolatedQ2, D5_RADIUS, D5_CENTER);
                 DynamicArray<HeadingPoint> D5_B = Curves.increasingFrom(
@@ -93,11 +103,11 @@ public class Autonomous {
                         Curves.interpolatedQ3, D5_RADIUS, D5_CENTER);
 
                 DynamicArray<HeadingPoint> B8_A = Curves.decreasingFrom(
-                        Curves.interpolatedQ1, B8_RADIUS, B8_CENTER);
-                DynamicArray<HeadingPoint> B8_B = Curves.decreasingFrom(
                         Curves.interpolatedQ2, B8_RADIUS, B8_CENTER);
+                DynamicArray<HeadingPoint> B8_B = Curves.decreasingFrom(
+                        Curves.interpolatedQ1, B8_RADIUS, B8_CENTER);
                 DynamicArray<HeadingPoint> B8_C = Curves.increasingFrom(
-                        Curves.interpolatedQ3, B8_RADIUS, B8_CENTER);
+                        Curves.interpolatedQ4, B8_RADIUS, B8_CENTER);
 
                 DynamicArray<HeadingPoint> D10_A = new DynamicArray<>(
                         new HeadingPoint(0, 275, 0));
@@ -117,6 +127,10 @@ public class Autonomous {
                  *
                  * D5 to B8 to D10 to the start zone.
                  */
+
+                // once again, very bad and messy code,
+                // move to circle interpolator as soon as we have
+                // time to refactor the drive class
 
                 D5_A.itr().forEach(this::add);
                 D5_B.itr().forEach(this::add);
@@ -148,6 +162,25 @@ public class Autonomous {
             new HeadingPoint(20.1, -60.1, 0),
             new HeadingPoint(0.2, -60.2, 0)
     ), false, true);
+
+    public static DynamicArray<HeadingPoint> lightspeedCircuitPath = swap(new DynamicArray<>(
+        new HeadingPoint(-30, 0, 0),
+        new HeadingPoint(-60, 30, 0),
+        new HeadingPoint(-60, 60, 0),
+        new HeadingPoint(-30, 90, 0),
+        new HeadingPoint(0, 120, 0),
+        new HeadingPoint(0, 150, 0),
+        new HeadingPoint(-30, 175, 0),
+        new HeadingPoint(-60, 210, 0),
+        new HeadingPoint(-30, 240, 0),
+        new HeadingPoint(0, 270, 0),
+        new HeadingPoint(30, 240, 0),
+        new HeadingPoint(30, 175, 0),
+        new HeadingPoint(30, 120, 0),
+        new HeadingPoint(0, 90, 0),
+        new HeadingPoint(0, 30, 0),
+        new HeadingPoint(30, 0, 0)
+    ));
 
     public static DynamicArray<HeadingPoint> swap(
             DynamicArray<HeadingPoint> points) {
