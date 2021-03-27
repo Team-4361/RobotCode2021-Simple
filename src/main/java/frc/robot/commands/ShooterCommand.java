@@ -17,7 +17,7 @@ public class ShooterCommand extends Command {
     private static final double TARGET_B = 5500 * bPower;
     private static final double TARGET_X = 5500 * xPower;
     private static final double TARGET_Y = 5500 * yPower;
-    private static final double TARGET = 0;
+    private static final double TARGET = 1000000;
 
     public ShooterCommand() {
         requires(ShooterSubsystem.getInstance());
@@ -25,10 +25,16 @@ public class ShooterCommand extends Command {
     }
 
     private void powerShooter() {
+        final double localTarget;
+
+        if (Robot.getIo().getA()) localTarget = aPower;
+        else if (Robot.getIo().getB()) localTarget = bPower;
+        else if (Robot.getIo().getX()) localTarget = xPower;
+        else if (Robot.getIo().getY()) localTarget = yPower;
+        else localTarget = 0.0;
+
         ShooterSubsystem.getInstance().shoot(
-                Robot.getIo().getShooter() ?
-                        1.0 :
-                        0.0
+            localTarget
         );
     }
 

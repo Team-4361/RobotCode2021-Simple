@@ -122,7 +122,7 @@ public class Generic implements ControlScheme {
      */
     @Override
     public boolean getIntakeUp() {
-        return controller.getAButton();
+        return controller.getBackButton();
     }
 
     /**
@@ -132,7 +132,7 @@ public class Generic implements ControlScheme {
      */
     @Override
     public boolean getIntakeDown() {
-        return controller.getBButton();
+        return controller.getStartButton();
     }
 
     
