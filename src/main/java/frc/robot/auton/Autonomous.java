@@ -163,7 +163,7 @@ public class Autonomous {
             new HeadingPoint(0.2, -60.2, 0)
     ), false, true);
 
-    public static DynamicArray<HeadingPoint> lightspeedCircuitPath = swap(mutate(new DynamicArray<>(
+    public static DynamicArray<HeadingPoint> lightspeedCircuitPath = mutate(swap(new DynamicArray<>(
         new HeadingPoint(-30.1, 0.1, 0),
         new HeadingPoint(-60.2, 0.2, 0),
         new HeadingPoint(-60.3, 30.3, 0),
@@ -190,7 +190,7 @@ public class Autonomous {
         new HeadingPoint(0.006, 30.006, 0),
         new HeadingPoint(30.007, 30.007, 0),
         new HeadingPoint(30.008, 0.008, 0)
-    ), true, false));
+    )), false, true);
 
     public static DynamicArray<HeadingPoint> swap(
             DynamicArray<HeadingPoint> points) {
