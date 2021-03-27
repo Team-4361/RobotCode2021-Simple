@@ -82,7 +82,7 @@ public class Curves {
      * The amount of samples to use for each path. Samples are best defined
      * as how many points each curve will have.
      */
-    public static final int SAMPLES = 10;
+    public static final int SAMPLES = 40;
 
     public static final DynamicArray<HeadingPoint> interpolatedQ1 =
             PathGenerator.toPath(trajectoryQ1, SAMPLES);

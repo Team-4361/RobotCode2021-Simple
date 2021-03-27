@@ -141,4 +141,24 @@ public class Colin implements ControlScheme {
     public boolean getIntakeDown() {
         return controller.getBButton();
     }
+
+    @Override
+    public boolean getA() {
+        return controller.getAButton();
+    }
+
+    @Override
+    public boolean getB() {
+        return controller.getBButton();
+    }
+
+    @Override
+    public boolean getX() {
+        return controller.getXButton();
+    }
+
+    @Override
+    public boolean getY() {
+        return controller.getYButton();
+    }
 }

@@ -370,16 +370,16 @@ public class SwerveEncodedModule {
     public void setState(SwerveModuleState state, boolean isUserControlled) {
         // SwerveModuleState optimized = SwerveModuleState
                 // .optimize(state, new Rotation2d(getAngleRads()));
-        // SwerveModuleState optimized = SwerveModuleState.optimize(
-            // state,
-            // Rotation2d.fromDegrees(getAngle())
-        // );
+        SwerveModuleState optimized = SwerveModuleState.optimize(
+            state,
+            Rotation2d.fromDegrees(getAngle())
+        );
 
         setState(new ModuleState(
-                // optimized.angle.getRadians(),
-                // optimized.speedMetersPerSecond
-                state.angle.getRadians(),
-                state.speedMetersPerSecond
+                optimized.angle.getRadians(),
+                optimized.speedMetersPerSecond
+                // state.angle.getRadians(),
+                // state.speedMetersPerSecond
         ), isUserControlled);
     }
 

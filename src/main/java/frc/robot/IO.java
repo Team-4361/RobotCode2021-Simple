@@ -5,28 +5,7 @@ import frc.robot.controls.ControlSchemes;
 
 /**
  * Wrapper class for control schemes.
- *
- * <p>
- * The way controls were originally set up in this codebase was great, if
- * and only if you only ever wanted to use a singular control scheme. Which,
- * in this case, we don't. Rather, we'd like to use however many different
- * control schemes we would like to use.
- * </p>
- *
- * <p>
- * It would be a tremendous waste of time to focus exclusively on a single
- * control scheme. The best way I could describe it would be "absolutely
- * pointless" - not allowing for the development of multiple control schemes
- * will greatly hinder the ability to switch out controls for whatever reason.
- * </p>
- *
- * <p>
- * Say, for example, we're testing drivers on their ability to drive the robot.
- * Of course, it would be incredibly moronic to force every single person to
- * drive the robot the exact same way - how would that test skill, if the
- * driver didn't feel comfortable driving the robot in the first place?
- * </p>
- *
+ * 
  * @author Colin Robertson
  * @since 0.0.0
  */
@@ -145,5 +124,26 @@ public class IO implements ControlScheme {
     @Override
     public boolean getIntakeDown() {
         return scheme.getIntakeDown();
+    }
+
+    
+    @Override
+    public boolean getA() {
+        return scheme.getA();
+    }
+
+    @Override
+    public boolean getB() {
+        return scheme.getB();
+    }
+
+    @Override
+    public boolean getX() {
+        return scheme.getX();
+    }
+
+    @Override
+    public boolean getY() {
+        return scheme.getY();
     }
 }

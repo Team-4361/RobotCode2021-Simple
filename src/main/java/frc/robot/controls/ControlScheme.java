@@ -83,4 +83,9 @@ public interface ControlScheme {
      * @return whether or not the intake should be going down.
      */
     boolean getIntakeDown();
+
+    boolean getA();
+    boolean getB();
+    boolean getX();
+    boolean getY();
 }

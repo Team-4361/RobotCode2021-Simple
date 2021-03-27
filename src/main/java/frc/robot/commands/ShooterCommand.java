@@ -7,6 +7,12 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 
 public class ShooterCommand extends Command {
+    private static final double TARGET_A = 0;
+    private static final double TARGET_B = 0;
+    private static final double TARGET_X = 0;
+    private static final double TARGET_Y = 0;
+    private static final double TARGET = 0;
+
     public ShooterCommand() {
         requires(ShooterSubsystem.getInstance());
         requires(StorageSubsystem.getInstance());
@@ -20,14 +26,23 @@ public class ShooterCommand extends Command {
         );
     }
 
+    private double getStoragePower(double vel) {
+        final double localTarget;
+
+        if (Robot.getIo().getA()) localTarget = TARGET_A;
+        else if (Robot.getIo().getB()) localTarget = TARGET_B;
+        else if (Robot.getIo().getX()) localTarget = TARGET_X;
+        else if (Robot.getIo().getY()) localTarget = TARGET_Y;
+        else localTarget = TARGET;
+        
+        if (vel > localTarget) return 0.5;
+        return 0.0;
+    }
+
     private void powerStorage() {
         double velocity = Math.abs(ShooterSubsystem.getInstance().getVelocity());
 
-        if (velocity > 5500) {
-            if (Robot.getIo().getShooter()) {
-                StorageSubsystem.getInstance().move(0.5);
-            }
-        } else StorageSubsystem.getInstance().move(0.0);
+        StorageSubsystem.getInstance().move(getStoragePower(velocity));
     }
 
     @Override
