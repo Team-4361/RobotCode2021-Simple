@@ -163,24 +163,34 @@ public class Autonomous {
             new HeadingPoint(0.2, -60.2, 0)
     ), false, true);
 
-    public static DynamicArray<HeadingPoint> lightspeedCircuitPath = swap(new DynamicArray<>(
-        new HeadingPoint(-30, 0, 0),
-        new HeadingPoint(-60, 30, 0),
-        new HeadingPoint(-60, 60, 0),
-        new HeadingPoint(-30, 90, 0),
-        new HeadingPoint(0, 120, 0),
-        new HeadingPoint(0, 150, 0),
-        new HeadingPoint(-30, 175, 0),
-        new HeadingPoint(-60, 210, 0),
-        new HeadingPoint(-30, 240, 0),
-        new HeadingPoint(0, 270, 0),
-        new HeadingPoint(30, 240, 0),
-        new HeadingPoint(30, 175, 0),
-        new HeadingPoint(30, 120, 0),
-        new HeadingPoint(0, 90, 0),
-        new HeadingPoint(0, 30, 0),
-        new HeadingPoint(30, 0, 0)
-    ));
+    public static DynamicArray<HeadingPoint> lightspeedCircuitPath = swap(mutate(new DynamicArray<>(
+        new HeadingPoint(-30.1, 0.1, 0),
+        new HeadingPoint(-60.2, 0.2, 0),
+        new HeadingPoint(-60.3, 30.3, 0),
+        new HeadingPoint(-60.4, 60.4, 0),
+        new HeadingPoint(-60.5, 90.5, 0),
+        new HeadingPoint(-30.6, 90.6, 0),
+        new HeadingPoint(-30.7, 120.5, 0),
+        new HeadingPoint(0.8, 120.8, 0),
+        new HeadingPoint(0.9, 150.9, 0),
+        new HeadingPoint(0.01, 175.01, 0),
+        new HeadingPoint(-30.02, 175.02, 0),
+        new HeadingPoint(-30.03, 210.03, 0),
+        new HeadingPoint(-60.04, 210.04, 0),
+        new HeadingPoint(-60.05, 240.05, 0),
+        new HeadingPoint(-30.06, 240.06, 0),
+        new HeadingPoint(-30.07, 270.07, 0),
+        new HeadingPoint(0.08, 270.08, 0),
+        new HeadingPoint(30.09, 270.09, 0),
+        new HeadingPoint(30.001, 240.001, 0),
+        new HeadingPoint(30.002, 175.002, 0),
+        new HeadingPoint(30.003, 120.003, 0),
+        new HeadingPoint(30.004, 90.004, 0),
+        new HeadingPoint(0.005, 90.005, 0),
+        new HeadingPoint(0.006, 30.006, 0),
+        new HeadingPoint(30.007, 30.007, 0),
+        new HeadingPoint(30.008, 0.008, 0)
+    ), true, false));
 
     public static DynamicArray<HeadingPoint> swap(
             DynamicArray<HeadingPoint> points) {
@@ -188,8 +198,8 @@ public class Autonomous {
         points.itr().forEach(point -> {
             double x = point.getY();
             double y = point.getX();
-            x += points.itr().index() / 100;
-            y += points.itr().index() / 100;
+            x += points.itr().index() / 1000;
+            y += points.itr().index() / 1000;
             newPoints.add(new HeadingPoint(x, y, point.getHeading()));
         });
         return newPoints;
@@ -203,8 +213,8 @@ public class Autonomous {
         points.itr().forEach(point -> {
             double x = !invertX ? point.getX() : point.getX() * -1;
             double y = !invertY ? point.getY() : point.getY() * -1;
-            x += points.itr().index() / 100;
-            y += points.itr().index() / 100;
+            x += points.itr().index() / 1000;
+            y += points.itr().index() / 1000;
             newPoints.add(new HeadingPoint(x, y, point.getHeading()));
         });
         return newPoints;

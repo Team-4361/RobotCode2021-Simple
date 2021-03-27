@@ -138,7 +138,8 @@ public class Robot extends TimedRobot {
         drive.getSwerveChassis().disableUserControl();
         // Uncomment the Autonomous path you want to run
         // Autonomous.execute(pf, Autonomous.slalomPath);
-        Autonomous.execute(pf, Autonomous.barrelPath);
+        // Autonomous.execute(pf, Autonomous.barrelPath);
+        Autonomous.execute(pf, Autonomous.lightspeedCircuitPath);
         //Autonomous.execute(pf, Autonomous.barrelRacingPath);
         //Autonomous.execute(pf, Autonomous.bouncePath);
         drive.getSwerveChassis().enableUserControl();
