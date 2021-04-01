@@ -6,9 +6,23 @@ import me.wobblyyyy.pathfinder.api.Pathfinder;
 import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
 import me.wobblyyyy.pathfinder.geometry.Point;
 
+/**
+ * Autonomous utility for the robot's 2021 season.
+ * 
+ * <p>
+ * Due to some messy code required to use wpilib's kinematics instead
+ * of my own, the paths need to be inputted like this.
+ * <ol>
+ *   <li>Call the mutate method on the path with the order false, true</li>
+ *   <li>All of the points you input are in this order: Y, X, HEADING</li>
+ *   <li>The X points you input have to be inverted</li>
+ * </ol>
+ * </p>
+ */
 public class Autonomous {
     /*
      * 4/1/2021 - colin
+     * 
      * jordan reported issues with the autonomous, reportedly didn't
      * work and would move to different points every time it was ran.
      * this may have to do with automatic point correction to bypass
@@ -22,6 +36,15 @@ public class Autonomous {
      * index functionality, which would appear to work fine) but
      * we should look into this in the future.
      */
+
+    public static DynamicArray<HeadingPoint> rectangleTest = mutate(new DynamicArray<>(
+        // y, x
+        new HeadingPoint(0.001, 0.001, 0.001),
+        new HeadingPoint(40.002, 0.002, 0.002),
+        new HeadingPoint(40.003, 40.003, 0.003),
+        new HeadingPoint(0.004, 40.004, 0.004),
+        new HeadingPoint(0.005, 0.005, 0.005)
+    ), false, true);
     
     // Slalom Autonomous Points
     public static DynamicArray<HeadingPoint> slalomPath = mutate(new DynamicArray<>(
@@ -255,5 +278,10 @@ public class Autonomous {
                 pathfinder.followPath(points)
         );
         pathfinder.close();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

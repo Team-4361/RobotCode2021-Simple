@@ -103,17 +103,17 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        //pathfinder.close();
+        // pathfinder.close();
     }
 
     private final DriveCommand driveCommand = new DriveCommand();
 
     @Override
     public void teleopPeriodic() {
-        //pathfinder.close();
+        // pathfinder.close();
         drive.getSwerveChassis().enableUserControl();
         Scheduler.getInstance().run();
-        //driveCommand.execute();
+        // driveCommand.execute();
     }
 
     /**
@@ -128,8 +128,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void testPeriodic() {
-        Scheduler.getInstance().run();
-        pathfinder.close();
+        // Scheduler.getInstance().run();
+        // pathfinder.close();
     }
 
     @Override
@@ -137,38 +137,15 @@ public class Robot extends TimedRobot {
         pf = new PathfinderImpl(drive.getSwerveChassis());
         drive.getSwerveChassis().disableUserControl();
         // Uncomment the Autonomous path you want to run
+        // all valid paths are in the Autonomous class
+        // they're each a static dynamic array
         // Autonomous.execute(pf, Autonomous.slalomPath);
         // Autonomous.execute(pf, Autonomous.barrelPath);
-        Autonomous.execute(pf, Autonomous.lightspeedCircuitPath);
+        // Autonomous.execute(pf, Autonomous.lightspeedCircuitPath);
+        Autonomous.execute(pf, Autonomous.rectangleTest);
         //Autonomous.execute(pf, Autonomous.barrelRacingPath);
         //Autonomous.execute(pf, Autonomous.bouncePath);
         drive.getSwerveChassis().enableUserControl();
         drive.getSwerveChassis().stopAllMotors();
-        // drive.getSwerveChassis().disableUserControl();
-        // pf = new PathfinderImpl(drive.getSwerveChassis());
-        // pathfinder = pf.getPathfinder();
-        // pathfinder.open();
-        // pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.slamonPath));
-        // drive.getSwerveChassis().stopAllMotors();
-        // try {
-            // Thread.sleep(5000);
-        // } catch (Exception e) {
-            // e.printStackTrace();
-        // }
-        // pathfinder.waitFor(pathfinder.goToPosition(new HeadingPoint(0.1, 0.1, 0.1)));
-        // drive.getSwerveChassis().stopAllMotors();
-        // pathfinder.close();
-        // pathfinder.waitFor(pathfinder.followPath(PathfinderImpl.backwardsSlamonPath));
-        // pathfinder.close();
-        // pathfinder.waitForAndStop(pathfinder.goToPosition(new HeadingPoint(0, 20, 0)));
-        // pathfinder.close();
-        // pathfinder.close();
-        // try {
-            // Thread.sleep(250);   
-        // } catch (Exception e) {
-            // e.printStackTrace();
-        // }
-        // drive.getSwerveChassis().drive(new Translation2d(), new Rotation2d());
-        // autonomousCommand.start();
     }
 }

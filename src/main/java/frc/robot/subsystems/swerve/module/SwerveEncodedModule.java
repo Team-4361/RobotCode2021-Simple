@@ -368,18 +368,28 @@ public class SwerveEncodedModule {
      * @param state the swerve module's state.
      */
     public void setState(SwerveModuleState state, boolean isUserControlled) {
+        /*
+         * 4/1/2021 - colin
+         * 
+         * using the SwerveModuleState#optimize() method seems to mess with
+         * the swerve drive's odometry. not really sure why, but the robot
+         * thinks it's spinning in circles and tries to keep spinning in
+         * circles. for now, we don't have to use the optimize method.
+         * use the regular inputs from the state parameter instead.
+         */
+
         // SwerveModuleState optimized = SwerveModuleState
                 // .optimize(state, new Rotation2d(getAngleRads()));
-        SwerveModuleState optimized = SwerveModuleState.optimize(
-            state,
-            Rotation2d.fromDegrees(getAngle())
-        );
+        // SwerveModuleState optimized = SwerveModuleState.optimize(
+            // state,
+            // Rotation2d.fromDegrees(getAngle())
+        // );
 
         setState(new ModuleState(
-                optimized.angle.getRadians(),
-                optimized.speedMetersPerSecond
-                // state.angle.getRadians(),
-                // state.speedMetersPerSecond
+                // optimized.angle.getRadians(),
+                // optimized.speedMetersPerSecond
+                state.angle.getRadians(),
+                state.speedMetersPerSecond
         ), isUserControlled);
     }
 

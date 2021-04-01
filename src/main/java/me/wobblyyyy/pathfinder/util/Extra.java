@@ -33,6 +33,7 @@ import me.wobblyyyy.edt.DynamicArray;
 import me.wobblyyyy.pathfinder.geometry.Point;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Random utilities that don't have a specific classification.
@@ -59,14 +60,33 @@ public class Extra {
 
     public static DynamicArray<Point> removeDuplicatePoints(
             DynamicArray<Point> points) {
-        DynamicArray<Point> cleaned = new DynamicArray<>();
+        // DynamicArray<Point> cleaned = new DynamicArray<>();
+
+        // points.itr().forEach(point -> {
+        //     AtomicBoolean canAdd = new AtomicBoolean(true);
+        //     cleaned.itr().forEach(cleanedPoint -> {
+        //         if (Point.isSame(point, cleanedPoint)) canAdd.set(false);
+        //     });
+        //     if (canAdd.get()) cleaned.add(point);
+        // });
+
+        // return cleaned;
+        DynamicArray<Point> cleaned = new DynamicArray<>(points.size()) {{
+            add(points.get(0));
+        }};
+
+        AtomicReference<Point> lastPoint = new AtomicReference<>() {{
+            set(points.get(0));
+        }};
 
         points.itr().forEach(point -> {
-            AtomicBoolean canAdd = new AtomicBoolean(true);
-            cleaned.itr().forEach(cleanedPoint -> {
-                if (Point.isSame(point, cleanedPoint)) canAdd.set(false);
-            });
-            if (canAdd.get()) cleaned.add(point);
+            Point last = lastPoint.get();
+
+            if (!Point.isSame(point, last)) {
+                cleaned.add(point);
+            }
+
+            lastPoint.set(point);
         });
 
         return cleaned;
