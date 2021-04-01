@@ -7,6 +7,22 @@ import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
 import me.wobblyyyy.pathfinder.geometry.Point;
 
 public class Autonomous {
+    /*
+     * 4/1/2021 - colin
+     * jordan reported issues with the autonomous, reportedly didn't
+     * work and would move to different points every time it was ran.
+     * this may have to do with automatic point correction to bypass
+     * pathfinder's merge algorithm. this project still uses pathfinder
+     * v0.3.0, the latest version is v0.6.1. the merge algorithm has
+     * since been updated to remove the need to differentiate points
+     * from eachother. we can upgrade to v0.6.1 but need some time to
+     * refactor and re-test the drive class - it uses RTransform instead
+     * of translations and rotations, etc. i removed the automatic
+     * point differentiation code as of now (it used dynamic array iterator
+     * index functionality, which would appear to work fine) but
+     * we should look into this in the future.
+     */
+    
     // Slalom Autonomous Points
     public static DynamicArray<HeadingPoint> slalomPath = mutate(new DynamicArray<>(
             new HeadingPoint(10.1, 0.1, 0),
@@ -198,8 +214,13 @@ public class Autonomous {
         points.itr().forEach(point -> {
             double x = point.getY();
             double y = point.getX();
-            x += points.itr().index() / 1000;
-            y += points.itr().index() / 1000;
+            // see the comment in the mutate() method
+            // dynamic array iteration might be broken, but that doesn't
+            // really make sense to me, previous tests i ran demonstrated
+            // it worked fine. if we need to do auto point
+            // differentation, we can later
+            // x += points.itr().index() / 1000;
+            // y += points.itr().index() / 1000;
             newPoints.add(new HeadingPoint(x, y, point.getHeading()));
         });
         return newPoints;
@@ -213,8 +234,14 @@ public class Autonomous {
         points.itr().forEach(point -> {
             double x = !invertX ? point.getX() : point.getX() * -1;
             double y = !invertY ? point.getY() : point.getY() * -1;
-            x += points.itr().index() / 1000;
-            y += points.itr().index() / 1000;
+            // does adding the index over 1000 change anything?
+            // it shouldnt, esp bc it's static and should be calculated
+            // at compile time instead of runtime
+            // if point differentiation doesn't work, figure out a work
+            // around for this. edt might have a bug, but it seems
+            // unlikely to me - previous unit tests didn't reveal any issues
+            // x += points.itr().index() / 1000;
+            // y += points.itr().index() / 1000;
             newPoints.add(new HeadingPoint(x, y, point.getHeading()));
         });
         return newPoints;
