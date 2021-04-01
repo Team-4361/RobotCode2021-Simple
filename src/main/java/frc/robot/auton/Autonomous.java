@@ -3,8 +3,10 @@ package frc.robot.auton;
 import frc.robot.util.Curves;
 import me.wobblyyyy.edt.DynamicArray;
 import me.wobblyyyy.pathfinder.api.Pathfinder;
+import me.wobblyyyy.pathfinder.geometry.AngleUtils;
 import me.wobblyyyy.pathfinder.geometry.HeadingPoint;
 import me.wobblyyyy.pathfinder.geometry.Point;
+import me.wobblyyyy.pathfinder.util.Distance;
 
 /**
  * Autonomous utility for the robot's 2021 season.
@@ -71,19 +73,25 @@ public class Autonomous {
     ), false, true);
 
     // Barrel Racing Path Autonomous Points - Not updated
-    public static DynamicArray<HeadingPoint> barrelRacingPath = mutate(new DynamicArray<>(
-            new HeadingPoint(10.1, 0.1, 0),
-            new HeadingPoint(72.2, -90.2, 0),
-            new HeadingPoint(210.3, -90.3, 0),
-            new HeadingPoint(210.4, 4.4, 0),
-            new HeadingPoint(290.5, 4.5, 0),
-            new HeadingPoint(290.6, -90.6, 0),
-            new HeadingPoint(210.7, -90.7, 0),
-            new HeadingPoint(210.8, 4.8, 0),
-            new HeadingPoint(72.9, 4.9, 0),
-            new HeadingPoint(20.1, -60.1, 0),
-            new HeadingPoint(0.2, -60.2, 0)
-    ), false, true);
+    public static DynamicArray<HeadingPoint> barrelRacingPath = swap(new DynamicArray<>() {{
+        Point D5 = new Point(30, 90);
+        Point B8 = new Point(-30, 180);
+        Point D10 = new Point(30, 240);
+
+        // follow circles with a radius of 24 inches to ensure clearence
+        add(Distance.inDirection(D5, 90, 24).withHeading(0));
+        add(Distance.inDirection(D5, 0, 24).withHeading(0));
+        add(Distance.inDirection(D5, AngleUtils.fixDeg(-90), 24).withHeading(0));
+        add(Distance.inDirection(D5, AngleUtils.fixDeg(-180), 24).withHeading(0));
+        add(Distance.inDirection(D5, 90, 24).withHeading(0));
+
+        add(Distance.inDirection(B8, AngleUtils.fixDeg(-90), 24).withHeading(0));
+        add(Distance.inDirection(B8, AngleUtils.fixDeg(0), 24).withHeading(0));
+        add(Distance.inDirection(B8, AngleUtils.fixDeg(90), 24).withHeading(0));
+        add(Distance.inDirection(B8, AngleUtils.fixDeg(-180), 24).withHeading(0));
+
+        // NOT FINISHED YET PLZ ADD MORE L8R
+    }});
 
     /**
      * Untested set of points for the barrel path.
@@ -196,20 +204,22 @@ public class Autonomous {
             false  // don't swap y
     ); // end field declaration
 
-    // Bounce Path Autonomous Points - Not updated
-    public static DynamicArray<HeadingPoint> bouncePath = mutate(new DynamicArray<>(
-            new HeadingPoint(10.1, 0.1, 0),
-            new HeadingPoint(72.2, -90.2, 0),
-            new HeadingPoint(210.3, -90.3, 0),
-            new HeadingPoint(210.4, 4.4, 0),
-            new HeadingPoint(290.5, 4.5, 0),
-            new HeadingPoint(290.6, -90.6, 0),
-            new HeadingPoint(210.7, -90.7, 0),
-            new HeadingPoint(210.8, 4.8, 0),
-            new HeadingPoint(72.9, 4.9, 0),
-            new HeadingPoint(20.1, -60.1, 0),
-            new HeadingPoint(0.2, -60.2, 0)
-    ), false, true);
+    // Bounce Path Autonomous Points
+    // updated but not tested as of 4/1/2021
+    public static DynamicArray<HeadingPoint> bouncePath = swap(new DynamicArray<>(
+        new HeadingPoint(-60, 30, 0),
+        new HeadingPoint(30, 30, 0),
+        new HeadingPoint(60, 60, 0),
+        new HeadingPoint(30, 90, 0),
+        new HeadingPoint(-60, 90, 0),
+        new HeadingPoint(30, 90, 0),
+        new HeadingPoint(60, 90, 0),
+        new HeadingPoint(60, 135, 0),
+        new HeadingPoint(60, 180, 0),
+        new HeadingPoint(30, 180, 0),
+        new HeadingPoint(-60, 180, 0),
+        new HeadingPoint(0, 240, 0)       
+    ));
 
     public static DynamicArray<HeadingPoint> lightspeedCircuitPath = mutate(swap(new DynamicArray<>(
         new HeadingPoint(-30.1, 0.1, 0),
