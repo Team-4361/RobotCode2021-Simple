@@ -18,6 +18,15 @@ import me.wobblyyyy.pathfinder.geometry.Point;
  *   <li>The X points you input have to be inverted</li>
  * </ol>
  * </p>
+ * 
+ * <p>
+ * <pre>
+ * Left: negative X
+ * Right: positive X
+ * Forwards: positive Y
+ * Backwards: negative Y
+ * </pre>
+ * </p>
  */
 public class Autonomous {
     /*
