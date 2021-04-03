@@ -139,11 +139,12 @@ public class Robot extends TimedRobot {
         // Uncomment the Autonomous path you want to run
         // all valid paths are in the Autonomous class
         // they're each a static dynamic array
+        Autonomous.execute(pf, Autonomous.barrelPath);
         // Autonomous.execute(pf, Autonomous.slalomPath);
         // Autonomous.execute(pf, Autonomous.barrelPath);
         // Autonomous.execute(pf, Autonomous.lightspeedCircuitPath);
         // Autonomous.execute(pf, Autonomous.rectangleTest);
-        Autonomous.execute(pf, Autonomous.barrelPath);
+        // Autonomous.execute(pf, Autonomous.barrelPath);
         //Autonomous.execute(pf, Autonomous.barrelRacingPath);
         //Autonomous.execute(pf, Autonomous.bouncePath);
         drive.getSwerveChassis().enableUserControl();

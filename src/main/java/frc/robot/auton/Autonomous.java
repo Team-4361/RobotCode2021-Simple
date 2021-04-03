@@ -61,7 +61,7 @@ public class Autonomous {
     // Slalom Autonomous Points
     public static DynamicArray<HeadingPoint> slalomPath = mutate(new DynamicArray<>(
             new HeadingPoint(10.1, 0.1, 0),
-            new HeadingPoint(72.2, -90.2, 0),
+            new HeadingPoint(60.2, -90.2, 0),
             new HeadingPoint(210.3, -90.3, 0),
             new HeadingPoint(210.4, 4.4, 0),
             new HeadingPoint(290.5, 4.5, 0),
@@ -122,12 +122,12 @@ public class Autonomous {
      */
     public static final DynamicArray<HeadingPoint> barrelPath =
                 swap(new DynamicArray<>() {{
-                    final Point D5_CENTER = new Point(0, 150);
-                    final double D5_RADIUS = 24;
-                    final Point B8_CENTER = new Point(120, 240);
-                    final double B8_RADIUS = 24;
-                    final Point D10_CENTER = new Point(0, 300);
-                    final double D10_RADIUS = 24;
+                    final Point D5_CENTER = new Point(-30, 120);
+                    final double D5_RADIUS = 40;
+                    final Point B8_CENTER = new Point(30, 210);
+                    final double B8_RADIUS = 40;
+                    final Point D10_CENTER = new Point(-30, 270);
+                    final double D10_RADIUS = 40;
 
                     DynamicArray<HeadingPoint> D5_A = Arcs.decreasingFrom(
                             Arcs.INTERPOLATED_QUAD_1, D5_RADIUS, D5_CENTER);
@@ -146,16 +146,15 @@ public class Autonomous {
                             Arcs.INTERPOLATED_QUAD_4, B8_RADIUS, B8_CENTER);
 
                     DynamicArray<HeadingPoint> D10_A = new DynamicArray<>(
-                            new HeadingPoint(0, 275, 0));
+                            new HeadingPoint(-30, 230, 0));
                     DynamicArray<HeadingPoint> D10_B = Arcs.increasingFrom(
                             Arcs.INTERPOLATED_QUAD_2, D10_RADIUS, D10_CENTER);
                     DynamicArray<HeadingPoint> D10_C = Arcs.increasingFrom(
                             Arcs.INTERPOLATED_QUAD_1, D10_RADIUS, D10_CENTER);
 
                     DynamicArray<HeadingPoint> RETURN_TO_START = new DynamicArray<>(
-                            new HeadingPoint(24, 275, 0),
-                            new HeadingPoint(22, 150, 0),
-                            new HeadingPoint(20, 0, 0),
+                            new HeadingPoint(0, 220, 0),
+                            new HeadingPoint(10, 120, 0),
                             new HeadingPoint(0, 0, 0)
                     );
 
@@ -267,7 +266,7 @@ public class Autonomous {
         );
         pathfinder.close();
         try {
-            Thread.sleep(100);
+            Thread.sleep(50);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
